@@ -1,0 +1,2509 @@
+[
+  {
+    "id": "q001",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        3,
+        5,
+        10,
+        12,
+        17
+      ],
+      "options": [
+        21,
+        20,
+        17,
+        19
+      ],
+      "answer": 19
+    }
+  },
+  {
+    "id": "q002",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        6,
+        10,
+        16,
+        20,
+        26
+      ],
+      "options": [
+        30,
+        33,
+        28,
+        36
+      ],
+      "answer": 30
+    }
+  },
+  {
+    "id": "q003",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        5,
+        4,
+        9,
+        13,
+        22
+      ],
+      "options": [
+        33,
+        36,
+        35,
+        37
+      ],
+      "answer": 35
+    }
+  },
+  {
+    "id": "q004",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        4,
+        9,
+        16,
+        25,
+        36
+      ],
+      "options": [
+        49,
+        52,
+        47,
+        50
+      ],
+      "answer": 49
+    }
+  },
+  {
+    "id": "q005",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        3,
+        9,
+        12,
+        18,
+        21
+      ],
+      "options": [
+        26,
+        29,
+        27,
+        32
+      ],
+      "answer": 27
+    }
+  },
+  {
+    "id": "q006",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        4,
+        8,
+        16,
+        32,
+        64
+      ],
+      "options": [
+        153,
+        129,
+        130,
+        128
+      ],
+      "answer": 128
+    }
+  },
+  {
+    "id": "q007",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        1,
+        4,
+        9,
+        16,
+        25
+      ],
+      "options": [
+        35,
+        39,
+        36,
+        34
+      ],
+      "answer": 36
+    }
+  },
+  {
+    "id": "q008",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        4,
+        12,
+        36,
+        108,
+        324
+      ],
+      "options": [
+        970,
+        971,
+        972,
+        974
+      ],
+      "answer": 972
+    }
+  },
+  {
+    "id": "q009",
+    "type": "number-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        3,
+        3,
+        6,
+        9,
+        15
+      ],
+      "options": [
+        28,
+        24,
+        23,
+        25
+      ],
+      "answer": 24
+    }
+  },
+  {
+    "id": "q010",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        3,
+        9,
+        14,
+        20,
+        25
+      ],
+      "options": [
+        31,
+        37,
+        29,
+        32
+      ],
+      "answer": 31
+    }
+  },
+  {
+    "id": "q011",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        8,
+        15,
+        22,
+        29,
+        36
+      ],
+      "options": [
+        44,
+        42,
+        43,
+        41
+      ],
+      "answer": 43
+    }
+  },
+  {
+    "id": "q012",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        6,
+        11,
+        13,
+        18,
+        20
+      ],
+      "options": [
+        25,
+        28,
+        26,
+        24
+      ],
+      "answer": 25
+    }
+  },
+  {
+    "id": "q013",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        2,
+        6,
+        11,
+        15,
+        20
+      ],
+      "options": [
+        24,
+        25,
+        23,
+        27
+      ],
+      "answer": 24
+    }
+  },
+  {
+    "id": "q014",
+    "type": "number-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        1,
+        3,
+        9,
+        27,
+        81
+      ],
+      "options": [
+        242,
+        243,
+        246,
+        244
+      ],
+      "answer": 243
+    }
+  },
+  {
+    "id": "q015",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        3,
+        6,
+        9,
+        15,
+        24
+      ],
+      "options": [
+        46,
+        40,
+        41,
+        39
+      ],
+      "answer": 39
+    }
+  },
+  {
+    "id": "q016",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        16,
+        25,
+        36,
+        49,
+        64
+      ],
+      "options": [
+        82,
+        80,
+        84,
+        81
+      ],
+      "answer": 81
+    }
+  },
+  {
+    "id": "q017",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        16,
+        25,
+        36,
+        49,
+        64
+      ],
+      "options": [
+        79,
+        82,
+        97,
+        81
+      ],
+      "answer": 81
+    }
+  },
+  {
+    "id": "q018",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        1,
+        3,
+        9,
+        27,
+        81
+      ],
+      "options": [
+        245,
+        244,
+        241,
+        243
+      ],
+      "answer": 243
+    }
+  },
+  {
+    "id": "q019",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        5,
+        6,
+        11,
+        17,
+        28
+      ],
+      "options": [
+        43,
+        47,
+        45,
+        54
+      ],
+      "answer": 45
+    }
+  },
+  {
+    "id": "q020",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        2,
+        6,
+        10,
+        14,
+        18
+      ],
+      "options": [
+        22,
+        26,
+        21,
+        20
+      ],
+      "answer": 22
+    }
+  },
+  {
+    "id": "q021",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        7,
+        13,
+        19,
+        25,
+        31
+      ],
+      "options": [
+        35,
+        44,
+        37,
+        36
+      ],
+      "answer": 37
+    }
+  },
+  {
+    "id": "q022",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        16,
+        25,
+        36,
+        49,
+        64
+      ],
+      "options": [
+        80,
+        82,
+        81,
+        84
+      ],
+      "answer": 81
+    }
+  },
+  {
+    "id": "q023",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        8,
+        14,
+        20,
+        26,
+        32
+      ],
+      "options": [
+        40,
+        36,
+        39,
+        38
+      ],
+      "answer": 38
+    }
+  },
+  {
+    "id": "q024",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        1,
+        4,
+        9,
+        16,
+        25
+      ],
+      "options": [
+        35,
+        34,
+        36,
+        39
+      ],
+      "answer": 36
+    }
+  },
+  {
+    "id": "q025",
+    "type": "number-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        4,
+        12,
+        36,
+        108,
+        324
+      ],
+      "options": [
+        972,
+        975,
+        1166,
+        974
+      ],
+      "answer": 972
+    }
+  },
+  {
+    "id": "q026",
+    "type": "number-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "options": [
+        63,
+        64,
+        76,
+        66
+      ],
+      "answer": 64
+    }
+  },
+  {
+    "id": "q027",
+    "type": "number-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        4,
+        9,
+        16,
+        25,
+        36
+      ],
+      "options": [
+        52,
+        49,
+        51,
+        50
+      ],
+      "answer": 49
+    }
+  },
+  {
+    "id": "q028",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        1,
+        4,
+        9,
+        16,
+        25
+      ],
+      "options": [
+        43,
+        34,
+        36,
+        39
+      ],
+      "answer": 36
+    }
+  },
+  {
+    "id": "q029",
+    "type": "number-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        2,
+        2,
+        4,
+        6,
+        10
+      ],
+      "options": [
+        14,
+        18,
+        16,
+        17
+      ],
+      "answer": 16
+    }
+  },
+  {
+    "id": "q030",
+    "type": "number-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        9,
+        16,
+        25,
+        36,
+        49
+      ],
+      "options": [
+        62,
+        63,
+        65,
+        64
+      ],
+      "answer": 64
+    }
+  },
+  {
+    "id": "q031",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "K",
+        "O",
+        "S",
+        "W",
+        "A"
+      ],
+      "options": [
+        "G",
+        "C",
+        "E",
+        "A"
+      ],
+      "answer": "E",
+      "step": 4
+    }
+  },
+  {
+    "id": "q032",
+    "type": "letter-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        "M",
+        "O",
+        "Q",
+        "S",
+        "U"
+      ],
+      "options": [
+        "Y",
+        "W",
+        "X",
+        "U"
+      ],
+      "answer": "W",
+      "step": 2
+    }
+  },
+  {
+    "id": "q033",
+    "type": "letter-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        "L",
+        "P",
+        "T",
+        "X",
+        "B"
+      ],
+      "options": [
+        "G",
+        "F",
+        "J",
+        "E"
+      ],
+      "answer": "F",
+      "step": 4
+    }
+  },
+  {
+    "id": "q034",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "C",
+        "E",
+        "G",
+        "I",
+        "K"
+      ],
+      "options": [
+        "O",
+        "N",
+        "M",
+        "L"
+      ],
+      "answer": "M",
+      "step": 2
+    }
+  },
+  {
+    "id": "q035",
+    "type": "letter-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        "L",
+        "M",
+        "N",
+        "O",
+        "P"
+      ],
+      "options": [
+        "S",
+        "Q",
+        "P",
+        "O"
+      ],
+      "answer": "Q",
+      "step": 1
+    }
+  },
+  {
+    "id": "q036",
+    "type": "letter-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        "K",
+        "O",
+        "S",
+        "W",
+        "A"
+      ],
+      "options": [
+        "C",
+        "E",
+        "I",
+        "G"
+      ],
+      "answer": "E",
+      "step": 4
+    }
+  },
+  {
+    "id": "q037",
+    "type": "letter-sequence",
+    "correctIndex": 1,
+    "meta": {
+      "seq": [
+        "L",
+        "N",
+        "P",
+        "R",
+        "T"
+      ],
+      "options": [
+        "U",
+        "V",
+        "X",
+        "T"
+      ],
+      "answer": "V",
+      "step": 2
+    }
+  },
+  {
+    "id": "q038",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "E",
+        "I",
+        "M",
+        "Q",
+        "U"
+      ],
+      "options": [
+        "C",
+        "U",
+        "Y",
+        "Z"
+      ],
+      "answer": "Y",
+      "step": 4
+    }
+  },
+  {
+    "id": "q039",
+    "type": "letter-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        "J",
+        "L",
+        "N",
+        "P",
+        "R"
+      ],
+      "options": [
+        "V",
+        "R",
+        "U",
+        "T"
+      ],
+      "answer": "T",
+      "step": 2
+    }
+  },
+  {
+    "id": "q040",
+    "type": "letter-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "options": [
+        "L",
+        "M",
+        "P",
+        "N"
+      ],
+      "answer": "N",
+      "step": 1
+    }
+  },
+  {
+    "id": "q041",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "B",
+        "E",
+        "H",
+        "K",
+        "N"
+      ],
+      "options": [
+        "S",
+        "T",
+        "Q",
+        "O"
+      ],
+      "answer": "Q",
+      "step": 3
+    }
+  },
+  {
+    "id": "q042",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "C",
+        "F",
+        "I",
+        "L",
+        "O"
+      ],
+      "options": [
+        "O",
+        "U",
+        "R",
+        "T"
+      ],
+      "answer": "R",
+      "step": 3
+    }
+  },
+  {
+    "id": "q043",
+    "type": "letter-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "options": [
+        "L",
+        "J",
+        "N",
+        "K"
+      ],
+      "answer": "L",
+      "step": 1
+    }
+  },
+  {
+    "id": "q044",
+    "type": "letter-sequence",
+    "correctIndex": 3,
+    "meta": {
+      "seq": [
+        "D",
+        "G",
+        "J",
+        "M",
+        "P"
+      ],
+      "options": [
+        "T",
+        "P",
+        "R",
+        "S"
+      ],
+      "answer": "S",
+      "step": 3
+    }
+  },
+  {
+    "id": "q045",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "options": [
+        "M",
+        "L",
+        "K",
+        "I"
+      ],
+      "answer": "K",
+      "step": 1
+    }
+  },
+  {
+    "id": "q046",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "I",
+        "K",
+        "M",
+        "O",
+        "Q"
+      ],
+      "options": [
+        "R",
+        "T",
+        "S",
+        "Q"
+      ],
+      "answer": "S",
+      "step": 2
+    }
+  },
+  {
+    "id": "q047",
+    "type": "letter-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        "E",
+        "G",
+        "I",
+        "K",
+        "M"
+      ],
+      "options": [
+        "O",
+        "N",
+        "P",
+        "Q"
+      ],
+      "answer": "O",
+      "step": 2
+    }
+  },
+  {
+    "id": "q048",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "D",
+        "H",
+        "L",
+        "P",
+        "T"
+      ],
+      "options": [
+        "T",
+        "Z",
+        "X",
+        "B"
+      ],
+      "answer": "X",
+      "step": 4
+    }
+  },
+  {
+    "id": "q049",
+    "type": "letter-sequence",
+    "correctIndex": 2,
+    "meta": {
+      "seq": [
+        "J",
+        "L",
+        "N",
+        "P",
+        "R"
+      ],
+      "options": [
+        "S",
+        "R",
+        "T",
+        "V"
+      ],
+      "answer": "T",
+      "step": 2
+    }
+  },
+  {
+    "id": "q050",
+    "type": "letter-sequence",
+    "correctIndex": 0,
+    "meta": {
+      "seq": [
+        "H",
+        "J",
+        "L",
+        "N",
+        "P"
+      ],
+      "options": [
+        "R",
+        "P",
+        "S",
+        "T"
+      ],
+      "answer": "R",
+      "step": 2
+    }
+  },
+  {
+    "id": "q051",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "shape",
+      "odd": 2,
+      "slots": [
+        [
+          "circle",
+          "#1f2933",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#1f2933",
+          0,
+          "none"
+        ],
+        [
+          "square",
+          "#1f2933",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#1f2933",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q052",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 1,
+      "slots": [
+        [
+          "diamond",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#2b8a3e",
+          0,
+          "#2b8a3e"
+        ],
+        [
+          "diamond",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#2b8a3e",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q053",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 2,
+      "slots": [
+        [
+          "pentagon",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#2b8a3e",
+          0,
+          "#2b8a3e"
+        ],
+        [
+          "pentagon",
+          "#2b8a3e",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q054",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "rotation",
+      "odd": 1,
+      "slots": [
+        [
+          "diamond",
+          "#1f2933",
+          30,
+          "none"
+        ],
+        [
+          "diamond",
+          "#1f2933",
+          70,
+          "none"
+        ],
+        [
+          "diamond",
+          "#1f2933",
+          30,
+          "none"
+        ],
+        [
+          "diamond",
+          "#1f2933",
+          30,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q055",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "shape",
+      "odd": 2,
+      "slots": [
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "none"
+        ],
+        [
+          "triangle",
+          "#e8590c",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q056",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "rotation",
+      "odd": 2,
+      "slots": [
+        [
+          "triangle",
+          "#1f2933",
+          30,
+          "none"
+        ],
+        [
+          "triangle",
+          "#1f2933",
+          30,
+          "none"
+        ],
+        [
+          "triangle",
+          "#1f2933",
+          70,
+          "none"
+        ],
+        [
+          "triangle",
+          "#1f2933",
+          30,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q057",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "color",
+      "odd": 1,
+      "slots": [
+        [
+          "circle",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#c92a2a",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q058",
+    "type": "odd-one-out",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "color",
+      "odd": 3,
+      "slots": [
+        [
+          "pentagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#e8590c",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q059",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "rotation",
+      "odd": 0,
+      "slots": [
+        [
+          "star",
+          "#1f2933",
+          70,
+          "none"
+        ],
+        [
+          "star",
+          "#1f2933",
+          30,
+          "none"
+        ],
+        [
+          "star",
+          "#1f2933",
+          30,
+          "none"
+        ],
+        [
+          "star",
+          "#1f2933",
+          30,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q060",
+    "type": "odd-one-out",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 3,
+      "slots": [
+        [
+          "diamond",
+          "#1f2933",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#1f2933",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#1f2933",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#1f2933",
+          0,
+          "#1f2933"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q061",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "rotation",
+      "odd": 1,
+      "slots": [
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          40,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q062",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 2,
+      "slots": [
+        [
+          "diamond",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#5f3dc4",
+          0,
+          "#5f3dc4"
+        ],
+        [
+          "diamond",
+          "#5f3dc4",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q063",
+    "type": "odd-one-out",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "color",
+      "odd": 3,
+      "slots": [
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#e8590c",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q064",
+    "type": "odd-one-out",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 3,
+      "slots": [
+        [
+          "hexagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#5f3dc4",
+          0,
+          "#5f3dc4"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q065",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 0,
+      "slots": [
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "#c92a2a"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q066",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 0,
+      "slots": [
+        [
+          "circle",
+          "#2b8a3e",
+          0,
+          "#2b8a3e"
+        ],
+        [
+          "circle",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "circle",
+          "#2b8a3e",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q067",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 0,
+      "slots": [
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "#e8590c"
+        ],
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "none"
+        ],
+        [
+          "diamond",
+          "#e8590c",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q068",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 0,
+      "slots": [
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "#c92a2a"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q069",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "shape",
+      "odd": 1,
+      "slots": [
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q070",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "shape",
+      "odd": 0,
+      "slots": [
+        [
+          "star",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "triangle",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "triangle",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "triangle",
+          "#2b8a3e",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q071",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 1,
+      "slots": [
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "#5f3dc4"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q072",
+    "type": "odd-one-out",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "color",
+      "odd": 1,
+      "slots": [
+        [
+          "hexagon",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#e8590c",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#2b8a3e",
+          0,
+          "none"
+        ],
+        [
+          "hexagon",
+          "#2b8a3e",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q073",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "rotation",
+      "odd": 2,
+      "slots": [
+        [
+          "pentagon",
+          "#5f3dc4",
+          15,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          15,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          55,
+          "none"
+        ],
+        [
+          "pentagon",
+          "#5f3dc4",
+          15,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q074",
+    "type": "odd-one-out",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "fillstate",
+      "odd": 0,
+      "slots": [
+        [
+          "star",
+          "#5f3dc4",
+          0,
+          "#5f3dc4"
+        ],
+        [
+          "star",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "star",
+          "#5f3dc4",
+          0,
+          "none"
+        ],
+        [
+          "star",
+          "#5f3dc4",
+          0,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q075",
+    "type": "odd-one-out",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd-one-out",
+      "mode": "rotation",
+      "odd": 2,
+      "slots": [
+        [
+          "square",
+          "#c92a2a",
+          15,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          15,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          55,
+          "none"
+        ],
+        [
+          "square",
+          "#c92a2a",
+          15,
+          "none"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "q076",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        5,
+        3,
+        4,
+        6
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q077",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        45,
+        90,
+        135
+      ],
+      "step": 45,
+      "options": [
+        135,
+        180,
+        225,
+        270
+      ],
+      "answer": 180
+    }
+  },
+  {
+    "id": "q078",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "count",
+      "seq": [
+        1,
+        2,
+        3
+      ],
+      "options": [
+        6,
+        4,
+        5,
+        3
+      ],
+      "answer": 4
+    }
+  },
+  {
+    "id": "q079",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "count",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        8,
+        6,
+        7,
+        5
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q080",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        4,
+        5,
+        3,
+        6
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q081",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        0,
+        45,
+        90
+      ],
+      "step": 45,
+      "options": [
+        135,
+        225,
+        180,
+        90
+      ],
+      "answer": 135
+    }
+  },
+  {
+    "id": "q082",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "count",
+      "seq": [
+        2,
+        3,
+        4
+      ],
+      "options": [
+        4,
+        6,
+        7,
+        5
+      ],
+      "answer": 5
+    }
+  },
+  {
+    "id": "q083",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        5,
+        6,
+        4,
+        3
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q084",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        90,
+        180,
+        270
+      ],
+      "step": 90,
+      "options": [
+        90,
+        0,
+        180,
+        270
+      ],
+      "answer": 0
+    }
+  },
+  {
+    "id": "q085",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "count",
+      "seq": [
+        1,
+        2,
+        3
+      ],
+      "options": [
+        4,
+        3,
+        5,
+        6
+      ],
+      "answer": 4
+    }
+  },
+  {
+    "id": "q086",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "count",
+      "seq": [
+        1,
+        2,
+        3
+      ],
+      "options": [
+        5,
+        4,
+        3,
+        6
+      ],
+      "answer": 4
+    }
+  },
+  {
+    "id": "q087",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        4,
+        6,
+        3,
+        5
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q088",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        45,
+        90,
+        135
+      ],
+      "step": 45,
+      "options": [
+        135,
+        270,
+        225,
+        180
+      ],
+      "answer": 180
+    }
+  },
+  {
+    "id": "q089",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        0,
+        90,
+        180
+      ],
+      "step": 90,
+      "options": [
+        90,
+        180,
+        0,
+        270
+      ],
+      "answer": 270
+    }
+  },
+  {
+    "id": "q090",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        0,
+        45,
+        90
+      ],
+      "step": 45,
+      "options": [
+        180,
+        90,
+        225,
+        135
+      ],
+      "answer": 135
+    }
+  },
+  {
+    "id": "q091",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        6,
+        4,
+        3,
+        5
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q092",
+    "type": "shape-progression",
+    "correctIndex": 2,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        5,
+        4,
+        6,
+        3
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q093",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        6,
+        5,
+        4,
+        3
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q094",
+    "type": "shape-progression",
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        90,
+        135,
+        180
+      ],
+      "step": 45,
+      "options": [
+        180,
+        315,
+        270,
+        225
+      ],
+      "answer": 225
+    }
+  },
+  {
+    "id": "q095",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "sides",
+      "seq": [
+        3,
+        4,
+        5
+      ],
+      "options": [
+        5,
+        6,
+        3,
+        4
+      ],
+      "answer": 6
+    }
+  },
+  {
+    "id": "q096",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        0,
+        45,
+        90
+      ],
+      "step": 45,
+      "options": [
+        135,
+        90,
+        225,
+        180
+      ],
+      "answer": 135
+    }
+  },
+  {
+    "id": "q097",
+    "type": "shape-progression",
+    "correctIndex": 1,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        90,
+        135,
+        180
+      ],
+      "step": 45,
+      "options": [
+        315,
+        225,
+        180,
+        270
+      ],
+      "answer": 225
+    }
+  },
+  {
+    "id": "q098",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        0,
+        45,
+        90
+      ],
+      "step": 45,
+      "options": [
+        135,
+        180,
+        225,
+        90
+      ],
+      "answer": 135
+    }
+  },
+  {
+    "id": "q099",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        0,
+        90,
+        180
+      ],
+      "step": 90,
+      "options": [
+        270,
+        0,
+        90,
+        180
+      ],
+      "answer": 270
+    }
+  },
+  {
+    "id": "q100",
+    "type": "shape-progression",
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq": [
+        45,
+        90,
+        135
+      ],
+      "step": 45,
+      "options": [
+        180,
+        270,
+        225,
+        135
+      ],
+      "answer": 180
+    }
+  }
+]

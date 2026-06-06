@@ -5,4 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
     plugins: [react()],
     server: { host: true },
+    // Allow Render (and other *.onrender.com) hosts to reach `vite preview`.
+    preview: {
+        host: true,
+        allowedHosts: [".onrender.com"],
+    },
 });

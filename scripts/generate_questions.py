@@ -208,7 +208,7 @@ def gen_number_sequence():
         v = ans + delta
         if v != ans and v > 0:
             distractors.add(v)
-    distractors = list(distractors)
+    distractors = sorted(distractors)  # sort first so output is reproducible
     rng.shuffle(distractors)
     choices = [ans] + distractors[:3]
     ordered, correct = shuffle_with_answer(choices, ans)
@@ -227,7 +227,8 @@ def gen_number_sequence():
     body.append(text(qx + 24, 174, "?", size=24, fill="#b07908", weight="bold"))
 
     body.append(option_grid(lambda i, cx, cy, r: text(cx, cy, str(ordered[i]), size=24)))
-    return "".join(body), correct, "numeric"
+    meta = {"seq": list(seq), "options": list(ordered), "answer": ans}
+    return "".join(body), correct, "numeric", meta
 
 
 def gen_letter_sequence():
@@ -243,7 +244,7 @@ def gen_letter_sequence():
         v = to_letter(ans_idx + delta)
         if v != ans:
             distractors.add(v)
-    distractors = list(distractors)
+    distractors = sorted(distractors)  # sort first so output is reproducible
     rng.shuffle(distractors)
     choices = [ans] + distractors[:3]
     ordered, correct = shuffle_with_answer(choices, ans)
@@ -262,7 +263,8 @@ def gen_letter_sequence():
     body.append(text(qx + 24, 174, "?", size=24, fill="#b07908", weight="bold"))
 
     body.append(option_grid(lambda i, cx, cy, r: text(cx, cy, ordered[i], size=26, weight="bold")))
-    return "".join(body), correct, "verbal"
+    meta = {"seq": list(seq), "options": list(ordered), "answer": ans, "step": d}
+    return "".join(body), correct, "verbal", meta
 
 
 def gen_odd_one_out():
@@ -283,6 +285,9 @@ def gen_odd_one_out():
         for i in range(4):
             slots.append({"kind": base_shape, "color": other if i == odd else base_color, "rot": 0, "fill": "none"})
     elif mode == "rotation":
+        # A rotated circle looks identical, so it can never be the odd one.
+        if base_shape == "circle":
+            base_shape = rng.choice([s for s in shapes if s != "circle"])
         base_rot = rng.choice([0, 15, 30])
         for i in range(4):
             slots.append({"kind": base_shape, "color": base_color, "rot": (base_rot + 40) if i == odd else base_rot, "fill": "none"})
@@ -295,7 +300,9 @@ def gen_odd_one_out():
     body.append(option_grid(lambda i, cx, cy, r: shape(
         slots[i]["kind"], cx, cy, r - 4, color=slots[i]["color"],
         rotation=slots[i]["rot"], fill=slots[i]["fill"])))
-    return "".join(body), odd, "spatial"
+    meta = {"kind": "odd-one-out", "mode": mode, "odd": odd,
+            "slots": [(s["kind"], s["color"], s["rot"], s["fill"]) for s in slots]}
+    return "".join(body), odd, "spatial", meta
 
 
 def gen_shape_progression():
@@ -319,7 +326,9 @@ def gen_shape_progression():
             cand.append(max(cand) + 1)
         ordered, correct = shuffle_with_answer(cand[:4], ans_count)
         body.append(option_grid(lambda i, cx, cy, r: dots_shape(cx, cy, r - 2, ordered[i])))
-        return "".join(body), correct, "spatial"
+        meta = {"kind": "progression", "mode": "count", "seq": list(seq_counts),
+                "options": list(ordered), "answer": ans_count}
+        return "".join(body), correct, "spatial", meta
 
     if mode == "rotation":
         step = rng.choice([45, 90])
@@ -338,20 +347,25 @@ def gen_shape_progression():
             cand.append((max(cand) + 30) % 360)
         ordered, correct = shuffle_with_answer(cand[:4], ans_rot)
         body.append(option_grid(lambda i, cx, cy, r: shape("arrow", cx, cy, r - 4, color=ACCENT, rotation=ordered[i])))
-        return "".join(body), correct, "spatial"
+        meta = {"kind": "progression", "mode": "rotation",
+                "seq": [(start + step * idx) % 360 for idx in range(3)], "step": step,
+                "options": list(ordered), "answer": ans_rot}
+        return "".join(body), correct, "spatial", meta
 
-    # sides: regular polygon with increasing number of sides
-    kindmap = {3: "triangle", 4: "square", 5: "pentagon", 6: "hexagon", 7: "star"}
+    # sides: regular polygon with increasing number of sides (3,4,5 -> 6)
+    kindmap = {3: "triangle", 4: "square", 5: "pentagon", 6: "hexagon"}
     seq_sides = [3, 4, 5]
     ans_sides = 6
     for idx, s in enumerate(seq_sides):
         body.append(shape(kindmap[s], positions[idx], 175, 28, color=ACCENT))
     body.append(rounded_rect(330 - 34, 175 - 34, 68, 68, fill="#fff3bf", stroke="#f0b429"))
     body.append(text(330, 175, "?", size=28, fill="#b07908", weight="bold"))
-    cand = [ans_sides, 5, 7, 4]
+    cand = [ans_sides, 5, 4, 3]  # only the hexagon (6) continues the pattern
     ordered, correct = shuffle_with_answer(cand, ans_sides)
-    body.append(option_grid(lambda i, cx, cy, r: shape(kindmap.get(ordered[i], "star"), cx, cy, r - 4, color=ACCENT)))
-    return "".join(body), correct, "spatial"
+    body.append(option_grid(lambda i, cx, cy, r: shape(kindmap[ordered[i]], cx, cy, r - 4, color=ACCENT)))
+    meta = {"kind": "progression", "mode": "sides", "seq": list(seq_sides),
+            "options": list(ordered), "answer": ans_sides}
+    return "".join(body), correct, "spatial", meta
 
 
 # ---------------------------------------------------------------------------
@@ -370,23 +384,29 @@ def main():
     os.makedirs(OUT_IMG_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(OUT_MANIFEST), exist_ok=True)
     manifest = []
+    verify = []
     for i, (qtype, gen) in enumerate(PLAN, start=1):
-        inner, correct, category = gen()
+        inner, correct, category, meta = gen()
         svg = svg_open() + inner + svg_close()
         fname = f"q{i:03d}.svg"
         with open(os.path.join(OUT_IMG_DIR, fname), "w") as f:
             f.write(svg)
-        manifest.append({
+        entry = {
             "id": f"q{i:03d}",
             "image": f"/questions/{fname}",
             "type": qtype,
             "category": category,
             "options": OPT_LABELS,
             "correctIndex": correct,
-        })
+        }
+        manifest.append(entry)
+        verify.append({"id": entry["id"], "type": qtype, "correctIndex": correct, "meta": meta})
     rng.shuffle(manifest)  # mix types so the pool order isn't grouped
     with open(OUT_MANIFEST, "w") as f:
         json.dump(manifest, f, indent=2)
+    # Sidecar describing exactly what each image draws, for the verifier.
+    with open(os.path.join(os.path.dirname(__file__), "verify_data.json"), "w") as f:
+        json.dump(verify, f, indent=2)
     print(f"Generated {len(manifest)} questions -> {OUT_IMG_DIR}")
     print(f"Manifest -> {OUT_MANIFEST}")
     print("By type:", dict(Counter(m["type"] for m in manifest)))
