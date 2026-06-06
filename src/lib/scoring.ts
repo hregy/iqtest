@@ -1,4 +1,4 @@
-import type { Answer, Category } from "../types";
+import type { Answer } from "../types";
 import { TEST_LENGTH } from "../config";
 
 export interface Score {
@@ -7,7 +7,7 @@ export interface Score {
   percent: number;
   iq: number;            // playful IQ-style estimate (NOT a clinical score)
   band: string;
-  byCategory: Record<Category, { correct: number; total: number }>;
+  byCategory: Record<string, { correct: number; total: number }>;
 }
 
 // Map raw percentage to a light-hearted IQ-style number.
@@ -33,15 +33,12 @@ export function computeScore(answers: Answer[]): Score {
   const percent = Math.round((correct / total) * 100);
   const iq = toIq(percent);
 
-  const byCategory = {
-    numeric: { correct: 0, total: 0 },
-    verbal: { correct: 0, total: 0 },
-    spatial: { correct: 0, total: 0 },
-  } as Record<Category, { correct: number; total: number }>;
-
+  // Built dynamically from whatever categories appear in this attempt.
+  const byCategory: Record<string, { correct: number; total: number }> = {};
   for (const a of answers) {
-    byCategory[a.category].total += 1;
-    if (a.correct) byCategory[a.category].correct += 1;
+    const entry = (byCategory[a.category] ??= { correct: 0, total: 0 });
+    entry.total += 1;
+    if (a.correct) entry.correct += 1;
   }
 
   return { correct, total, percent, iq, band: bandFor(iq), byCategory };

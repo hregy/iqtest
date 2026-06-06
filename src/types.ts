@@ -1,4 +1,4 @@
-export type Category = "numeric" | "verbal" | "spatial";
+export type Category = "pattern" | "analogy" | "spatial" | "series";
 
 export interface Question {
   id: string;

@@ -25,13 +25,21 @@ answer choices (A–D) drawn into the image. The app only renders A/B/C/D tap
 buttons; the correct choice is stored in [src/data/questions.json](src/data/questions.json):
 
 ```json
-{ "id": "q001", "image": "/questions/q001.svg", "type": "number-sequence",
-  "category": "numeric", "options": ["A","B","C","D"], "correctIndex": 3 }
+{ "id": "q001", "image": "/questions/q001.svg", "type": "matrix-reasoning",
+  "category": "pattern", "options": ["A","B","C","D"], "correctIndex": 0 }
 ```
 
-Question types: `number-sequence`, `letter-sequence`, `odd-one-out`,
-`shape-progression`. Categories (`numeric` / `verbal` / `spatial`) drive the
-per-category breakdown on the results screen.
+Question types (all purely visual):
+- `matrix-reasoning` — 3×3 Raven's-style "find the missing piece" → `pattern`
+- `visual-analogy` — "A is to B as C is to ?" → `analogy`
+- `odd-one-out` — "which one is the odd one out?" → `spatial`
+- `shape-progression` — "which shape completes the pattern?" → `series`
+
+Categories drive the per-category breakdown on the results screen and are
+data-driven, so adding a new category just works.
+
+Every question is validated by `npm run verify`, which independently re-derives
+each answer and flags any ambiguous or inconsistent puzzle.
 
 ### Swapping in your own questions
 Two options:

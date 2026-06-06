@@ -1,4 +1,4 @@
-import type { Answer, Category } from "../types";
+import type { Answer } from "../types";
 import { computeScore } from "../lib/scoring";
 
 interface Props {
@@ -7,11 +7,14 @@ interface Props {
   canRestart: boolean;
 }
 
-const CATEGORY_LABEL: Record<Category, string> = {
-  numeric: "Numeric",
-  verbal: "Verbal",
+const CATEGORY_LABEL: Record<string, string> = {
+  pattern: "Pattern",
+  analogy: "Analogy",
   spatial: "Spatial",
+  series: "Series",
 };
+const labelFor = (c: string) =>
+  CATEGORY_LABEL[c] ?? c.charAt(0).toUpperCase() + c.slice(1);
 
 export function Results({ answers, onRestart, canRestart }: Props) {
   const score = computeScore(answers);
@@ -32,14 +35,14 @@ export function Results({ answers, onRestart, canRestart }: Props) {
       </p>
 
       <div className="breakdown">
-        {(Object.keys(score.byCategory) as Category[])
+        {Object.keys(score.byCategory)
           .filter((c) => score.byCategory[c].total > 0)
           .map((c) => {
             const { correct, total } = score.byCategory[c];
             const pct = Math.round((correct / total) * 100);
             return (
               <div className="cat-row" key={c}>
-                <span className="cat-name">{CATEGORY_LABEL[c]}</span>
+                <span className="cat-name">{labelFor(c)}</span>
                 <div className="cat-bar">
                   <div className="cat-bar-fill" style={{ width: `${pct}%` }} />
                 </div>

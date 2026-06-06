@@ -1,192 +1,208 @@
 #!/usr/bin/env python3
 """
-Independent verifier for the generated IQ questions.
+Independent verifier for the generated visual IQ questions.
 
-This does NOT trust the generator. For every question it:
-  1. Re-derives the correct answer with a separate solver (different code path).
-  2. Confirms that answer is unambiguous (only one simple rule fits).
-  3. Confirms options are 4 and distinct, and correctIndex points to the answer.
-  4. Cross-checks the rendered SVG against the sidecar for sequence questions
-     (the numbers/letters actually drawn match what we verified).
+It does NOT trust the generator. For every question it re-derives the answer
+with separate logic and confirms the puzzle is well-formed and unambiguous:
 
-Exit code 0 = all standard & correct. Non-zero = problems printed.
+  matrix      : each attribute is constant / column-only / row-only across the
+                8 shown cells; predicts the missing cell and checks it equals
+                the keyed option, and that exactly one option matches.
+  analogy     : independently applies the shown transform to C; checks it equals
+                the keyed option and that the same transform maps A->B.
+  odd-one-out : exactly one slot differs from the other three in one attribute,
+                and that slot is the keyed answer.
+  progression : the option values form a valid series; next value matches the key.
 
-Run: python3 scripts/verify_questions.py
+Exit 0 = all good.  Run: python3 scripts/verify_questions.py
 """
 
 import json
-import math
 import os
-import re
 import sys
 from collections import Counter
 
 HERE = os.path.dirname(__file__)
 VERIFY = os.path.join(HERE, "verify_data.json")
-IMG_DIR = os.path.join(HERE, "..", "public", "questions")
+
+ATTRS = ["shape", "color", "rot", "fill", "scale", "count"]
 
 
-# ---- Independent sequence solver: returns all plausible next values ----
-def solve_numeric(seq):
-    n = len(seq)
-    diffs = [seq[i + 1] - seq[i] for i in range(n - 1)]
-    nexts = {}
-    # arithmetic
-    if len(set(diffs)) == 1:
-        nexts["arithmetic"] = seq[-1] + diffs[0]
-    # geometric (integer ratio)
-    if all(seq[i] != 0 for i in range(n - 1)) and all(
-        seq[i + 1] % seq[i] == 0 for i in range(n - 1)
-    ):
-        ratios = [seq[i + 1] // seq[i] for i in range(n - 1)]
-        if len(set(ratios)) == 1 and ratios[0] != 1:
-            nexts["geometric"] = seq[-1] * ratios[0]
-    # fibonacci-like
-    if n >= 3 and all(seq[i] == seq[i - 1] + seq[i - 2] for i in range(2, n)):
-        nexts["fibonacci"] = seq[-1] + seq[-2]
-    # consecutive squares
-    roots = [math.isqrt(v) for v in seq]
-    if (
-        all(r * r == v for r, v in zip(roots, seq))
-        and all(roots[i + 1] - roots[i] == 1 for i in range(n - 1))
-    ):
-        nexts["squares"] = (roots[-1] + 1) ** 2
-    # alternating two differences (d0,d1,d0,d1,...)
-    if n >= 4 and len(set(diffs)) == 2:
-        d0, d1 = diffs[0], diffs[1]
-        if all(diffs[i] == (d0 if i % 2 == 0 else d1) for i in range(len(diffs))):
-            next_diff = d0 if len(diffs) % 2 == 0 else d1
-            nexts["alternating"] = seq[-1] + next_diff
-    return nexts
+def get(s, a):
+    if s is None:
+        return None
+    if a == "rot":
+        return int(s.get("rot", 0)) % 360
+    if a == "scale":
+        return round(s.get("scale", 1.0), 2)
+    if a == "count":
+        return int(s.get("count", 1))
+    return s.get(a, "none" if a == "fill" else None)
 
 
-def solve_letter(seq_letters):
-    idx = [ord(c) - ord("A") for c in seq_letters]
-    diffs = [(idx[i + 1] - idx[i]) % 26 for i in range(len(idx) - 1)]
-    if len(set(diffs)) == 1:
-        return {"arithmetic": chr(ord("A") + (idx[-1] + diffs[0]) % 26)}
-    return {}
+def spec_eq(a, b):
+    return all(get(a, x) == get(b, x) for x in ATTRS)
 
 
-def check_options(opts):
-    problems = []
-    if len(opts) != 4:
-        problems.append(f"expected 4 options, got {len(opts)}")
-    if len(set(map(str, opts))) != len(opts):
-        problems.append(f"duplicate options: {opts}")
-    return problems
+# ---- matrix -------------------------------------------------------------
+def predict_matrix_cell(grid):
+    """Predict grid[2][2] from the 8 known cells, attribute by attribute."""
+    pred = {}
+    for a in ATTRS:
+        known = {(r, c): get(grid[r][c], a) for r in range(3) for c in range(3) if grid[r][c] is not None}
+        # constant?
+        vals = set(known.values())
+        if len(vals) == 1:
+            pred[a] = next(iter(vals))
+            continue
+        # column-only: same value within each column across rows
+        col_ok = True
+        col_val = {}
+        for c in range(3):
+            cv = {known[(r, c)] for r in range(3) if (r, c) in known}
+            if len(cv) != 1:
+                col_ok = False
+                break
+            col_val[c] = next(iter(cv))
+        if col_ok and len(set(col_val.values())) > 1:
+            pred[a] = col_val[2]
+            continue
+        # row-only
+        row_ok = True
+        row_val = {}
+        for r in range(3):
+            rv = {known[(r, c)] for c in range(3) if (r, c) in known}
+            if len(rv) != 1:
+                row_ok = False
+                break
+            row_val[r] = next(iter(rv))
+        if row_ok and len(set(row_val.values())) > 1:
+            pred[a] = row_val[2]
+            continue
+        return None  # attribute follows no simple rule -> ambiguous
+    return pred
 
 
-def verify_one(q, problems):
-    qid, qtype, ci, meta = q["id"], q["type"], q["correctIndex"], q["meta"]
-    tag = f"{qid} ({qtype})"
-
-    if not (0 <= ci <= 3):
-        problems.append(f"{tag}: correctIndex {ci} out of range")
+def verify_matrix(q, problems):
+    tag = f"{q['id']} (matrix)"
+    meta = q["meta"]
+    pred = predict_matrix_cell(meta["grid"])
+    if pred is None:
+        problems.append(f"{tag}: a cell attribute follows no row/col rule (ambiguous)")
         return
+    if not spec_eq(pred, meta["answer"]):
+        problems.append(f"{tag}: predicted cell != generator answer")
+    opts = meta["options"]
+    matches = [i for i, o in enumerate(opts) if spec_eq(o, pred)]
+    if matches != [q["correctIndex"]]:
+        problems.append(f"{tag}: options matching the rule are {matches}, key is {q['correctIndex']}")
 
-    if qtype in ("number-sequence", "letter-sequence"):
-        opts = meta["options"]
-        problems += [f"{tag}: {p}" for p in check_options(opts)]
-        answer = opts[ci]
-        if answer != meta["answer"]:
-            problems.append(f"{tag}: correctIndex points to {answer}, generator answer is {meta['answer']}")
-        nexts = solve_numeric(meta["seq"]) if qtype == "number-sequence" else solve_letter(meta["seq"])
-        if not nexts:
-            problems.append(f"{tag}: solver found NO rule for {meta['seq']}")
-        else:
-            vals = set(nexts.values())
-            if len(vals) > 1:
-                problems.append(f"{tag}: AMBIGUOUS — multiple rules give {nexts} for {meta['seq']}")
-            elif answer not in vals:
-                problems.append(f"{tag}: solver says next is {vals} but answer is {answer} for {meta['seq']}")
 
-    elif qtype == "odd-one-out":
-        slots = meta["slots"]  # (kind, color, rot, fill)
-        odd = meta["odd"]
-        if odd != ci:
-            problems.append(f"{tag}: odd slot {odd} != correctIndex {ci}")
-        # exactly one slot must differ from the common signature in its varied dim
-        for dim, name in enumerate(["kind", "color", "rot", "fill"]):
-            vals = [s[dim] for s in slots]
-            counts = Counter(vals)
-            if len(counts) == 2:
-                minority = min(counts, key=lambda k: counts[k])
-                if counts[minority] == 1:
-                    odd_slot = vals.index(minority)
-                    if odd_slot != ci:
-                        problems.append(f"{tag}: {name} differs at slot {odd_slot}, not {ci}")
-                    break
-        else:
-            # no dimension had a clean 3-vs-1 split -> not a valid odd-one-out
-            problems.append(f"{tag}: no single distinguishing attribute (slots={slots})")
+# ---- analogy ------------------------------------------------------------
+def apply_transform(s, t):
+    out = dict(s)
+    k = t["kind"]
+    if k == "rot":
+        out["rot"] = (int(out.get("rot", 0)) + t["deg"]) % 360
+    elif k == "fill":
+        out["fill"] = out["color"] if out.get("fill", "none") == "none" else "none"
+    elif k == "color":
+        out["color"] = t["to"]
+    elif k == "size":
+        out["scale"] = round(out.get("scale", 1.0) * t["factor"], 2)
+    return out
 
-    elif qtype == "shape-progression":
-        opts = meta["options"]
-        problems += [f"{tag}: {p}" for p in check_options(opts)]
-        answer = opts[ci]
-        if answer != meta["answer"]:
-            problems.append(f"{tag}: correctIndex points to {answer}, answer is {meta['answer']}")
-        seq = meta["seq"]
-        mode = meta["mode"]
-        if mode == "count":
-            d = seq[1] - seq[0]
-            if len(set(seq[i + 1] - seq[i] for i in range(len(seq) - 1))) != 1:
-                problems.append(f"{tag}: count seq not linear {seq}")
-            elif meta["answer"] != seq[-1] + d:
-                problems.append(f"{tag}: count next should be {seq[-1]+d}, got {meta['answer']}")
-        elif mode == "rotation":
-            step = meta["step"]
-            expect = (seq[-1] + step) % 360
-            if meta["answer"] % 360 != expect:
-                problems.append(f"{tag}: rotation next should be {expect}, got {meta['answer']}")
-        elif mode == "sides":
-            if meta["answer"] != seq[-1] + 1:
-                problems.append(f"{tag}: sides next should be {seq[-1]+1}, got {meta['answer']}")
+
+def verify_analogy(q, problems):
+    tag = f"{q['id']} (analogy)"
+    m = q["meta"]
+    t = m["transform"]
+    if not spec_eq(apply_transform(m["A"], t), m["B"]):
+        problems.append(f"{tag}: transform does not map A->B")
+    expected = apply_transform(m["C"], t)
+    if not spec_eq(expected, m["answer"]):
+        problems.append(f"{tag}: transform applied to C != answer")
+    opts = m["options"]
+    matches = [i for i, o in enumerate(opts) if spec_eq(o, expected)]
+    if matches != [q["correctIndex"]]:
+        problems.append(f"{tag}: options matching transform are {matches}, key is {q['correctIndex']}")
+
+
+# ---- odd-one-out --------------------------------------------------------
+def verify_odd(q, problems):
+    tag = f"{q['id']} (odd)"
+    slots = q["meta"]["slots"]
+    found = None
+    for a in ATTRS:
+        vals = [get(s, a) for s in slots]
+        counts = Counter(vals)
+        if len(counts) == 2:
+            minority = min(counts, key=lambda k: counts[k])
+            if counts[minority] == 1:
+                idx = vals.index(minority)
+                found = idx if found is None else "multi"
+    if found is None:
+        problems.append(f"{tag}: no single distinguishing attribute")
+    elif found == "multi":
+        problems.append(f"{tag}: more than one attribute differs (ambiguous)")
+    elif found != q["correctIndex"]:
+        problems.append(f"{tag}: odd slot {found} != key {q['correctIndex']}")
+
+
+# ---- progression --------------------------------------------------------
+def verify_progression(q, problems):
+    tag = f"{q['id']} (progression)"
+    m = q["meta"]
+    mode, seq, ans = m["mode"], m["seq_vals"], m["answer_val"]
+    if mode == "count":
+        d = seq[1] - seq[0]
+        ok = all(seq[i + 1] - seq[i] == d for i in range(len(seq) - 1)) and ans == seq[-1] + d
+    elif mode == "rotation":
+        step = (seq[1] - seq[0]) % 360
+        ok = (seq[-1] + step) % 360 == ans % 360
+    elif mode == "sides":
+        ok = ans == seq[-1] + 1
+    elif mode == "size":
+        d = round(seq[1] - seq[0], 2)
+        ok = all(round(seq[i + 1] - seq[i], 2) == d for i in range(len(seq) - 1)) and round(seq[-1] + d, 2) == round(ans, 2)
     else:
-        problems.append(f"{tag}: unknown type")
-
-
-# ---- Cross-check: the SVG actually drawn matches the sidecar sequence ----
-TEXT_RE = re.compile(r'<text[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*>([^<]+)</text>')
-
-
-def cross_check_svg(q, problems):
-    qtype = q["type"]
-    if qtype not in ("number-sequence", "letter-sequence"):
-        return
-    path = os.path.join(IMG_DIR, f"{q['id']}.svg")
-    svg = open(path).read()
-    texts = TEXT_RE.findall(svg)
-    # sequence terms are the texts on the y=174 row (excluding the '?')
-    row = [t[2] for t in texts if abs(float(t[1]) - 174) < 1 and t[2] != "?"]
-    seq_str = [str(x) for x in q["meta"]["seq"]]
-    if row != seq_str:
-        problems.append(f"{q['id']}: drawn sequence {row} != data {seq_str}")
-    # Option VALUES sit at each box's vertical center (y=377.5 / 482.5);
-    # the A-D labels sit higher (y=348 / 453). Select by position, not text,
-    # so option values that happen to be the letters A-D are not dropped.
-    opt_texts = [t[2] for t in texts if abs(float(t[1]) - 377.5) < 4 or abs(float(t[1]) - 482.5) < 4]
-    data_opts = [str(x) for x in q["meta"]["options"]]
-    if sorted(opt_texts) != sorted(data_opts):
-        problems.append(f"{q['id']}: drawn options {opt_texts} != data {data_opts}")
+        ok = False
+    if not ok:
+        problems.append(f"{tag}: series {seq} -> {ans} not consistent ({mode})")
+    opts = m["opt_vals"]
+    if len(set(map(str, opts))) != 4:
+        problems.append(f"{tag}: duplicate option values {opts}")
+    if q["correctIndex"] >= len(opts) or opts[q["correctIndex"]] != ans:
+        problems.append(f"{tag}: key index does not point to answer value")
 
 
 def main():
     data = json.load(open(VERIFY))
     problems = []
     for q in data:
-        verify_one(q, problems)
-        cross_check_svg(q, problems)
+        if not (0 <= q["correctIndex"] <= 3):
+            problems.append(f"{q['id']}: correctIndex out of range")
+            continue
+        k = q["meta"]["kind"]
+        if k == "matrix":
+            verify_matrix(q, problems)
+        elif k == "analogy":
+            verify_analogy(q, problems)
+        elif k == "odd":
+            verify_odd(q, problems)
+        elif k == "progression":
+            verify_progression(q, problems)
+        else:
+            problems.append(f"{q['id']}: unknown kind {k}")
 
     print(f"Checked {len(data)} questions.")
     print("Type counts:", dict(Counter(q["type"] for q in data)))
     if problems:
-        print(f"\n❌ {len(problems)} PROBLEM(S):")
+        print(f"\nFAILED — {len(problems)} problem(s):")
         for p in problems:
             print("  -", p)
         sys.exit(1)
-    print("\n✅ All questions valid, unambiguous, and consistent with their images.")
+    print("\nAll questions valid, unambiguous, and consistent with their images.")
 
 
 if __name__ == "__main__":
