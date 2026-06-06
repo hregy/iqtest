@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "q014",
+    "image": "/questions/q014.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q050",
+    "image": "/questions/q050.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q018",
+    "image": "/questions/q018.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q064",
+    "image": "/questions/q064.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q070",
+    "image": "/questions/q070.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q068",
+    "image": "/questions/q068.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q078",
+    "image": "/questions/q078.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q038",
+    "image": "/questions/q038.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q096",
+    "image": "/questions/q096.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q099",
+    "image": "/questions/q099.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q001",
+    "image": "/questions/q001.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q039",
+    "image": "/questions/q039.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q053",
+    "image": "/questions/q053.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q041",
+    "image": "/questions/q041.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q073",
+    "image": "/questions/q073.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q056",
+    "image": "/questions/q056.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q007",
+    "image": "/questions/q007.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q002",
+    "image": "/questions/q002.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q054",
+    "image": "/questions/q054.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q065",
+    "image": "/questions/q065.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q080",
+    "image": "/questions/q080.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q051",
+    "image": "/questions/q051.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q026",
+    "image": "/questions/q026.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q043",
+    "image": "/questions/q043.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q063",
+    "image": "/questions/q063.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q033",
+    "image": "/questions/q033.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q047",
+    "image": "/questions/q047.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q062",
+    "image": "/questions/q062.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q087",
+    "image": "/questions/q087.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q035",
+    "image": "/questions/q035.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q076",
+    "image": "/questions/q076.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q034",
+    "image": "/questions/q034.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q042",
+    "image": "/questions/q042.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q022",
+    "image": "/questions/q022.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q089",
+    "image": "/questions/q089.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q017",
+    "image": "/questions/q017.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q031",
+    "image": "/questions/q031.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q085",
+    "image": "/questions/q085.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q005",
+    "image": "/questions/q005.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q061",
+    "image": "/questions/q061.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q044",
+    "image": "/questions/q044.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q036",
+    "image": "/questions/q036.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q049",
+    "image": "/questions/q049.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q046",
+    "image": "/questions/q046.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q075",
+    "image": "/questions/q075.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q025",
+    "image": "/questions/q025.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q090",
+    "image": "/questions/q090.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q006",
+    "image": "/questions/q006.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q003",
+    "image": "/questions/q003.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q010",
+    "image": "/questions/q010.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q012",
+    "image": "/questions/q012.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q021",
+    "image": "/questions/q021.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q067",
+    "image": "/questions/q067.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q084",
+    "image": "/questions/q084.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q052",
+    "image": "/questions/q052.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q079",
+    "image": "/questions/q079.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q009",
+    "image": "/questions/q009.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q016",
+    "image": "/questions/q016.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q048",
+    "image": "/questions/q048.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q066",
+    "image": "/questions/q066.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q029",
+    "image": "/questions/q029.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q015",
+    "image": "/questions/q015.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q059",
+    "image": "/questions/q059.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q013",
+    "image": "/questions/q013.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q088",
+    "image": "/questions/q088.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q069",
+    "image": "/questions/q069.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q095",
+    "image": "/questions/q095.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q008",
+    "image": "/questions/q008.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q037",
+    "image": "/questions/q037.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q082",
+    "image": "/questions/q082.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q027",
+    "image": "/questions/q027.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q098",
+    "image": "/questions/q098.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q077",
+    "image": "/questions/q077.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q045",
+    "image": "/questions/q045.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q060",
+    "image": "/questions/q060.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q094",
+    "image": "/questions/q094.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q093",
+    "image": "/questions/q093.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q023",
+    "image": "/questions/q023.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q058",
+    "image": "/questions/q058.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q100",
+    "image": "/questions/q100.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q071",
+    "image": "/questions/q071.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q020",
+    "image": "/questions/q020.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q004",
+    "image": "/questions/q004.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q072",
+    "image": "/questions/q072.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q055",
+    "image": "/questions/q055.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q086",
+    "image": "/questions/q086.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q097",
+    "image": "/questions/q097.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q091",
+    "image": "/questions/q091.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q092",
+    "image": "/questions/q092.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q011",
+    "image": "/questions/q011.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q032",
+    "image": "/questions/q032.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q081",
+    "image": "/questions/q081.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q074",
+    "image": "/questions/q074.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q083",
+    "image": "/questions/q083.svg",
+    "type": "shape-progression",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q024",
+    "image": "/questions/q024.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q019",
+    "image": "/questions/q019.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q057",
+    "image": "/questions/q057.svg",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "id": "q028",
+    "image": "/questions/q028.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "id": "q030",
+    "image": "/questions/q030.svg",
+    "type": "number-sequence",
+    "category": "numeric",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q040",
+    "image": "/questions/q040.svg",
+    "type": "letter-sequence",
+    "category": "verbal",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correctIndex": 3
+  }
+]

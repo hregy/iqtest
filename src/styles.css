@@ -1,0 +1,336 @@
+:root {
+  --accent: #3b5bdb;
+  --accent-dark: #2f49b0;
+  --ink: #1f2933;
+  --muted: #828ba3;
+  --paper: #ffffff;
+  --bg: #eef1f8;
+  --box: #f1f3f9;
+  --line: #c3cae0;
+  --danger: #e03131;
+  --ok: #2b8a3e;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Global: no text selection / copy anywhere in the app. */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Verdana,
+    Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* disable iOS long-press menu */
+  overscroll-behavior: none;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100%;
+  min-height: 100dvh;
+  background: var(--bg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: max(24px, env(safe-area-inset-top)) 22px
+    max(24px, env(safe-area-inset-bottom));
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.05s ease, background 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(59, 91, 219, 0.35);
+}
+.btn.primary:disabled {
+  background: var(--line);
+  color: #fff;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* ---------- Start screen ---------- */
+.start {
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+}
+.brand {
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 38px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+  box-shadow: 0 10px 26px rgba(59, 91, 219, 0.4);
+}
+.start h1 {
+  margin: 6px 0 0;
+  font-size: 30px;
+}
+.subtitle {
+  color: var(--muted);
+  margin: 4px 0 18px;
+  font-size: 15px;
+}
+.rules {
+  list-style: none;
+  padding: 16px;
+  margin: 0 0 22px;
+  background: var(--paper);
+  border-radius: 16px;
+  text-align: left;
+  display: grid;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(31, 41, 51, 0.06);
+}
+.rules li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+}
+.rules li span {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+.fineprint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+/* ---------- Question screen ---------- */
+.qheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.counter {
+  color: var(--muted);
+  font-size: 16px;
+}
+.timer {
+  font-size: 20px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.timer.danger {
+  color: var(--danger);
+}
+.timerbar {
+  height: 8px;
+  background: var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.timerbar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 6px;
+  transition: width 0.1s linear;
+}
+.timerbar-fill.danger {
+  background: var(--danger);
+}
+
+.image-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  min-height: 0;
+}
+.qimage {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: 0 2px 14px rgba(31, 41, 51, 0.08);
+  pointer-events: none; /* can't drag/save */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.image-shield {
+  position: absolute;
+  inset: 0;
+} /* eats long-press / right-click on image */
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.option {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 18px 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.05s ease, border-color 0.1s ease, background 0.1s ease;
+}
+.option:active {
+  transform: scale(0.97);
+}
+.option.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.option.locked:not(.selected) {
+  opacity: 0.5;
+}
+
+/* ---------- Results screen ---------- */
+.results {
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
+}
+.results h1 {
+  margin: 0 0 14px;
+  font-size: 26px;
+}
+.score-ring {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  margin: 6px auto 10px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at center, #fff 58%, transparent 59%),
+    conic-gradient(var(--accent) 0turn, var(--accent) 1turn);
+  box-shadow: 0 10px 26px rgba(59, 91, 219, 0.25);
+}
+.iq-value {
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.iq-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.band {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.score-line {
+  color: var(--muted);
+  margin: 4px 0 18px;
+}
+.breakdown {
+  background: var(--paper);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 22px;
+  display: grid;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(31, 41, 51, 0.06);
+}
+.cat-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 42px;
+  align-items: center;
+  gap: 10px;
+}
+.cat-name {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+.cat-bar {
+  height: 10px;
+  background: var(--box);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cat-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 6px;
+}
+.cat-count {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ---------- Capture / focus-loss guard ---------- */
+.capture-guard {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 40, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  z-index: 50;
+}
+.capture-guard-card {
+  text-align: center;
+  color: #fff;
+  max-width: 320px;
+}
+.capture-guard-icon {
+  font-size: 46px;
+}
+.capture-guard-card h2 {
+  margin: 10px 0 8px;
+}
+.capture-guard-card p {
+  color: #c2c8de;
+  font-size: 14px;
+  line-height: 1.5;
+}

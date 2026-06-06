@@ -1,0 +1,13 @@
+{
+  "name": "IQ Test",
+  "short_name": "IQ Test",
+  "description": "20-question image-based IQ test",
+  "theme_color": "#3b5bdb",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "start_url": "/",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
