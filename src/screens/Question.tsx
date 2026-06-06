@@ -15,12 +15,19 @@ const LABELS = ["A", "B", "C", "D"];
 export function Question({ question, index, total, onAnswer }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
+  const [ready, setReady] = useState(false);
 
   // Reset local state for each new question.
   useEffect(() => {
     setSelected(null);
     setLocked(false);
+    setReady(false);
   }, [question.id]);
+
+  // If the image is cached it may already be complete before onLoad fires.
+  const onImgRef = (el: HTMLImageElement | null) => {
+    if (el && el.complete && el.naturalWidth > 0) setReady(true);
+  };
 
   const commit = (choice: number | null) => {
     if (locked) return;
@@ -30,8 +37,13 @@ export function Question({ question, index, total, onAnswer }: Props) {
     window.setTimeout(() => onAnswer(choice), choice === null ? 250 : 350);
   };
 
-  const remaining = useCountdown(QUESTION_SECONDS, question.id, !locked, () =>
-    commit(null)
+  // The countdown only runs once the image is actually visible, so a slow
+  // network can never show a blank question with a ticking timer.
+  const remaining = useCountdown(
+    QUESTION_SECONDS,
+    question.id,
+    !locked && ready,
+    () => commit(null)
   );
 
   const pct = (remaining / QUESTION_SECONDS) * 100;
@@ -57,11 +69,20 @@ export function Question({ question, index, total, onAnswer }: Props) {
 
       <div className="image-wrap">
         <img
-          className="qimage"
+          ref={onImgRef}
+          className={"qimage" + (ready ? "" : " hidden")}
           src={question.image}
           alt={`Question ${index + 1}`}
           draggable={false}
+          onLoad={() => setReady(true)}
+          onError={() => setReady(true)}
         />
+        {!ready && (
+          <div className="img-loading">
+            <div className="spinner" />
+            <span>Loading question…</span>
+          </div>
+        )}
         {/* transparent shield over the image to deter long-press save */}
         <div className="image-shield" />
       </div>
@@ -76,7 +97,7 @@ export function Question({ question, index, total, onAnswer }: Props) {
               (locked ? " locked" : "")
             }
             onClick={() => commit(i)}
-            disabled={locked}
+            disabled={locked || !ready}
           >
             {label}
           </button>

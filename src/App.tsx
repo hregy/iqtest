@@ -62,7 +62,14 @@ export default function App() {
       setLocked(true);
       return;
     }
-    setQuiz(pickRandom(POOL, TEST_LENGTH));
+    const selected = pickRandom(POOL, TEST_LENGTH);
+    // Warm the browser cache for every image up front so later questions
+    // appear instantly even on a slow connection.
+    selected.forEach((q) => {
+      const img = new Image();
+      img.src = q.image;
+    });
+    setQuiz(selected);
     setAnswers([]);
     setIndex(0);
     setPhase("question");
