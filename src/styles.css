@@ -179,20 +179,54 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   min-height: 0;
 }
-.qimage {
+/* Shrink-wraps the image at the SVG's exact aspect ratio so the overlaid
+   hotspots line up perfectly with the answer boxes drawn inside it. */
+.image-frame {
+  position: relative;
+  aspect-ratio: 400 / 540;
   max-width: 100%;
   max-height: 100%;
-  width: auto;
-  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px rgba(31, 41, 51, 0.08);
+}
+.qimage {
+  display: block;
+  width: 100%;
+  height: 100%;
   border-radius: 16px;
   background: var(--paper);
-  box-shadow: 0 2px 14px rgba(31, 41, 51, 0.08);
-  pointer-events: none; /* can't drag/save */
+  pointer-events: none; /* can't drag/save; hotspots handle taps */
   -webkit-user-drag: none;
   user-select: none;
+  -webkit-touch-callout: none;
+}
+.hotspot {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s ease, box-shadow 0.1s ease, transform 0.05s ease;
+}
+.hotspot:active {
+  background: rgba(59, 91, 219, 0.1);
+  transform: scale(0.98);
+}
+.hotspot.selected {
+  background: rgba(59, 91, 219, 0.16);
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+.tap-hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 6px;
 }
 .qimage.hidden {
   visibility: hidden;
@@ -221,39 +255,6 @@ body {
     transform: rotate(360deg);
   }
 }
-.image-shield {
-  position: absolute;
-  inset: 0;
-} /* eats long-press / right-click on image */
-
-.options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.option {
-  border: 2px solid var(--line);
-  background: var(--paper);
-  border-radius: 14px;
-  padding: 18px 0;
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--ink);
-  cursor: pointer;
-  transition: transform 0.05s ease, border-color 0.1s ease, background 0.1s ease;
-}
-.option:active {
-  transform: scale(0.97);
-}
-.option.selected {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: #fff;
-}
-.option.locked:not(.selected) {
-  opacity: 0.5;
-}
-
 /* ---------- Results screen ---------- */
 .results {
   justify-content: center;

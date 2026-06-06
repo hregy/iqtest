@@ -10,6 +10,17 @@ interface Props {
   onAnswer: (selectedIndex: number | null) => void;
 }
 
+// Clickable areas mapped onto the four answer boxes drawn inside each SVG.
+// Must match `option_grid` in scripts/generate_questions.py:
+//   boxes at x=30/205, y=330/435, size 165x95, viewBox 400x540.
+const HOTSPOTS = [
+  { left: "7.5%", top: "61.11%" }, // A
+  { left: "51.25%", top: "61.11%" }, // B
+  { left: "7.5%", top: "80.56%" }, // C
+  { left: "51.25%", top: "80.56%" }, // D
+];
+const HOTSPOT_W = "41.25%"; // 165 / 400
+const HOTSPOT_H = "17.6%"; // 95 / 540
 const LABELS = ["A", "B", "C", "D"];
 
 export function Question({ question, index, total, onAnswer }: Props) {
@@ -68,41 +79,45 @@ export function Question({ question, index, total, onAnswer }: Props) {
       </div>
 
       <div className="image-wrap">
-        <img
-          ref={onImgRef}
-          className={"qimage" + (ready ? "" : " hidden")}
-          src={question.image}
-          alt={`Question ${index + 1}`}
-          draggable={false}
-          onLoad={() => setReady(true)}
-          onError={() => setReady(true)}
-        />
+        <div className="image-frame">
+          <img
+            ref={onImgRef}
+            className={"qimage" + (ready ? "" : " hidden")}
+            src={question.image}
+            alt={`Question ${index + 1}`}
+            draggable={false}
+            onLoad={() => setReady(true)}
+            onError={() => setReady(true)}
+          />
+
+          {/* Tap targets overlaid on the A-D boxes drawn in the image. */}
+          {ready &&
+            HOTSPOTS.map((pos, i) => (
+              <button
+                key={LABELS[i]}
+                aria-label={`Answer ${LABELS[i]}`}
+                className={"hotspot" + (selected === i ? " selected" : "")}
+                style={{
+                  left: pos.left,
+                  top: pos.top,
+                  width: HOTSPOT_W,
+                  height: HOTSPOT_H,
+                }}
+                onClick={() => commit(i)}
+                disabled={locked}
+              />
+            ))}
+        </div>
+
         {!ready && (
           <div className="img-loading">
             <div className="spinner" />
             <span>Loading question…</span>
           </div>
         )}
-        {/* transparent shield over the image to deter long-press save */}
-        <div className="image-shield" />
       </div>
 
-      <div className="options">
-        {LABELS.map((label, i) => (
-          <button
-            key={label}
-            className={
-              "option" +
-              (selected === i ? " selected" : "") +
-              (locked ? " locked" : "")
-            }
-            onClick={() => commit(i)}
-            disabled={locked || !ready}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      <p className="tap-hint">Tap an answer above</p>
     </div>
   );
 }
