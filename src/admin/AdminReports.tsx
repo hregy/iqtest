@@ -28,20 +28,27 @@ export function AdminReports() {
         <div className="table-scroll">
           <table className="table">
             <thead>
-              <tr><th>Name</th><th>Score</th><th>%</th><th>When</th><th>Type</th><th></th></tr>
+              <tr><th>Name</th><th>Score</th><th>Location</th><th>Device</th><th>IP</th><th>When</th><th></th></tr>
             </thead>
             <tbody>
               {rows.map((r) => (
                 <tr key={r.id} className={r.flagged ? "dim" : ""}>
-                  <td>{r.name}{r.flagged && <span className="flag" title="flagged"> ⚠️</span>}</td>
+                  <td>
+                    {r.name}{r.flagged && <span className="flag" title="flagged"> ⚠️</span>}
+                    {r.bot_flags?.suspectedBot && <span title="suspected bot"> 🤖</span>}
+                  </td>
                   <td>{r.correct}/{r.total}</td>
-                  <td>{r.total ? Math.round((r.correct / r.total) * 100) : 0}%</td>
+                  <td className="small">
+                    {r.country || "—"}{r.city ? `, ${r.city}` : ""}
+                    {r.is_vpn && <span className="flag" title="VPN/proxy/datacenter"> VPN</span>}
+                  </td>
+                  <td className="small">{[r.browser, r.os].filter(Boolean).join(" · ") || "—"}</td>
+                  <td className="small"><code>{r.ip || "—"}</code></td>
                   <td className="small">{r.finished_at ? new Date(r.finished_at).toLocaleString() : "—"}</td>
-                  <td className="small">{r.practice ? "practice" : "scored"}</td>
-                  <td><button className="btn tiny" onClick={() => view(r.id)}>View report</button></td>
+                  <td><button className="btn tiny" onClick={() => view(r.id)}>Report</button></td>
                 </tr>
               ))}
-              {rows.length === 0 && <tr><td colSpan={6} className="muted">No completed attempts yet.</td></tr>}
+              {rows.length === 0 && <tr><td colSpan={7} className="muted">No completed attempts yet.</td></tr>}
             </tbody>
           </table>
         </div>
@@ -66,6 +73,33 @@ export function AdminReports() {
               </div>
               <button className="btn small ghost" onClick={() => setOpen(null)}>Close</button>
             </div>
+
+            {open.forensics && (
+              <div className="forensics">
+                <div className="fx-grid">
+                  <div><span className="fx-k">IP</span><code>{open.forensics.ip || "—"}</code></div>
+                  <div><span className="fx-k">Location</span>{[open.forensics.city, open.forensics.region, open.forensics.country].filter(Boolean).join(", ") || "—"}</div>
+                  <div><span className="fx-k">ISP</span>{open.forensics.isp || "—"}</div>
+                  <div><span className="fx-k">Browser</span>{open.forensics.browser || "—"}</div>
+                  <div><span className="fx-k">OS</span>{open.forensics.os || "—"}</div>
+                  <div><span className="fx-k">Device</span>{open.forensics.device || "—"}</div>
+                  <div><span className="fx-k">Timezone</span>{(open.forensics.client?.timezone as string) || "—"}</div>
+                  <div><span className="fx-k">Fingerprint</span><code>{open.forensics.fingerprint || "—"}</code></div>
+                </div>
+                {(open.forensics.isVpn || open.forensics.botFlags?.reasons?.length) ? (
+                  <div className="flag-reasons">
+                    {open.forensics.isVpn && "VPN/proxy/datacenter IP. "}
+                    {open.forensics.botFlags?.reasons?.length ? `Bot signals: ${open.forensics.botFlags.reasons.join(", ")}.` : ""}
+                  </div>
+                ) : <div className="muted small" style={{ marginTop: 6 }}>No VPN or bot signals detected.</div>}
+                {open.matches && open.matches.length > 0 && (
+                  <div className="flag-reasons" style={{ marginTop: 6 }}>
+                    Same IP/device also used by: {[...new Set(open.matches.map((m) => m.name))].join(", ")}
+                  </div>
+                )}
+              </div>
+            )}
+
             <ReviewList review={open.review} />
           </div>
         </div>

@@ -13,4 +13,7 @@ export const config = {
   // The non-expiring master voucher (admin/practice; never recorded).
   adminVoucher: process.env.ADMIN_VOUCHER || "ADMIN-ALL-ACCESS",
   sessionTtlSeconds: 60 * 60, // a test session token is valid for 1 hour
+  // Cloudflare Turnstile (bot challenge). Disabled until both are set.
+  turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "",
+  turnstileSecret: process.env.TURNSTILE_SECRET || "",
 };

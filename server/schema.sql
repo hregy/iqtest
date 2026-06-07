@@ -83,6 +83,21 @@ CREATE TABLE IF NOT EXISTS attempts (
 -- server start the per-question clock at display time (fair with slow loads).
 ALTER TABLE attempts ADD COLUMN IF NOT EXISTS display_pinged BOOLEAN NOT NULL DEFAULT false;
 
+-- Forensics: who/what took the test (for integrity investigation).
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS ip          TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS country     TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS region      TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS city        TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS isp         TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS is_vpn      BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS ua          TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS browser     TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS os          TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS device      TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS fingerprint TEXT;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS client_info JSONB;
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS bot_flags   JSONB;
+
 -- Bilingual: Farsi prompt alongside the English one.
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS prompt_fa TEXT NOT NULL DEFAULT '';
 

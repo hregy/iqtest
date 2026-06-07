@@ -70,6 +70,14 @@ export interface AnswerResponse {
   review?: ReviewItem[];
 }
 
+export interface BotFlags {
+  reasons?: string[];
+  suspectedBot?: boolean;
+  webdriver?: boolean;
+  datacenter?: boolean;
+  proxy?: boolean;
+}
+
 export interface AttemptRow {
   id: string;
   name: string;
@@ -81,6 +89,39 @@ export interface AttemptRow {
   created_at: string;
   finished_at: string | null;
   flagged: boolean;
+  ip: string | null;
+  country: string | null;
+  city: string | null;
+  isp: string | null;
+  is_vpn: boolean;
+  browser: string | null;
+  os: string | null;
+  device: string | null;
+  fingerprint: string | null;
+  bot_flags: BotFlags | null;
+}
+
+export interface Forensics {
+  ip: string | null;
+  country: string | null;
+  region: string | null;
+  city: string | null;
+  isp: string | null;
+  isVpn: boolean;
+  ua: string | null;
+  browser: string | null;
+  os: string | null;
+  device: string | null;
+  fingerprint: string | null;
+  client: Record<string, unknown> | null;
+  botFlags: BotFlags | null;
+}
+
+export interface AttemptMatch {
+  name: string;
+  ip: string | null;
+  fingerprint: string | null;
+  created_at: string;
 }
 
 export interface AttemptReview {
@@ -92,6 +133,8 @@ export interface AttemptReview {
   total: number;
   durationMs: number;
   integrity: { reasons?: string[] } & Record<string, unknown>;
+  forensics?: Forensics;
+  matches?: AttemptMatch[];
   review: ReviewItem[];
 }
 

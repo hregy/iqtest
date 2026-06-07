@@ -5,6 +5,8 @@ import { api, ApiError } from "../api";
 import { useIntegrity } from "../hooks/useIntegrity";
 import { QuestionView } from "../components/QuestionView";
 import { EinsteinPortrait } from "../components/Einstein";
+import { Turnstile } from "../components/Turnstile";
+import { collectClient } from "../lib/clientProfile";
 
 type Phase = "gate" | "running" | "submitting" | "error";
 
@@ -26,12 +28,18 @@ export function Test() {
   const [phase, setPhase] = useState<Phase>("gate");
   const [cur, setCur] = useState<Current | null>(null);
   const [error, setError] = useState("");
+  const [siteKey, setSiteKey] = useState("");
+  const [token, setToken] = useState("");
 
   const { integrity, obscured, fsLost, enterFullscreen } = useIntegrity(phase === "running");
 
   useEffect(() => {
     if (!creds?.name || !creds?.voucher) navigate("/", { replace: true });
   }, [creds, navigate]);
+
+  useEffect(() => {
+    api.getConfig().then((c) => setSiteKey(c.turnstileSiteKey || "")).catch(() => {});
+  }, []);
 
   // Unreversible + warn on exit while running.
   useEffect(() => {
@@ -52,10 +60,12 @@ export function Test() {
 
   const begin = useCallback(async () => {
     if (!creds?.name || !creds?.voucher) return;
+    if (siteKey && !token) { setError("Please complete the bot check."); return; }
     await enterFullscreen(); // user gesture -> request fullscreen before the clock starts
     setError("");
     try {
-      const s: StartResponse = await api.startTest(creds.name, creds.voucher);
+      const client = await collectClient();
+      const s: StartResponse = await api.startTest(creds.name, creds.voucher, token, client);
       setCur({
         token: s.attemptToken,
         question: s.question,
@@ -70,7 +80,7 @@ export function Test() {
       setError(err instanceof ApiError ? err.message : "Could not start the test.");
       setPhase("error");
     }
-  }, [creds, enterFullscreen]);
+  }, [creds, enterFullscreen, siteKey, token]);
 
   const handleReady = useCallback(() => {
     if (cur) api.ready(cur.token, cur.nonce);
@@ -116,6 +126,8 @@ export function Test() {
             <div className="rule" key={txt}><div className="rule-ico">{ico}</div><div className="rule-txt">{txt}</div></div>
           ))}
         </div>
+        {siteKey && <Turnstile siteKey={siteKey} onToken={setToken} />}
+        {error && <p className="form-error" style={{ textAlign: "center" }}>{error}</p>}
         <button className="btn block primary" style={{ marginTop: 18 }} onClick={begin}>
           Enter full screen &amp; start
         </button>

@@ -42,10 +42,14 @@ async function req<T>(path: string, opts: RequestInit = {}, auth = false): Promi
 const J = (body: unknown) => JSON.stringify(body);
 
 export const api = {
-  getConfig: () => req<{ testLength: number; questionSeconds: number }>("/api/config"),
+  getConfig: () =>
+    req<{ testLength: number; questionSeconds: number; turnstileSiteKey: string }>("/api/config"),
 
-  startTest: (name: string, voucher: string) =>
-    req<StartResponse>("/api/test/start", { method: "POST", body: J({ name, voucher }) }),
+  startTest: (name: string, voucher: string, turnstileToken: string, client: unknown) =>
+    req<StartResponse>("/api/test/start", {
+      method: "POST",
+      body: J({ name, voucher, turnstileToken, client }),
+    }),
 
   // Tell the server the question is now displayed -> it (re)starts the clock.
   ready: (attemptToken: string, nonce: string) =>

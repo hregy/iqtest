@@ -3,6 +3,8 @@ import crypto from "crypto";
 import { query, withTx } from "../db.js";
 import { signSession, verifyToken } from "../auth.js";
 import { rateLimit } from "../ratelimit.js";
+import { config } from "../config.js";
+import { getClientIp, geoLookup, parseUa, computeBotFlags, verifyTurnstile } from "../forensics.js";
 
 export const publicRouter = Router();
 
@@ -139,7 +141,9 @@ function evaluateIntegrity(integrity, answers, total) {
   return { flagged: reasons.length > 0, reasons };
 }
 
-publicRouter.get("/config", async (_req, res) => res.json(await getSettings()));
+publicRouter.get("/config", async (_req, res) =>
+  res.json({ ...(await getSettings()), turnstileSiteKey: config.turnstileSiteKey })
+);
 
 publicRouter.get("/images/:id", async (req, res) => {
   const id = Number(req.params.id);
@@ -160,6 +164,11 @@ publicRouter.post(
     const code = (req.body?.voucher || "").toString().trim();
     if (!name) return res.status(400).json({ error: "Please enter your name." });
     if (!code) return res.status(400).json({ error: "Please enter a voucher code." });
+
+    // Bot challenge (no-op until Turnstile keys are configured).
+    const ip = getClientIp(req);
+    const ts = await verifyTurnstile(req.body?.turnstileToken, ip);
+    if (!ts.ok) return res.status(400).json({ error: "Bot check failed — please retry." });
 
     const { rows } = await query("SELECT * FROM vouchers WHERE code=$1", [code]);
     const v = rows[0];
@@ -196,10 +205,24 @@ publicRouter.post(
 
     const id = crypto.randomUUID();
     const nonce = crypto.randomBytes(9).toString("hex");
+
+    // Forensics: IP geo, device, bot flags.
+    const client = req.body?.client && typeof req.body.client === "object" ? req.body.client : {};
+    const ua = (client.ua || req.headers["user-agent"] || "").toString().slice(0, 400);
+    const geo = await geoLookup(ip);
+    const dev = parseUa(ua);
+    const botFlags = computeBotFlags(client, geo, ua);
+    const isVpn = !!(geo.proxy || geo.hosting);
+
     await query(
-      `INSERT INTO attempts(id, voucher_code, name, practice, qids, idx, current_nonce, served_at)
-       VALUES($1,$2,$3,$4,$5,0,$6, now())`,
-      [id, code, name, practice, picked, nonce]
+      `INSERT INTO attempts(id, voucher_code, name, practice, qids, idx, current_nonce, served_at,
+         ip, country, region, city, isp, is_vpn, ua, browser, os, device, fingerprint, client_info, bot_flags)
+       VALUES($1,$2,$3,$4,$5,0,$6, now(),
+         $7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)`,
+      [id, code, name, practice, picked, nonce,
+       ip, geo.country, geo.region, geo.city, geo.isp, isVpn, ua,
+       dev.browser, dev.os, dev.device, (client.fingerprint || "").toString().slice(0, 64),
+       JSON.stringify(client), JSON.stringify(botFlags)]
     );
 
     const question = await buildQuestion(picked[0]);

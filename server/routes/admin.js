@@ -253,14 +253,17 @@ adminRouter.delete("/questions/:id", async (req, res) => {
 adminRouter.get("/attempts", async (_req, res) => {
   const { rows } = await query(
     `SELECT id, name, voucher_code, practice, correct,
-            cardinality(qids) AS total, status, created_at, finished_at, integrity
+            cardinality(qids) AS total, status, created_at, finished_at, integrity,
+            ip, country, city, isp, is_vpn, browser, os, device, fingerprint, bot_flags
      FROM attempts WHERE status='done'
-     ORDER BY finished_at DESC NULLS LAST LIMIT 300`
+     ORDER BY finished_at DESC NULLS LAST LIMIT 500`
   );
   res.json(rows.map((r) => ({
     ...r,
-    durationMs: null, // computed in the detail view from per-question times
-    flagged: !!(r.integrity && (r.integrity.reasons || []).length),
+    flagged: !!(
+      (r.integrity && (r.integrity.reasons || []).length) ||
+      (r.bot_flags && (r.bot_flags.reasons || []).length)
+    ),
   })));
 });
 
@@ -271,6 +274,15 @@ adminRouter.get("/attempts/:id/review", async (req, res) => {
   const answers = a.answers || [];
   const review = await buildReview(answers);
   const durationMs = answers.reduce((s, x) => s + (x.elapsedMs || 0), 0);
+
+  // Other attempts that share this IP or device fingerprint (different people?).
+  const matches = await query(
+    `SELECT DISTINCT name, ip, fingerprint, created_at FROM attempts
+     WHERE id <> $1 AND ((ip IS NOT NULL AND ip = $2) OR (fingerprint <> '' AND fingerprint = $3))
+     ORDER BY created_at DESC LIMIT 50`,
+    [a.id, a.ip, a.fingerprint || ""]
+  );
+
   res.json({
     id: a.id,
     name: a.name,
@@ -280,6 +292,12 @@ adminRouter.get("/attempts/:id/review", async (req, res) => {
     total: a.qids.length,
     durationMs,
     integrity: a.integrity || {},
+    forensics: {
+      ip: a.ip, country: a.country, region: a.region, city: a.city, isp: a.isp,
+      isVpn: a.is_vpn, ua: a.ua, browser: a.browser, os: a.os, device: a.device,
+      fingerprint: a.fingerprint, client: a.client_info, botFlags: a.bot_flags,
+    },
+    matches: matches.rows,
     review,
   });
 });
