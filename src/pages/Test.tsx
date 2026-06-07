@@ -35,7 +35,9 @@ export function Test() {
   const { integrity, obscured, fsLost, enterFullscreen } = useIntegrity(phase === "running");
 
   useEffect(() => {
-    if (!creds?.name || !creds?.voucher) navigate("/", { replace: true });
+    // Only a name is strictly required here; the server enforces whether a
+    // voucher is needed (open-access mode lets users start without one).
+    if (!creds?.name) navigate("/", { replace: true });
   }, [creds, navigate]);
 
   useEffect(() => {
@@ -60,13 +62,13 @@ export function Test() {
   }, [phase]);
 
   const begin = useCallback(async () => {
-    if (!creds?.name || !creds?.voucher) return;
+    if (!creds?.name) return;
     if (siteKey && !token) { setError("Please complete the bot check."); return; }
     await enterFullscreen(); // user gesture -> request fullscreen before the clock starts
     setError("");
     try {
       const client = await collectClient();
-      const s: StartResponse = await api.startTest(creds.name, creds.voucher, token, client, creds.mode || "classic");
+      const s: StartResponse = await api.startTest(creds.name, creds.voucher || "", token, client, creds.mode || "classic");
       setCur({
         token: s.attemptToken,
         question: s.question,
@@ -107,7 +109,7 @@ export function Test() {
     [cur, integrity, navigate]
   );
 
-  if (!creds?.name || !creds?.voucher) return null;
+  if (!creds?.name) return null;
 
   if (phase === "gate") {
     const RULES = [

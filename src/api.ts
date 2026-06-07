@@ -8,6 +8,7 @@ import type {
   AdminQuestion,
   AttemptRow,
   AttemptReview,
+  AntiCheatResponse,
 } from "./types";
 
 export class ApiError extends Error {
@@ -36,7 +37,7 @@ const J = (body: unknown) => JSON.stringify(body);
 
 export const api = {
   getConfig: () =>
-    req<{ testLength: number; questionSeconds: number; turnstileSiteKey: string }>("/api/config"),
+    req<{ testLength: number; questionSeconds: number; voucherRequired: boolean; turnstileSiteKey: string }>("/api/config"),
 
   startTest: (name: string, voucher: string, turnstileToken: string, client: unknown, mode: "classic" | "final" = "classic") =>
     req<StartResponse>("/api/test/start", {
@@ -106,6 +107,11 @@ export const api = {
     patchQuestion: (id: number, patch: Record<string, unknown>) =>
       req(`/api/admin/questions/${id}`, { method: "PATCH", body: J(patch) }, true),
     deleteQuestion: (id: number) => req(`/api/admin/questions/${id}`, { method: "DELETE" }, true),
+
+    antiCheat: () => req<AntiCheatResponse>("/api/admin/anticheat", {}, true),
+    excludeDevice: (fingerprint: string, excluded: boolean) =>
+      req<{ ok: boolean; updated: number }>("/api/admin/exclude-device",
+        { method: "PATCH", body: J({ fingerprint, excluded }) }, true),
 
     attempts: () => req<AttemptRow[]>("/api/admin/attempts", {}, true),
     attemptReview: (id: string) => req<AttemptReview>(`/api/admin/attempts/${id}/review`, {}, true),

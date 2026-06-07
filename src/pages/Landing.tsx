@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrandHeader } from "../components/brand";
 import { EinsteinPortrait } from "../components/Einstein";
+import { api } from "../api";
 
 const RULES = [
   ["⏱", "Every question is timed — it auto-advances."],
@@ -13,13 +14,18 @@ export function Landing() {
   const [name, setName] = useState("");
   const [voucher, setVoucher] = useState("");
   const [mode, setMode] = useState<"classic" | "final">("classic");
+  const [voucherRequired, setVoucherRequired] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api.getConfig().then((c) => setVoucherRequired(c.voucherRequired !== false)).catch(() => {});
+  }, []);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return setError("Enter a name to begin.");
-    if (!voucher.trim()) return setError("Enter your voucher code.");
+    if (voucherRequired && !voucher.trim()) return setError("Enter your voucher code.");
     navigate("/test", { state: { name: name.trim(), voucher: voucher.trim(), mode } });
   };
 
@@ -62,12 +68,14 @@ export function Landing() {
           <input className="input" value={name} placeholder="e.g. Albert" maxLength={40}
             autoComplete="off" onChange={(e) => setName(e.target.value)} />
         </label>
-        <label className="field">
-          <span>Voucher code</span>
-          <input className="input iq-mono" value={voucher} placeholder="IQ-ABC123"
-            style={{ letterSpacing: "0.04em" }} autoComplete="off" autoCapitalize="characters"
-            onChange={(e) => setVoucher(e.target.value.toUpperCase())} />
-        </label>
+        {voucherRequired && (
+          <label className="field">
+            <span>Voucher code</span>
+            <input className="input iq-mono" value={voucher} placeholder="IQ-ABC123"
+              style={{ letterSpacing: "0.04em" }} autoComplete="off" autoCapitalize="characters"
+              onChange={(e) => setVoucher(e.target.value.toUpperCase())} />
+          </label>
+        )}
         {error && <p className="form-error">{error}</p>}
         <button className="btn block primary">Begin test →</button>
       </form>

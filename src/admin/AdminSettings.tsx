@@ -6,6 +6,7 @@ export function AdminSettings() {
   const [questionSeconds, setQuestionSeconds] = useState("10");
   const [finalPerLevel, setFinalPerLevel] = useState("6");
   const [finalQuestionSeconds, setFinalQuestionSeconds] = useState("30");
+  const [voucherRequired, setVoucherRequired] = useState(true);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ export function AdminSettings() {
       if (s.question_seconds) setQuestionSeconds(s.question_seconds);
       if (s.final_per_level) setFinalPerLevel(s.final_per_level);
       if (s.final_question_seconds) setFinalQuestionSeconds(s.final_question_seconds);
+      if (s.voucher_required !== undefined) setVoucherRequired(s.voucher_required !== "0");
     });
   }, []);
 
@@ -23,6 +25,7 @@ export function AdminSettings() {
       question_seconds: Number(questionSeconds),
       final_per_level: Number(finalPerLevel),
       final_question_seconds: Number(finalQuestionSeconds),
+      voucher_required: voucherRequired ? "1" : "0",
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
@@ -30,6 +33,20 @@ export function AdminSettings() {
 
   return (
     <div className="panel">
+      <div className="card">
+        <h3>Access</h3>
+        <label className="row gap" style={{ alignItems: "center", cursor: "pointer" }}>
+          <input type="checkbox" checked={voucherRequired}
+            onChange={(e) => setVoucherRequired(e.target.checked)} />
+          <span><strong>Require a voucher code to take a test</strong></span>
+        </label>
+        <p className="muted small" style={{ marginTop: 6 }}>
+          {voucherRequired
+            ? "On — users must enter a valid voucher code to start."
+            : "Off — open access: anyone can take a test with just a name. The scoreboard keeps the best score per device, and the Anti-cheat tab groups repeat/same-device entries. Enabling the Turnstile bot check is recommended in this mode."}
+        </p>
+      </div>
+
       <div className="card">
         <h3>Quick test settings</h3>
         <p className="muted small">

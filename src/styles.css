@@ -322,3 +322,15 @@ body {
   border-color: var(--iq-accent); background: var(--iq-accent-tint);
 }
 .ttseg-btn.on strong { color: var(--iq-accent-deep); }
+
+/* Anti-cheat panel */
+.ac-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 8px; margin-top: 10px; }
+.ac-stat { background: var(--iq-page-2); border-radius: var(--iq-r-md); padding: 8px 10px; text-align: center; }
+.ac-stat b { display: block; font-size: 20px; font-weight: 800; color: var(--iq-ink); }
+.ac-stat span { font-size: 11px; color: var(--iq-ink-soft); }
+.ac-stat.warn b { color: var(--iq-accent-deep); }
+.ac-cluster.suspect { border-left: 3px solid var(--iq-accent); }
+.ac-badge { font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 99px; background: var(--iq-page-2); color: var(--iq-ink-soft); }
+.ac-badge.strong { background: #fde8e8; color: #b42318; }
+.ac-badge.medium { background: var(--iq-accent-tint); color: var(--iq-accent-deep); }
+.ac-badge.warn { background: var(--iq-accent-soft); color: var(--iq-accent-ink); }

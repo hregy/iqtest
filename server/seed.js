@@ -22,6 +22,9 @@ async function ensureSettings() {
     // Final IQ test: 6 questions per level × 5 levels = 30, with their own time limit.
     final_per_level: "6",
     final_question_seconds: "30",
+    // "1" = a voucher code is required to start a test (current behaviour);
+    // "0" = open access, anyone can take a test with just a name.
+    voucher_required: "1",
   };
   for (const [k, v] of Object.entries(defaults)) {
     await query("INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO NOTHING", [k, v]);

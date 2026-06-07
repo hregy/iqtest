@@ -27,6 +27,7 @@ async function getSettings() {
     questionSeconds: Number(m.question_seconds || 10),
     finalPerLevel: Math.max(1, Number(m.final_per_level || 6)),
     finalQuestionSeconds: Number(m.final_question_seconds || 30),
+    voucherRequired: (m.voucher_required ?? "1") !== "0",
   };
 }
 
@@ -205,9 +206,15 @@ function humannessScore(reasons, attempt) {
   return Math.max(0, Math.min(100, s));
 }
 
-publicRouter.get("/config", async (_req, res) =>
-  res.json({ ...(await getSettings()), turnstileSiteKey: config.turnstileSiteKey })
-);
+publicRouter.get("/config", async (_req, res) => {
+  const s = await getSettings();
+  res.json({
+    testLength: s.testLength,
+    questionSeconds: s.questionSeconds,
+    voucherRequired: s.voucherRequired,
+    turnstileSiteKey: config.turnstileSiteKey,
+  });
+});
 
 publicRouter.get("/images/:id", async (req, res) => {
   const id = Number(req.params.id);
@@ -227,37 +234,58 @@ publicRouter.post(
     const name = (req.body?.name || "").toString().trim().slice(0, 40);
     const code = (req.body?.voucher || "").toString().trim();
     if (!name) return res.status(400).json({ error: "Please enter your name." });
-    if (!code) return res.status(400).json({ error: "Please enter a voucher code." });
+
+    const settings = await getSettings();
 
     // Bot challenge (no-op until Turnstile keys are configured).
     const ip = getClientIp(req);
     const ts = await verifyTurnstile(req.body?.turnstileToken, ip);
     if (!ts.ok) return res.status(400).json({ error: "Bot check failed — please retry." });
 
-    const { rows } = await query("SELECT * FROM vouchers WHERE code=$1", [code]);
-    const v = rows[0];
-    if (!v) return res.status(400).json({ error: "Invalid voucher code." });
-    if (v.expires_at && new Date(v.expires_at) < new Date())
-      return res.status(400).json({ error: "This voucher has expired." });
-    const practice = v.type === "admin";
-    const unlimited = practice || v.max_uses === 0;
-    if (!practice && !unlimited && v.uses >= v.max_uses)
-      return res.status(400).json({ error: "This voucher has already been used." });
+    // Voucher handling depends on whether the gate is on.
+    //  - gate ON  : a valid voucher is required and consumed (admin code = practice).
+    //  - gate OFF : open access; no voucher needed. An admin code still enables a
+    //               practice run, anything else is recorded as an "OPEN" attempt.
+    let practice = false;
+    let voucherCode = code || "OPEN";
+    let consumeVoucher = false;
 
-    const settings = await getSettings();
+    if (settings.voucherRequired) {
+      if (!code) return res.status(400).json({ error: "Please enter a voucher code." });
+      const { rows } = await query("SELECT * FROM vouchers WHERE code=$1", [code]);
+      const v = rows[0];
+      if (!v) return res.status(400).json({ error: "Invalid voucher code." });
+      if (v.expires_at && new Date(v.expires_at) < new Date())
+        return res.status(400).json({ error: "This voucher has expired." });
+      practice = v.type === "admin";
+      const unlimited = practice || v.max_uses === 0;
+      if (!practice && !unlimited && v.uses >= v.max_uses)
+        return res.status(400).json({ error: "This voucher has already been used." });
+      voucherCode = code;
+      consumeVoucher = !practice;
+    } else if (code) {
+      // open access, but honour an admin code for practice runs
+      const { rows } = await query("SELECT * FROM vouchers WHERE code=$1", [code]);
+      const v = rows[0];
+      if (v && v.type === "admin" && !(v.expires_at && new Date(v.expires_at) < new Date())) {
+        practice = true;
+        voucherCode = code;
+      }
+    }
+
     // Test type: classic (20 random) or final (6 per level × 5 = stratified 30).
     const mode = req.body?.mode === "final" ? "final" : "classic";
     const qSeconds = mode === "final" ? settings.finalQuestionSeconds : settings.questionSeconds;
 
     const picked = await withTx(async (client) => {
-      if (!practice) {
+      if (consumeVoucher) {
         // consume one use atomically (guards against races / exhaustion)
         const upd = await client.query(
           `UPDATE vouchers
            SET uses = uses + 1, used_by = $1, used_at = now(),
                used = (max_uses > 0 AND uses + 1 >= max_uses)
            WHERE code = $2 AND (max_uses = 0 OR uses < max_uses)`,
-          [name, code]
+          [name, voucherCode]
         );
         if (upd.rowCount === 0) throw new Error("ALREADY_USED");
       }
@@ -300,7 +328,7 @@ publicRouter.post(
          test_type, q_seconds)
        VALUES($1,$2,$3,$4,$5,0,$6, now(),
          $7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)`,
-      [id, code, name, practice, picked, nonce,
+      [id, voucherCode, name, practice, picked, nonce,
        ip, geo.country, geo.region, geo.city, geo.isp, isVpn, ua,
        dev.browser, dev.os, dev.device, (client.fingerprint || "").toString().slice(0, 64),
        JSON.stringify(client), JSON.stringify(botFlags), mode, qSeconds]
@@ -314,7 +342,7 @@ publicRouter.post(
       index: 0,
       total: picked.length,
       settings: { questionSeconds: qSeconds },
-      watermark: `${name} · ${code} · ${new Date().toISOString().slice(0, 10)}`,
+      watermark: `${name} · ${voucherCode} · ${new Date().toISOString().slice(0, 10)}`,
       practice,
       mode,
     });
@@ -421,10 +449,11 @@ publicRouter.post(
       if (!a.practice) {
         await query(
           `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, correct_ms, iq,
-                              flagged, excluded, integrity, test_type, correct_weight, total_weight, q_seconds)
-           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10,$11,$12,$13,$14)`,
+                              flagged, excluded, integrity, test_type, correct_weight, total_weight, q_seconds, fingerprint)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10,$11,$12,$13,$14,$15)`,
           [a.name, a.voucher_code, correct, total, percent, durationMs, correctMs, iq, flagged,
-           JSON.stringify(integrityOut), a.test_type || "classic", correctWeight, totalWeight, seconds]
+           JSON.stringify(integrityOut), a.test_type || "classic", correctWeight, totalWeight, seconds,
+           a.fingerprint || null]
         );
       }
       const review = await buildReview(answers);
@@ -501,9 +530,18 @@ publicRouter.get("/scoreboard", async (req, res) => {
   const order = type === "final"
     ? "iq DESC NULLS LAST, correct DESC, duration_ms ASC NULLS LAST, created_at ASC"
     : "correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC";
+  // Best score per device: keep only each fingerprint's top row (DISTINCT ON),
+  // then rank. Rows without a fingerprint get a unique key so they're never
+  // collapsed together. Different real users have different fingerprints, so
+  // legitimate entries are untouched; only same-device repeats are de-duped.
   const { rows } = await query(
-    `SELECT name, correct, total, percent, duration_ms, iq::float8 AS iq, created_at
-     FROM scores WHERE excluded = false AND test_type = $2
+    `SELECT name, correct, total, percent, duration_ms, iq, created_at FROM (
+       SELECT DISTINCT ON (COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text))
+         id, name, correct, total, percent, duration_ms, iq::float8 AS iq, created_at
+       FROM scores
+       WHERE excluded = false AND test_type = $2
+       ORDER BY COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), ${order}
+     ) best
      ORDER BY ${order}
      LIMIT $1`,
     [limit, type]

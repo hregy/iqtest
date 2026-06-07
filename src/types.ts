@@ -169,6 +169,57 @@ export interface AnswerInput {
   selectedIndex: number | null;
 }
 
+// ---- anti-cheat ----
+export interface ClusterMember {
+  id: string;
+  name: string;
+  ip: string | null;
+  fingerprint: string | null;
+  device: string;
+  location: string;
+  correct: number;
+  total: number;
+  testType: string;
+  practice: boolean;
+  humanness: number | null;
+  flagged: boolean;
+  isVpn: boolean;
+  createdAt: string;
+}
+
+export interface IdentityCluster {
+  id: string;
+  confidence: "strong" | "medium";
+  evidence: string[];
+  names: string[];
+  fingerprints: string[];
+  ips: (string | null)[];
+  devices: string[];
+  locations: string[];
+  vpn: boolean;
+  attempts: number;
+  distinctNames: number;
+  flaggedCount: number;
+  bestCorrect: number;
+  bestTotal: number;
+  firstSeen: string;
+  lastSeen: string;
+  members: ClusterMember[];
+}
+
+export interface AntiCheatResponse {
+  summary: {
+    attempts: number;
+    distinctDevices: number;
+    identityClusters: number;
+    multiNameClusters: number;
+    flagged: number;
+    onVpn: number;
+  };
+  clusters: IdentityCluster[];
+  sharedNames: { name: string; devices: number }[];
+}
+
 // ---- admin types ----
 export interface Voucher {
   code: string;

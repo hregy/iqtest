@@ -134,6 +134,9 @@ ALTER TABLE scores ADD COLUMN IF NOT EXISTS test_type      TEXT NOT NULL DEFAULT
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS correct_weight REAL;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS total_weight   REAL;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS q_seconds      INT;
+-- Device fingerprint copied onto the score so the public board can keep only the
+-- best result per device (and so a device's scores can be excluded in one click).
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS fingerprint    TEXT;
 -- Widen iq to 2-decimal precision if it was created as INT or numeric(5,1).
 DO $$ BEGIN
   IF (SELECT coalesce(numeric_scale, 0) FROM information_schema.columns

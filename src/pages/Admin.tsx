@@ -6,9 +6,15 @@ import { AdminVouchers } from "../admin/AdminVouchers";
 import { AdminScores } from "../admin/AdminScores";
 import { AdminQuestions } from "../admin/AdminQuestions";
 import { AdminReports } from "../admin/AdminReports";
+import { AdminAntiCheat } from "../admin/AdminAntiCheat";
 import { AdminSettings } from "../admin/AdminSettings";
 
-type Tab = "vouchers" | "scores" | "reports" | "questions" | "settings";
+type Tab = "vouchers" | "scores" | "reports" | "anticheat" | "questions" | "settings";
+
+const TAB_LABEL: Record<Tab, string> = {
+  vouchers: "Vouchers", scores: "Scores", reports: "Reports",
+  anticheat: "Anti-cheat", questions: "Questions", settings: "Settings",
+};
 
 export function Admin() {
   const [authed, setAuthed] = useState(false);
@@ -48,13 +54,13 @@ export function Admin() {
       </header>
 
       <nav className="admin-tabs">
-        {(["vouchers", "scores", "reports", "questions", "settings"] as Tab[]).map((t) => (
+        {(["vouchers", "scores", "reports", "anticheat", "questions", "settings"] as Tab[]).map((t) => (
           <button
             key={t}
             className={"tab" + (tab === t ? " active" : "")}
             onClick={() => setTab(t)}
           >
-            {t[0].toUpperCase() + t.slice(1)}
+            {TAB_LABEL[t]}
           </button>
         ))}
       </nav>
@@ -63,6 +69,7 @@ export function Admin() {
         {tab === "vouchers" && <AdminVouchers adminVoucher={adminVoucher} />}
         {tab === "scores" && <AdminScores />}
         {tab === "reports" && <AdminReports />}
+        {tab === "anticheat" && <AdminAntiCheat />}
         {tab === "questions" && <AdminQuestions />}
         {tab === "settings" && <AdminSettings />}
       </div>

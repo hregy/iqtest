@@ -319,6 +319,136 @@ adminRouter.get("/attempts/:id/recording", async (req, res) => {
   res.json({ events: JSON.parse(rows[0].events) });
 });
 
+// ---- anti-cheat: cluster attempts into likely-same-person identities --------
+// Union attempts that share a strong identifier. Two link types:
+//   strong  = same non-empty device fingerprint
+//   medium  = same IP + same device profile (browser/os/device)
+// IP-only matches are reported as "same network" but NOT merged (a household or
+// office shares one IP without being one person). The headline signal is a single
+// device/identity used under several different names.
+adminRouter.get("/anticheat", async (_req, res) => {
+  const { rows } = await query(
+    `SELECT id, name, ip, fingerprint, device, os, browser, country, region, city, isp,
+            is_vpn, correct, cardinality(qids) AS total, test_type, practice, created_at, integrity, bot_flags
+     FROM attempts WHERE status='done'
+     ORDER BY created_at DESC LIMIT 2000`
+  );
+
+  const a = rows.map((r) => ({
+    ...r,
+    fp: (r.fingerprint || "").trim(),
+    deviceKey: [r.device, r.os, r.browser].filter(Boolean).join(" · "),
+    humanness: r.integrity && typeof r.integrity.humanness === "number" ? r.integrity.humanness : null,
+    flagged: !!((r.integrity && (r.integrity.reasons || []).length) || (r.bot_flags && (r.bot_flags.reasons || []).length)),
+    reasons: [...((r.integrity && r.integrity.reasons) || []), ...((r.bot_flags && r.bot_flags.reasons) || [])],
+  }));
+
+  // union-find over attempt indices
+  const parent = a.map((_, i) => i);
+  const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
+  const union = (x, y) => { const rx = find(x), ry = find(y); if (rx !== ry) parent[rx] = ry; };
+
+  const byFp = new Map();      // fingerprint -> first index
+  const byIpDev = new Map();   // ip|deviceKey -> first index
+  a.forEach((it, i) => {
+    if (it.fp) {
+      if (byFp.has(it.fp)) union(i, byFp.get(it.fp)); else byFp.set(it.fp, i);
+    }
+    if (it.ip && it.deviceKey) {
+      const k = it.ip + "¦" + it.deviceKey;
+      if (byIpDev.has(k)) union(i, byIpDev.get(k)); else byIpDev.set(k, i);
+    }
+  });
+
+  // group by root
+  const groups = new Map();
+  a.forEach((_, i) => { const r = find(i); (groups.get(r) || groups.set(r, []).get(r)).push(i); });
+
+  const uniq = (xs) => [...new Set(xs.filter(Boolean))];
+  const clusters = [];
+  for (const idxs of groups.values()) {
+    if (idxs.length < 2) continue; // singletons aren't interesting
+    const members = idxs.map((i) => a[i]).sort((x, y) => new Date(y.created_at) - new Date(x.created_at));
+    const names = uniq(members.map((m) => m.name));
+    const fps = uniq(members.map((m) => m.fp));
+    const ips = uniq(members.map((m) => m.ip));
+    // strong if at least two members share one fingerprint
+    const fpCounts = {};
+    members.forEach((m) => { if (m.fp) fpCounts[m.fp] = (fpCounts[m.fp] || 0) + 1; });
+    const sharedFp = Object.entries(fpCounts).find(([, c]) => c >= 2);
+    const confidence = sharedFp ? "strong" : "medium";
+    const flaggedCount = members.filter((m) => m.flagged).length;
+    const vpn = members.some((m) => m.is_vpn);
+    const best = members.reduce((b, m) => (m.correct > (b?.correct ?? -1) ? m : b), null);
+
+    const evidence = [];
+    if (sharedFp) evidence.push(`same device fingerprint (…${sharedFp[0].slice(-6)})`);
+    if (confidence === "medium") evidence.push("same IP + device profile");
+    if (names.length >= 2) evidence.push(`${names.length} different names`);
+    if (vpn) evidence.push("VPN/proxy");
+
+    clusters.push({
+      id: `c${idxs[0]}`,
+      confidence,
+      evidence,
+      names,
+      fingerprints: fps,
+      ips,
+      devices: uniq(members.map((m) => m.deviceKey)),
+      locations: uniq(members.map((m) => [m.city, m.country].filter(Boolean).join(", "))),
+      vpn,
+      attempts: members.length,
+      distinctNames: names.length,
+      flaggedCount,
+      bestCorrect: best ? best.correct : 0,
+      bestTotal: best ? best.total : 0,
+      firstSeen: members[members.length - 1].created_at,
+      lastSeen: members[0].created_at,
+      members: members.map((m) => ({
+        id: m.id, name: m.name, ip: m.ip, fingerprint: m.fp ? m.fp.slice(0, 12) : null,
+        device: m.deviceKey, location: [m.city, m.country].filter(Boolean).join(", "),
+        correct: m.correct, total: m.total, testType: m.test_type, practice: m.practice,
+        humanness: m.humanness, flagged: m.flagged, isVpn: m.is_vpn, createdAt: m.created_at,
+      })),
+    });
+  }
+  // most suspicious first: many names, then many attempts, then flagged
+  clusters.sort((x, y) => y.distinctNames - x.distinctNames || y.attempts - x.attempts || y.flaggedCount - x.flaggedCount);
+
+  // one name appearing across multiple devices (sharing / impersonation)
+  const nameDevices = new Map();
+  a.forEach((it) => {
+    const key = it.fp || (it.ip && it.deviceKey ? it.ip + "¦" + it.deviceKey : null);
+    if (!key) return;
+    const s = nameDevices.get(it.name) || new Set();
+    s.add(key); nameDevices.set(it.name, s);
+  });
+  const sharedNames = [...nameDevices.entries()].filter(([, s]) => s.size >= 2).map(([name, s]) => ({ name, devices: s.size }));
+
+  res.json({
+    summary: {
+      attempts: a.length,
+      distinctDevices: byFp.size,
+      identityClusters: clusters.length,
+      multiNameClusters: clusters.filter((c) => c.distinctNames >= 2).length,
+      flagged: a.filter((x) => x.flagged).length,
+      onVpn: a.filter((x) => x.is_vpn).length,
+    },
+    clusters,
+    sharedNames,
+  });
+});
+
+// Exclude (or re-include) every score from a given device fingerprint in one click.
+// (Path avoids the /scores/:id PATCH route, which would otherwise shadow it.)
+adminRouter.patch("/exclude-device", async (req, res) => {
+  const fp = (req.body?.fingerprint || "").toString();
+  const excluded = req.body?.excluded !== false;
+  if (!fp) return res.status(400).json({ error: "fingerprint required" });
+  const r = await query("UPDATE scores SET excluded=$1, flagged = ($1 OR flagged) WHERE fingerprint=$2", [excluded, fp]);
+  res.json({ ok: true, updated: r.rowCount });
+});
+
 // ---- settings ----------------------------------------------------------
 adminRouter.get("/settings", async (_req, res) => {
   const { rows } = await query("SELECT key, value FROM settings");
@@ -326,7 +456,7 @@ adminRouter.get("/settings", async (_req, res) => {
 });
 
 adminRouter.put("/settings", async (req, res) => {
-  for (const key of ["test_length", "question_seconds", "final_per_level", "final_question_seconds"]) {
+  for (const key of ["test_length", "question_seconds", "final_per_level", "final_question_seconds", "voucher_required"]) {
     if (req.body?.[key] !== undefined) {
       await query(
         "INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO UPDATE SET value=$2",
