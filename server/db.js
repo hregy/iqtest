@@ -4,6 +4,12 @@ import { config } from "./config.js";
 export const pool = new pg.Pool({
   connectionString: config.databaseUrl,
   ssl: config.pgSsl ? { rejectUnauthorized: false } : false,
+  connectionTimeoutMillis: 10000, // fail fast instead of hanging on a bad host
+});
+
+// A pool 'error' on an idle client would otherwise crash the whole process.
+pool.on("error", (err) => {
+  console.error("Postgres pool error:", err.message);
 });
 
 export const query = (text, params) => pool.query(text, params);

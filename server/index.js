@@ -27,16 +27,9 @@ if (fs.existsSync(DIST)) {
   });
 }
 
-async function startServer() {
-  try {
-    await initDb({ seedIfEmpty: true });
-    console.log("Database ready.");
-  } catch (e) {
-    console.error("DB init failed (continuing — check DATABASE_URL):", e.message);
-  }
-
-  // SOCKET_PATH lets us listen on a Unix domain socket (sandboxed local
-  // testing); otherwise listen on the configured TCP port.
+function startServer() {
+  // Listen FIRST so the server is always up (health/login work even if the
+  // DB is misconfigured); initialise the DB in the background.
   if (process.env.SOCKET_PATH) {
     try { fs.unlinkSync(process.env.SOCKET_PATH); } catch { /* ignore */ }
     app.listen(process.env.SOCKET_PATH, () =>
@@ -45,6 +38,13 @@ async function startServer() {
   } else {
     app.listen(config.port, () => console.log(`IQ test server listening on :${config.port}`));
   }
+
+  initDb({ seedIfEmpty: true })
+    .then(() => console.log("Database ready."))
+    .catch((e) => console.error("DB init failed (check DATABASE_URL/PGSSL):", e.message));
 }
+
+// Never let an unexpected async error take the whole process down.
+process.on("unhandledRejection", (e) => console.error("unhandledRejection:", e));
 
 startServer();
