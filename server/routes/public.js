@@ -28,30 +28,29 @@ async function getSettings() {
 
 const imgUrl = (id) => (id ? `/api/images/${id}` : null);
 
-// Final score = speed-weighted accuracy (accuracy-first, fair).
-//   A = correct / total                         (accuracy, the foundation)
-//   speed_i = 1 - min(t_i, L)/L  for CORRECT answers only (1=instant, 0=full time)
-//   S = average speed over correct answers       (0 if none correct)
-//   IQ = 70 + 70*A + B*A*S
-// B (max speed bonus) is held just UNDER the value of one correct answer
-// (0.85 * 70/total), so a faster player can never overtake one who got more
-// answers right; speed only ranks players within the same accuracy.
-export function combinedIq(answers, total, questionSeconds) {
+// Final score = speed-weighted accuracy (accuracy-first, fair). Reproducible
+// from stored fields (correct, total, correct_ms) so the board can be recomputed.
+//   A = correct/total ; S = 1 - avgCorrectTime/L (avg over CORRECT answers)
+//   IQ = 70 + 70*A + B*A*S ,  B = 0.85*70/total (< one correct -> accuracy wins)
+export function iqFromStored(correct, total, correctMs, questionSeconds) {
   if (!total) return 70;
   const L = Math.max(1, questionSeconds * 1000);
-  const correctAns = answers.filter((a) => a.correct);
-  const correct = correctAns.length;
   const A = correct / total;
   let S = 0;
   if (correct > 0) {
-    const sum = correctAns.reduce(
-      (s, a) => s + (1 - Math.min(Math.max(a.elapsedMs || 0, 0), L) / L), 0
-    );
-    S = sum / correct;
+    const avg = Math.min(Math.max((correctMs || 0) / correct, 0), L);
+    S = 1 - avg / L;
   }
-  const B = (0.85 * 70) / total; // < one correct answer's worth -> accuracy always wins
-  const iq = 70 + 70 * A + B * A * S;
-  return Math.max(70, Math.min(145, Math.round(iq)));
+  const B = (0.85 * 70) / total;
+  return Math.max(70, Math.min(145, Math.round(70 + 70 * A + B * A * S)));
+}
+
+// Sum of time spent on CORRECT answers (capped per-question at the limit).
+export function correctMsOf(answers, questionSeconds) {
+  const L = Math.max(1, questionSeconds * 1000);
+  return answers
+    .filter((a) => a.correct)
+    .reduce((s, a) => s + Math.min(Math.max(a.elapsedMs || 0, 0), L), 0);
 }
 
 async function buildQuestion(qid) {
@@ -272,7 +271,8 @@ publicRouter.post(
       }
       const { flagged, reasons } = evaluateIntegrity(integrity, answers, total);
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
-      const iq = combinedIq(answers, total, settings.questionSeconds);
+      const correctMs = correctMsOf(answers, settings.questionSeconds);
+      const iq = iqFromStored(correct, total, correctMs, settings.questionSeconds);
 
       await query(
         "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, status='done', finished_at=now() WHERE id=$5",
@@ -281,9 +281,9 @@ publicRouter.post(
 
       if (!a.practice) {
         await query(
-          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, iq, flagged, excluded, integrity)
-           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$8,$9)`,
-          [a.name, a.voucher_code, correct, total, percent, durationMs, iq, flagged,
+          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, correct_ms, iq, flagged, excluded, integrity)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10)`,
+          [a.name, a.voucher_code, correct, total, percent, durationMs, correctMs, iq, flagged,
            JSON.stringify({ ...integrity, reasons })]
         );
       }

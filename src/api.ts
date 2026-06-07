@@ -92,6 +92,7 @@ export const api = {
       req(`/api/admin/scores/${id}`, { method: "PATCH", body: J(patch) }, true),
     deleteScore: (id: number) => req(`/api/admin/scores/${id}`, { method: "DELETE" }, true),
     clearScores: () => req("/api/admin/scores", { method: "DELETE" }, true),
+    recalcScores: () => req<{ recalculated: number }>("/api/admin/scores/recalc", { method: "POST" }, true),
 
     questions: () => req<AdminQuestion[]>("/api/admin/questions", {}, true),
     createQuestion: (form: FormData) =>

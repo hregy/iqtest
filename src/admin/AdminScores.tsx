@@ -30,7 +30,12 @@ export function AdminScores() {
       <div className="card">
         <div className="row between">
           <h3>Scores ({list.length})</h3>
-          <button className="btn small danger" onClick={clearAll}>Clear all</button>
+          <div className="row gap">
+            <button className="btn small" onClick={async () => { await api.admin.recalcScores(); load(); }}>
+              Recalculate
+            </button>
+            <button className="btn small danger" onClick={clearAll}>Clear all</button>
+          </div>
         </div>
         <div className="table-scroll">
           <table className="table">

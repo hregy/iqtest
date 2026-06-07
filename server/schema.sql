@@ -89,8 +89,10 @@ ALTER TABLE questions ADD COLUMN IF NOT EXISTS prompt_fa TEXT NOT NULL DEFAULT '
 -- Integrity columns on scores (added to existing tables too).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;
--- Combined correctness+speed score.
+-- Combined correctness+speed score, and the total time on CORRECT answers so
+-- the score is fully reproducible from the stored row (for recalculation).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS iq INT;
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS correct_ms INT;
 
 -- Vouchers: an assignee note + usage limit (max_uses 0 = unlimited).
 ALTER TABLE vouchers ADD COLUMN IF NOT EXISTS note     TEXT NOT NULL DEFAULT '';

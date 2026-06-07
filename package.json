@@ -10,6 +10,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host",
     "seed": "node server/seed.js",
+    "recalc": "node server/recalc.js",
     "generate": "python3 scripts/generate_questions.py",
     "verify": "python3 scripts/verify_questions.py"
   },

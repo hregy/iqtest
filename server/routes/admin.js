@@ -6,6 +6,7 @@ import { config } from "../config.js";
 import { signAdmin, requireAdmin } from "../auth.js";
 import { rateLimit } from "../ratelimit.js";
 import { buildReview } from "./public.js";
+import { recalcScores } from "../recalc.js";
 
 export const adminRouter = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 3 * 1024 * 1024 } });
@@ -124,6 +125,11 @@ adminRouter.delete("/scores/:id", async (req, res) => {
 adminRouter.delete("/scores", async (_req, res) => {
   await query("DELETE FROM scores");
   res.json({ ok: true });
+});
+
+adminRouter.post("/scores/recalc", async (_req, res) => {
+  const n = await recalcScores();
+  res.json({ ok: true, recalculated: n });
 });
 
 // ---- questions ---------------------------------------------------------
