@@ -23,6 +23,12 @@ export function SessionReplay({ attemptId, onClose }: { attemptId: string; onClo
         ]);
         if (!alive || !ref.current) return;
 
+        // Make the container visible BEFORE constructing the Replayer, otherwise
+        // rrweb mounts into a display:none element and renders a blank frame.
+        setState("ready");
+        await new Promise((r) => requestAnimationFrame(() => r(null)));
+        if (!alive || !ref.current) return;
+
         // recorded viewport (from the Meta event) -> scale to fit the modal
         const meta: any = (events as any[]).find((e) => e.type === 4);
         const w = meta?.data?.width || 400;
@@ -43,7 +49,6 @@ export function SessionReplay({ attemptId, onClose }: { attemptId: string; onClo
         const r = new (Replayer as any)(events, { root: wrap, mouseTail: true, skipInactive: true });
         replayer.current = r;
         r.play();
-        setState("ready");
         setPlaying(true);
       } catch {
         if (alive) setState("none");
