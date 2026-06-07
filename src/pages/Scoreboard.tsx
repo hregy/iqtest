@@ -1,44 +1,57 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { ScoreRow } from "../types";
 import { api } from "../api";
+import { iqFromPercent, bandForIq } from "../lib/scoring";
+
+const initials = (n: string) =>
+  n.trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "?";
 
 export function Scoreboard() {
   const [rows, setRows] = useState<ScoreRow[] | null>(null);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.scoreboard().then(setRows).catch(() => setError("Could not load scoreboard."));
   }, []);
 
   return (
-    <div className="screen scoreboard">
-      <h1>Scoreboard</h1>
-      {error && <p className="form-error">{error}</p>}
-      {!rows && !error && <div className="spinner" />}
+    <div className="screen">
+      <div className="sb-head">
+        <button className="iconbtn" onClick={() => navigate("/")}>‹</button>
+        <div>
+          <h1>Scoreboard</h1>
+          <div className="muted small" style={{ fontWeight: 600 }}>Top minds this week</div>
+        </div>
+        <div style={{ marginLeft: "auto", fontSize: 24 }}>🏆</div>
+      </div>
 
-      {rows && rows.length === 0 && <p className="muted">No scores yet — be the first!</p>}
+      {error && <p className="form-error" style={{ marginTop: 18 }}>{error}</p>}
+      {!rows && !error && <div className="spinner" style={{ margin: "40px auto" }} />}
+      {rows && rows.length === 0 && <p className="muted" style={{ marginTop: 24 }}>No scores yet — be the first!</p>}
 
       {rows && rows.length > 0 && (
         <div className="board">
-          <div className="board-head">
-            <span>#</span>
-            <span>Name</span>
-            <span>Score</span>
-            <span>%</span>
-          </div>
-          {rows.map((r) => (
-            <div className={"board-row" + (r.rank <= 3 ? " top" : "")} key={r.rank}>
-              <span className="rank">{r.rank}</span>
-              <span className="bname">{r.name}</span>
-              <span>{r.correct}/{r.total}</span>
-              <span>{r.percent}%</span>
-            </div>
-          ))}
+          {rows.map((r) => {
+            const iq = iqFromPercent(r.percent);
+            const medal = r.rank <= 3;
+            return (
+              <div className="board-row" key={r.rank}>
+                <div className={"rank" + (medal ? " medal" : "")}>{r.rank}</div>
+                <div className="avatar">{initials(r.name)}</div>
+                <div className="bname">
+                  <div className="nm">{r.name}</div>
+                  <div className="bsub">{bandForIq(iq)} · {r.correct}/{r.total}</div>
+                </div>
+                <div className="iq-mono biq">{iq}</div>
+              </div>
+            );
+          })}
         </div>
       )}
 
-      <Link className="btn primary" to="/">Take the test</Link>
+      <button className="btn block ghost" style={{ marginTop: 18 }} onClick={() => navigate("/")}>‹ Back to start</button>
     </div>
   );
 }

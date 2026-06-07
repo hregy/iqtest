@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, getToken, setToken, clearToken, ApiError } from "../api";
+import { EinsteinMark } from "../components/Einstein";
 import { AdminVouchers } from "../admin/AdminVouchers";
 import { AdminScores } from "../admin/AdminScores";
 import { AdminQuestions } from "../admin/AdminQuestions";
@@ -87,21 +88,17 @@ function Login({ onAuthed }: { onAuthed: (adminVoucher: string) => void }) {
   };
 
   return (
-    <div className="screen start">
-      <div className="brand">IQ</div>
-      <h1>Admin Login</h1>
-      <form className="form" onSubmit={submit}>
+    <div className="screen" style={{ justifyContent: "center", alignItems: "center", gap: 16 }}>
+      <EinsteinMark size={64} board="var(--iq-board)" hair="#E2961A" glow />
+      <h1 style={{ margin: 0 }}>Admin</h1>
+      <form className="card form" style={{ maxWidth: 340, width: "100%" }} onSubmit={submit}>
         <label className="field">
           <span>Password</span>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
+          <input className="input" type="password" value={password}
+            onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
         </label>
         {error && <p className="form-error">{error}</p>}
-        <button className="btn primary" disabled={busy}>{busy ? "…" : "Log in"}</button>
+        <button className="btn block primary" disabled={busy}>{busy ? "…" : "Log in"}</button>
       </form>
       <Link className="link" to="/">← Back to site</Link>
     </div>

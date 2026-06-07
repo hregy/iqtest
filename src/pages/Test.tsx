@@ -4,6 +4,7 @@ import type { StartResponse, TestQuestion } from "../types";
 import { api, ApiError } from "../api";
 import { useIntegrity } from "../hooks/useIntegrity";
 import { QuestionView } from "../components/QuestionView";
+import { EinsteinPortrait } from "../components/Einstein";
 
 type Phase = "gate" | "running" | "submitting" | "error";
 
@@ -96,17 +97,28 @@ export function Test() {
   if (!creds?.name || !creds?.voucher) return null;
 
   if (phase === "gate") {
+    const RULES = [
+      ["🖥️", "Stays in full screen — leaving is recorded."],
+      ["⏱", "Each question is timed on the server; no extra time."],
+      ["➡️", "No going back. Each answer is final."],
+    ];
     return (
-      <div className="screen start">
-        <div className="brand">IQ</div>
-        <h1>Ready, {creds.name}?</h1>
-        <p className="subtitle">The test runs in full screen and is timed per question.</p>
-        <ul className="rules">
-          <li><span>🖥️</span> Stays in full screen — leaving is recorded.</li>
-          <li><span>⏱</span> Each question is timed on the server; no extra time.</li>
-          <li><span>➡️</span> No going back. Each answer is final.</li>
-        </ul>
-        <button className="btn primary" onClick={begin}>Enter full screen & start</button>
+      <div className="screen" style={{ justifyContent: "center" }}>
+        <div className="hero">
+          <div className="hero-inner">
+            <EinsteinPortrait size={92} hair="var(--iq-chalk)" ring="var(--iq-accent)" />
+            <h1 className="hero-title" style={{ marginTop: 14 }}>Ready, <span className="accent">{creds.name}</span>?</h1>
+            <p className="hero-sub">The test runs in full screen and is timed per question.</p>
+          </div>
+        </div>
+        <div className="rules">
+          {RULES.map(([ico, txt]) => (
+            <div className="rule" key={txt}><div className="rule-ico">{ico}</div><div className="rule-txt">{txt}</div></div>
+          ))}
+        </div>
+        <button className="btn block primary" style={{ marginTop: 18 }} onClick={begin}>
+          Enter full screen &amp; start
+        </button>
       </div>
     );
   }

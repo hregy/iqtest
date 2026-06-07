@@ -1,9 +1,9 @@
 {
   "name": "IQ Test",
   "short_name": "IQ Test",
-  "description": "20-question image-based IQ test",
-  "theme_color": "#3b5bdb",
-  "background_color": "#ffffff",
+  "description": "Think like a genius — timed visual IQ puzzles.",
+  "theme_color": "#222A2E",
+  "background_color": "#FBF8F1",
   "display": "fullscreen",
   "orientation": "portrait",
   "start_url": "/",
