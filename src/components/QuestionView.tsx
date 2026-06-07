@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { TestQuestion } from "../types";
 import { useCountdown } from "../hooks/useCountdown";
 
@@ -7,15 +7,18 @@ interface Props {
   index: number;
   total: number;
   questionSeconds: number;
-  onAnswer: (selectedIndex: number | null) => void;
+  watermark?: string;
+  onAnswer: (selectedIndex: number | null, renderDelayMs: number) => void;
 }
 
 const LABELS = ["A", "B", "C", "D"];
 
-export function QuestionView({ question, index, total, questionSeconds, onAnswer }: Props) {
+export function QuestionView({ question, index, total, questionSeconds, watermark, onAnswer }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
   const [loaded, setLoaded] = useState(0);
+  const mountAt = useRef(performance.now());
+  const renderDelay = useRef(0);
 
   const imageUrls = useMemo(() => {
     const urls: string[] = [];
@@ -30,7 +33,16 @@ export function QuestionView({ question, index, total, questionSeconds, onAnswer
     setSelected(null);
     setLocked(false);
     setLoaded(0);
+    mountAt.current = performance.now();
+    renderDelay.current = 0;
   }, [question.id]);
+
+  // Capture how long images took to appear, so the server can credit it back.
+  useEffect(() => {
+    if (ready && renderDelay.current === 0) {
+      renderDelay.current = Math.round(performance.now() - mountAt.current);
+    }
+  }, [ready]);
 
   const oneLoaded = () => setLoaded((n) => n + 1);
 
@@ -38,29 +50,22 @@ export function QuestionView({ question, index, total, questionSeconds, onAnswer
     if (locked) return;
     setLocked(true);
     setSelected(choice);
-    window.setTimeout(() => onAnswer(choice), choice === null ? 250 : 350);
+    window.setTimeout(() => onAnswer(choice, renderDelay.current), choice === null ? 250 : 350);
   };
 
-  const remaining = useCountdown(questionSeconds, question.id, !locked && ready, () =>
-    commit(null)
-  );
+  const remaining = useCountdown(questionSeconds, question.id, !locked && ready, () => commit(null));
   const pct = (remaining / questionSeconds) * 100;
   const danger = remaining <= 3;
 
   return (
     <div className="screen question">
       <header className="qheader">
-        <span className="counter">
-          {index + 1} / {total}
-        </span>
+        <span className="counter">{index + 1} / {total}</span>
         <span className={"timer" + (danger ? " danger" : "")}>{Math.ceil(remaining)}s</span>
       </header>
 
       <div className="timerbar">
-        <div
-          className={"timerbar-fill" + (danger ? " danger" : "")}
-          style={{ width: `${pct}%` }}
-        />
+        <div className={"timerbar-fill" + (danger ? " danger" : "")} style={{ width: `${pct}%` }} />
       </div>
 
       <div className={"qcontent" + (question.puzzleImage ? "" : " no-puzzle")}>
@@ -80,10 +85,7 @@ export function QuestionView({ question, index, total, questionSeconds, onAnswer
         )}
 
         {!ready && (
-          <div className="img-loading">
-            <div className="spinner" />
-            <span>Loading question…</span>
-          </div>
+          <div className="img-loading"><div className="spinner" /><span>Loading question…</span></div>
         )}
 
         <div className={"options-grid" + (ready ? "" : " hidden")}>
@@ -96,20 +98,23 @@ export function QuestionView({ question, index, total, questionSeconds, onAnswer
             >
               <span className="tile-label">{LABELS[i]}</span>
               {o.kind === "image" && o.image ? (
-                <img
-                  className="tile-img"
-                  src={o.image}
-                  alt={`Option ${LABELS[i]}`}
-                  draggable={false}
-                  onLoad={oneLoaded}
-                  onError={oneLoaded}
-                />
+                <img className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} draggable={false}
+                  onLoad={oneLoaded} onError={oneLoaded} />
               ) : (
                 <span className="tile-text">{o.text}</span>
               )}
             </button>
           ))}
         </div>
+
+        {/* Identity watermark — makes any leaked screenshot traceable. */}
+        {watermark && (
+          <div className="watermark" aria-hidden="true">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span key={i}>{watermark}</span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

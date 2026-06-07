@@ -460,8 +460,10 @@ def gen_progression():
 # Build
 # ---------------------------------------------------------------------------
 
+# Larger pool => two test-takers rarely get the same 20 questions, which kills
+# answer-sharing (expected overlap with a 180 pool, 20-question test is ~2).
 PLAN = (
-    [gen_matrix] * 35 + [gen_analogy] * 25 + [gen_odd] * 20 + [gen_progression] * 20
+    [gen_matrix] * 63 + [gen_analogy] * 45 + [gen_odd] * 36 + [gen_progression] * 36
 )
 
 

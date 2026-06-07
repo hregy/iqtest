@@ -4,12 +4,13 @@ import multer from "multer";
 import { query, withTx } from "../db.js";
 import { config } from "../config.js";
 import { signAdmin, requireAdmin } from "../auth.js";
+import { rateLimit } from "../ratelimit.js";
 
 export const adminRouter = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 3 * 1024 * 1024 } });
 
-// ---- login -------------------------------------------------------------
-adminRouter.post("/login", (req, res) => {
+// ---- login (rate-limited to deter password brute-forcing) --------------
+adminRouter.post("/login", rateLimit({ windowMs: 60_000, max: 10, name: "login" }), (req, res) => {
   const pw = (req.body?.password || "").toString();
   if (pw && pw === config.adminPassword) return res.json({ token: signAdmin() });
   res.status(401).json({ error: "Wrong password." });

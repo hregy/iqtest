@@ -1,25 +1,90 @@
 import { Router } from "express";
+import crypto from "crypto";
 import { query, withTx } from "../db.js";
 import { signSession, verifyToken } from "../auth.js";
+import { rateLimit } from "../ratelimit.js";
 
 export const publicRouter = Router();
 
+// How much slack the server gives over the displayed timer:
+//  - up to RENDER_CREDIT_MS is credited back for genuine image-load time
+//    (client-reported, capped so it can't be abused)
+//  - RTT_GRACE_MS absorbs network round-trip jitter
+const RENDER_CREDIT_MS = 4000;
+const RTT_GRACE_MS = 1500;
+
 async function getSettings() {
   const { rows } = await query("SELECT key, value FROM settings");
-  const map = Object.fromEntries(rows.map((r) => [r.key, r.value]));
+  const m = Object.fromEntries(rows.map((r) => [r.key, r.value]));
   return {
-    testLength: Number(map.test_length || 20),
-    questionSeconds: Number(map.question_seconds || 10),
+    testLength: Number(m.test_length || 20),
+    questionSeconds: Number(m.question_seconds || 10),
   };
 }
 
 const imgUrl = (id) => (id ? `/api/images/${id}` : null);
 
-publicRouter.get("/config", async (_req, res) => {
-  res.json(await getSettings());
-});
+async function buildQuestion(qid) {
+  const { rows } = await query(
+    "SELECT id, type, category, prompt, puzzle_image_id FROM questions WHERE id=$1",
+    [qid]
+  );
+  if (!rows.length) return null;
+  const row = rows[0];
+  const opts = await query(
+    "SELECT idx, kind, text_value, image_id FROM question_options WHERE question_id=$1 ORDER BY idx",
+    [qid]
+  );
+  return {
+    id: row.id,
+    type: row.type,
+    category: row.category,
+    prompt: row.prompt,
+    puzzleImage: imgUrl(row.puzzle_image_id),
+    options: opts.rows.map((o) => ({
+      idx: o.idx,
+      kind: o.kind,
+      text: o.text_value,
+      image: imgUrl(o.image_id),
+    })),
+  };
+}
 
-// Serve an image blob from the DB.
+function mergeIntegrity(prev, incoming) {
+  const p = prev || {};
+  const i = incoming || {};
+  return {
+    blur: Math.max(p.blur || 0, Number(i.blur) || 0),
+    awayMs: Math.max(p.awayMs || 0, Number(i.awayMs) || 0),
+    fsExits: Math.max(p.fsExits || 0, Number(i.fsExits) || 0),
+    paste: Math.max(p.paste || 0, Number(i.paste) || 0),
+    devtools: !!(p.devtools || i.devtools),
+  };
+}
+
+function evaluateIntegrity(integrity, answers, total) {
+  const reasons = [];
+  const it = integrity || {};
+  if ((it.blur || 0) >= 2) reasons.push(`left the screen ${it.blur}×`);
+  if ((it.awayMs || 0) >= 6000) reasons.push(`spent ${Math.round(it.awayMs / 1000)}s off-screen`);
+  if (it.devtools) reasons.push("opened developer tools");
+  if ((it.fsExits || 0) >= 1) reasons.push("exited full screen");
+  if ((it.paste || 0) >= 1) reasons.push("attempted to paste");
+
+  const answered = answers.filter((a) => a.sel !== null);
+  const correct = answers.filter((a) => a.correct).length;
+  const fast = answered.filter((a) => a.elapsedMs < 800).length;
+  if (correct >= Math.ceil(total * 0.8) && fast >= Math.ceil(total * 0.5)) {
+    reasons.push("improbably fast and accurate");
+  }
+  const sels = answered.map((a) => a.sel);
+  if (sels.length >= total && new Set(sels).size === 1) reasons.push("identical answer every time");
+
+  return { flagged: reasons.length > 0, reasons };
+}
+
+publicRouter.get("/config", async (_req, res) => res.json(await getSettings()));
+
 publicRouter.get("/images/:id", async (req, res) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) return res.status(400).end();
@@ -30,125 +95,150 @@ publicRouter.get("/images/:id", async (req, res) => {
   res.send(rows[0].data);
 });
 
-// Start a test: validate + consume the voucher, return questions (no answers).
-publicRouter.post("/test/start", async (req, res) => {
-  const name = (req.body?.name || "").toString().trim().slice(0, 40);
-  const code = (req.body?.voucher || "").toString().trim();
-  if (!name) return res.status(400).json({ error: "Please enter your name." });
-  if (!code) return res.status(400).json({ error: "Please enter a voucher code." });
+// ---- Start: validate + consume voucher, create attempt, serve first question.
+publicRouter.post(
+  "/test/start",
+  rateLimit({ windowMs: 60_000, max: 15, name: "start" }),
+  async (req, res) => {
+    const name = (req.body?.name || "").toString().trim().slice(0, 40);
+    const code = (req.body?.voucher || "").toString().trim();
+    if (!name) return res.status(400).json({ error: "Please enter your name." });
+    if (!code) return res.status(400).json({ error: "Please enter a voucher code." });
 
-  const { rows } = await query("SELECT * FROM vouchers WHERE code=$1", [code]);
-  const v = rows[0];
-  if (!v) return res.status(400).json({ error: "Invalid voucher code." });
-  if (v.expires_at && new Date(v.expires_at) < new Date()) {
-    return res.status(400).json({ error: "This voucher has expired." });
-  }
-  const practice = v.type === "admin";
-  if (!practice && v.used) {
-    return res.status(400).json({ error: "This voucher has already been used." });
-  }
+    const { rows } = await query("SELECT * FROM vouchers WHERE code=$1", [code]);
+    const v = rows[0];
+    if (!v) return res.status(400).json({ error: "Invalid voucher code." });
+    if (v.expires_at && new Date(v.expires_at) < new Date())
+      return res.status(400).json({ error: "This voucher has expired." });
+    const practice = v.type === "admin";
+    if (!practice && v.used)
+      return res.status(400).json({ error: "This voucher has already been used." });
 
-  const settings = await getSettings();
-  const picked = await withTx(async (client) => {
-    if (!practice) {
-      // consume-on-start (guard against a race: only succeeds if still unused)
-      const upd = await client.query(
-        "UPDATE vouchers SET used=true, used_by=$1, used_at=now() WHERE code=$2 AND used=false",
-        [name, code]
+    const settings = await getSettings();
+    const picked = await withTx(async (client) => {
+      if (!practice) {
+        const upd = await client.query(
+          "UPDATE vouchers SET used=true, used_by=$1, used_at=now() WHERE code=$2 AND used=false",
+          [name, code]
+        );
+        if (upd.rowCount === 0) throw new Error("ALREADY_USED");
+      }
+      const q = await client.query(
+        "SELECT id FROM questions WHERE active = true ORDER BY random() LIMIT $1",
+        [settings.testLength]
       );
-      if (upd.rowCount === 0) throw new Error("ALREADY_USED");
-    }
-    const q = await client.query(
-      `SELECT id, type, category, prompt, puzzle_image_id
-       FROM questions WHERE active = true ORDER BY random() LIMIT $1`,
-      [settings.testLength]
-    );
-    return q.rows;
-  }).catch((e) => {
-    if (e.message === "ALREADY_USED") return null;
-    throw e;
-  });
+      return q.rows.map((r) => r.id);
+    }).catch((e) => (e.message === "ALREADY_USED" ? null : Promise.reject(e)));
 
-  if (picked === null) return res.status(400).json({ error: "This voucher has already been used." });
-  if (picked.length === 0) return res.status(503).json({ error: "No questions available yet." });
+    if (picked === null) return res.status(400).json({ error: "This voucher has already been used." });
+    if (!picked.length) return res.status(503).json({ error: "No questions available yet." });
 
-  const questions = [];
-  for (const row of picked) {
-    const opts = await query(
-      "SELECT idx, kind, text_value, image_id FROM question_options WHERE question_id=$1 ORDER BY idx",
-      [row.id]
+    const id = crypto.randomUUID();
+    const nonce = crypto.randomBytes(9).toString("hex");
+    await query(
+      `INSERT INTO attempts(id, voucher_code, name, practice, qids, idx, current_nonce, served_at)
+       VALUES($1,$2,$3,$4,$5,0,$6, now())`,
+      [id, code, name, practice, picked, nonce]
     );
-    questions.push({
-      id: row.id,
-      type: row.type,
-      category: row.category,
-      prompt: row.prompt,
-      puzzleImage: imgUrl(row.puzzle_image_id),
-      options: opts.rows.map((o) => ({
-        idx: o.idx,
-        kind: o.kind,
-        text: o.text_value,
-        image: imgUrl(o.image_id),
-      })),
+
+    const question = await buildQuestion(picked[0]);
+    res.json({
+      attemptToken: signSession({ attemptId: id }),
+      question,
+      nonce,
+      index: 0,
+      total: picked.length,
+      settings: { questionSeconds: settings.questionSeconds },
+      watermark: `${name} · ${code} · ${new Date().toISOString().slice(0, 10)}`,
+      practice,
     });
   }
+);
 
-  const sessionToken = signSession({
-    voucher: code,
-    name,
-    practice,
-    qids: questions.map((q) => q.id),
-    startedAt: Date.now(),
-  });
+// ---- Answer one question: server checks timing + nonce, advances or finishes.
+publicRouter.post(
+  "/test/answer",
+  rateLimit({ windowMs: 60_000, max: 120, name: "answer" }),
+  async (req, res) => {
+    const claims = verifyToken(req.body?.attemptToken || "");
+    if (!claims?.attemptId) return res.status(401).json({ error: "Invalid test session." });
 
-  res.json({ sessionToken, questions, settings: { questionSeconds: settings.questionSeconds } });
-});
+    const { rows } = await query("SELECT * FROM attempts WHERE id=$1", [claims.attemptId]);
+    const a = rows[0];
+    if (!a) return res.status(404).json({ error: "Attempt not found." });
+    if (a.status !== "active") return res.status(409).json({ error: "Test already finished." });
+    if ((req.body?.nonce || "") !== a.current_nonce)
+      return res.status(409).json({ error: "Out-of-order submission rejected." });
 
-// Submit answers: score on the server (answers never left the server).
-publicRouter.post("/test/submit", async (req, res) => {
-  const claims = verifyToken(req.body?.sessionToken || "");
-  if (!claims || !Array.isArray(claims.qids)) {
-    return res.status(401).json({ error: "Invalid or expired test session." });
-  }
-  const answers = Array.isArray(req.body?.answers) ? req.body.answers : [];
-  const chosen = new Map(answers.map((a) => [Number(a.id), a.selectedIndex]));
+    const settings = await getSettings();
+    const qid = a.qids[a.idx];
+    const qrow = (await query("SELECT category, correct_index FROM questions WHERE id=$1", [qid])).rows[0];
 
-  const { rows } = await query(
-    "SELECT id, category, correct_index FROM questions WHERE id = ANY($1)",
-    [claims.qids]
-  );
-  const byId = new Map(rows.map((r) => [r.id, r]));
+    const serverElapsed = Date.now() - new Date(a.served_at).getTime();
+    const renderCredit = Math.min(Math.max(Number(req.body?.renderDelayMs) || 0, 0), RENDER_CREDIT_MS);
+    const effective = serverElapsed - renderCredit - RTT_GRACE_MS;
+    const timedOut = effective > settings.questionSeconds * 1000;
 
-  let correct = 0;
-  const byCategory = {};
-  for (const qid of claims.qids) {
-    const q = byId.get(qid);
-    if (!q) continue;
-    const cat = (byCategory[q.category] ??= { correct: 0, total: 0 });
-    cat.total += 1;
-    if (chosen.get(qid) === q.correct_index) {
-      correct += 1;
-      cat.correct += 1;
+    const sel = req.body?.selectedIndex;
+    const selected = sel === null || sel === undefined ? null : Number(sel);
+    const isCorrect = !timedOut && qrow && selected === qrow.correct_index;
+
+    const answers = a.answers || [];
+    answers.push({
+      qid,
+      category: qrow?.category || "?",
+      sel: selected,
+      correct: !!isCorrect,
+      elapsedMs: Math.max(0, Math.round(effective)),
+      timedOut,
+    });
+    const correct = a.correct + (isCorrect ? 1 : 0);
+    const integrity = mergeIntegrity(a.integrity, req.body?.integrity);
+    const nextIdx = a.idx + 1;
+    const total = a.qids.length;
+
+    if (nextIdx >= total) {
+      const percent = total ? Math.round((correct / total) * 100) : 0;
+      const byCategory = {};
+      for (const ans of answers) {
+        const c = (byCategory[ans.category] ??= { correct: 0, total: 0 });
+        c.total += 1;
+        if (ans.correct) c.correct += 1;
+      }
+      const { flagged, reasons } = evaluateIntegrity(integrity, answers, total);
+      const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
+
+      await query(
+        "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, status='done', finished_at=now() WHERE id=$5",
+        [nextIdx, correct, JSON.stringify(answers), JSON.stringify(integrity), a.id]
+      );
+
+      if (!a.practice) {
+        await query(
+          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, flagged, excluded, integrity)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$7,$8)
+           ON CONFLICT (voucher_code) WHERE voucher_code IS NOT NULL AND excluded = false DO NOTHING`,
+          [a.name, a.voucher_code, correct, total, percent, durationMs, flagged,
+           JSON.stringify({ ...integrity, reasons })]
+        );
+      }
+      return res.json({
+        done: true,
+        result: { correct, total, percent, byCategory, durationMs, practice: a.practice, flagged, reasons },
+      });
     }
-  }
-  const total = claims.qids.length;
-  const percent = total ? Math.round((correct / total) * 100) : 0;
-  const durationMs = Math.max(0, Date.now() - (claims.startedAt || Date.now()));
 
-  if (!claims.practice) {
+    const nonce = crypto.randomBytes(9).toString("hex");
     await query(
-      `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms)
-       VALUES($1,$2,$3,$4,$5,$6)
-       ON CONFLICT (voucher_code) WHERE voucher_code IS NOT NULL AND excluded = false
-       DO NOTHING`,
-      [claims.name, claims.voucher, correct, total, percent, durationMs]
+      "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, current_nonce=$5, served_at=now() WHERE id=$6",
+      [nextIdx, correct, JSON.stringify(answers), JSON.stringify(integrity), nonce, a.id]
     );
+    const question = await buildQuestion(a.qids[nextIdx]);
+    res.json({ done: false, question, nonce, index: nextIdx, total });
   }
+);
 
-  res.json({ correct, total, percent, byCategory, durationMs, practice: !!claims.practice });
-});
-
-// Public scoreboard (top to bottom).
+// ---- Public scoreboard (flagged/hidden attempts excluded).
 publicRouter.get("/scoreboard", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
   const { rows } = await query(

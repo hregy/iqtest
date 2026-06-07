@@ -14,10 +14,23 @@ export interface TestQuestion {
   options: TestOption[];
 }
 
+export interface Integrity {
+  blur: number;
+  awayMs: number;
+  fsExits: number;
+  paste: number;
+  devtools: boolean;
+}
+
 export interface StartResponse {
-  sessionToken: string;
-  questions: TestQuestion[];
+  attemptToken: string;
+  question: TestQuestion;
+  nonce: string;
+  index: number;
+  total: number;
   settings: { questionSeconds: number };
+  watermark: string;
+  practice: boolean;
 }
 
 export interface SubmitResult {
@@ -27,6 +40,17 @@ export interface SubmitResult {
   byCategory: Record<string, { correct: number; total: number }>;
   durationMs: number;
   practice: boolean;
+  flagged?: boolean;
+  reasons?: string[];
+}
+
+export interface AnswerResponse {
+  done: boolean;
+  question?: TestQuestion;
+  nonce?: string;
+  index?: number;
+  total?: number;
+  result?: SubmitResult;
 }
 
 export interface ScoreRow {
@@ -64,6 +88,8 @@ export interface AdminScore {
   percent: number;
   duration_ms: number | null;
   excluded: boolean;
+  flagged?: boolean;
+  integrity?: { reasons?: string[] } & Record<string, unknown>;
   created_at: string;
 }
 

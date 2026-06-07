@@ -1,102 +1,153 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { StartResponse, AnswerInput } from "../types";
-import { api } from "../api";
-import { useAntiCheat } from "../hooks/useAntiCheat";
+import type { StartResponse, TestQuestion } from "../types";
+import { api, ApiError } from "../api";
+import { useIntegrity } from "../hooks/useIntegrity";
 import { QuestionView } from "../components/QuestionView";
+
+type Phase = "gate" | "running" | "submitting" | "error";
+
+interface Current {
+  token: string;
+  question: TestQuestion;
+  nonce: string;
+  index: number;
+  total: number;
+  questionSeconds: number;
+  watermark: string;
+}
 
 export function Test() {
   const location = useLocation();
   const navigate = useNavigate();
-  const state = location.state as { start?: StartResponse } | null;
-  const start = state?.start;
+  const creds = location.state as { name?: string; voucher?: string } | null;
 
-  const [index, setIndex] = useState(0);
-  const [answers, setAnswers] = useState<AnswerInput[]>([]);
-  const [submitting, setSubmitting] = useState(false);
+  const [phase, setPhase] = useState<Phase>("gate");
+  const [cur, setCur] = useState<Current | null>(null);
+  const [error, setError] = useState("");
 
-  const obscured = useAntiCheat(true);
+  const { integrity, obscured, fsLost, enterFullscreen } = useIntegrity(phase === "running");
 
-  // No questions in navigation state (e.g. direct URL / reload) -> go home.
   useEffect(() => {
-    if (!start) navigate("/", { replace: true });
-  }, [start, navigate]);
+    if (!creds?.name || !creds?.voucher) navigate("/", { replace: true });
+  }, [creds, navigate]);
 
-  // Unreversible: trap the browser Back button.
+  // Unreversible + warn on exit while running.
   useEffect(() => {
+    if (phase !== "running") return;
     history.pushState({ iq: true }, "");
     const onPop = () => history.pushState({ iq: true }, "");
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, []);
-
-  // Warn before reload/close mid-test.
-  useEffect(() => {
     const onBefore = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = "";
     };
+    window.addEventListener("popstate", onPop);
     window.addEventListener("beforeunload", onBefore);
-    return () => window.removeEventListener("beforeunload", onBefore);
-  }, []);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      window.removeEventListener("beforeunload", onBefore);
+    };
+  }, [phase]);
 
-  const finish = useCallback(
-    async (final: AnswerInput[]) => {
-      if (!start) return;
-      setSubmitting(true);
+  const begin = useCallback(async () => {
+    if (!creds?.name || !creds?.voucher) return;
+    await enterFullscreen(); // user gesture -> request fullscreen before the clock starts
+    setError("");
+    try {
+      const s: StartResponse = await api.startTest(creds.name, creds.voucher);
+      setCur({
+        token: s.attemptToken,
+        question: s.question,
+        nonce: s.nonce,
+        index: s.index,
+        total: s.total,
+        questionSeconds: s.settings.questionSeconds,
+        watermark: s.watermark,
+      });
+      setPhase("running");
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Could not start the test.");
+      setPhase("error");
+    }
+  }, [creds, enterFullscreen]);
+
+  const handleAnswer = useCallback(
+    async (selectedIndex: number | null, renderDelayMs: number) => {
+      if (!cur) return;
       try {
-        const result = await api.submitTest(start.sessionToken, final);
-        navigate("/results", { replace: true, state: { result } });
+        const r = await api.answer(cur.token, cur.nonce, selectedIndex, renderDelayMs, integrity.current);
+        if (r.done && r.result) {
+          setPhase("submitting");
+          navigate("/results", { replace: true, state: { result: r.result } });
+        } else if (r.question && r.nonce !== undefined) {
+          setCur({ ...cur, question: r.question, nonce: r.nonce, index: r.index ?? cur.index + 1 });
+        }
       } catch {
         navigate("/", { replace: true });
       }
     },
-    [start, navigate]
+    [cur, integrity, navigate]
   );
 
-  const handleAnswer = useCallback(
-    (selectedIndex: number | null) => {
-      if (!start) return;
-      const q = start.questions[index];
-      const next = [...answers, { id: q.id, selectedIndex }];
-      if (index + 1 >= start.questions.length) {
-        finish(next);
-      } else {
-        setAnswers(next);
-        setIndex(index + 1);
-      }
-    },
-    [start, index, answers, finish]
-  );
+  if (!creds?.name || !creds?.voucher) return null;
 
-  if (!start) return null;
-  if (submitting) {
+  if (phase === "gate") {
     return (
-      <div className="screen center">
-        <div className="spinner" />
-        <p>Scoring…</p>
+      <div className="screen start">
+        <div className="brand">IQ</div>
+        <h1>Ready, {creds.name}?</h1>
+        <p className="subtitle">The test runs in full screen and is timed per question.</p>
+        <ul className="rules">
+          <li><span>🖥️</span> Stays in full screen — leaving is recorded.</li>
+          <li><span>⏱</span> Each question is timed on the server; no extra time.</li>
+          <li><span>➡️</span> No going back. Each answer is final.</li>
+        </ul>
+        <button className="btn primary" onClick={begin}>Enter full screen & start</button>
       </div>
     );
+  }
+
+  if (phase === "error") {
+    return (
+      <div className="screen center">
+        <p className="form-error">{error}</p>
+        <button className="btn primary" onClick={() => navigate("/", { replace: true })}>Back</button>
+      </div>
+    );
+  }
+
+  if (phase === "submitting" || !cur) {
+    return <div className="screen center"><div className="spinner" /><p>Scoring…</p></div>;
   }
 
   return (
     <>
       <QuestionView
-        question={start.questions[index]}
-        index={index}
-        total={start.questions.length}
-        questionSeconds={start.settings.questionSeconds}
+        question={cur.question}
+        index={cur.index}
+        total={cur.total}
+        questionSeconds={cur.questionSeconds}
+        watermark={cur.watermark}
         onAnswer={handleAnswer}
       />
+
+      {fsLost && !obscured && (
+        <div className="capture-guard">
+          <div className="capture-guard-card">
+            <div className="capture-guard-icon">🖥️</div>
+            <h2>Return to full screen</h2>
+            <p>Exiting full screen is recorded. The timer keeps running — tap to continue.</p>
+            <button className="btn primary" onClick={enterFullscreen}>Re-enter full screen</button>
+          </div>
+        </div>
+      )}
+
       {obscured && (
         <div className="capture-guard">
           <div className="capture-guard-card">
             <div className="capture-guard-icon">🔒</div>
             <h2>Question hidden</h2>
-            <p>
-              Keep this screen in focus. Switching apps, taking screenshots, or
-              leaving the tab hides the question.
-            </p>
+            <p>Switching apps, opening developer tools, or taking screenshots is recorded and hides the question.</p>
           </div>
         </div>
       )}

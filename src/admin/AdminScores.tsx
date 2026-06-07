@@ -40,7 +40,17 @@ export function AdminScores() {
             <tbody>
               {list.map((s) => (
                 <tr key={s.id} className={s.excluded ? "dim" : ""}>
-                  <td>{s.name}</td>
+                  <td>
+                    {s.name}
+                    {s.flagged && (
+                      <span className="flag" title={(s.integrity?.reasons || []).join("; ") || "flagged"}>
+                        {" "}⚠️
+                      </span>
+                    )}
+                    {s.flagged && s.integrity?.reasons?.length ? (
+                      <div className="flag-reasons">{s.integrity.reasons.join(" · ")}</div>
+                    ) : null}
+                  </td>
                   <td>{s.correct}/{s.total}</td>
                   <td>{s.percent}%</td>
                   <td><code className="small">{s.voucher_code || "—"}</code></td>

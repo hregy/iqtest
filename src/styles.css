@@ -473,3 +473,19 @@ body {
 .opt-input { border: 2px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 6px; }
 .opt-input.correct { border-color: var(--ok); }
 .opt-letter { font-weight: 800; font-size: 13px; }
+
+/* ---------- Watermark (traceable screenshots) ---------- */
+.watermark {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-around;
+  transform: rotate(-22deg); opacity: 0.06; z-index: 5;
+}
+.watermark span {
+  white-space: nowrap; font-size: 15px; font-weight: 700; color: #000;
+  text-align: center; letter-spacing: 1px;
+}
+.capture-guard-card .btn { margin-top: 14px; }
+
+/* admin flag */
+.flag { color: #b08900; }
+.flag-reasons { font-size: 11px; color: var(--danger); margin-top: 2px; max-width: 220px; white-space: normal; }

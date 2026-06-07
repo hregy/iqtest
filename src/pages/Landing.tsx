@@ -1,25 +1,19 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { api, ApiError } from "../api";
 
 export function Landing() {
   const [name, setName] = useState("");
   const [voucher, setVoucher] = useState("");
   const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
 
-  const submit = async (e: React.FormEvent) => {
+  const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setBusy(true);
-    try {
-      const start = await api.startTest(name.trim(), voucher.trim());
-      navigate("/test", { state: { start, name: name.trim() } });
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Something went wrong.");
-      setBusy(false);
-    }
+    if (!name.trim()) return setError("Please enter your name.");
+    if (!voucher.trim()) return setError("Please enter a voucher code.");
+    // Defer starting (and consuming the voucher) until the Test page, so we can
+    // enter full screen first and start the server clock at the right moment.
+    navigate("/test", { state: { name: name.trim(), voucher: voucher.trim() } });
   };
 
   return (
@@ -52,9 +46,7 @@ export function Landing() {
 
         {error && <p className="form-error">{error}</p>}
 
-        <button className="btn primary" disabled={busy}>
-          {busy ? "Starting…" : "Begin Test"}
-        </button>
+        <button className="btn primary">Continue</button>
       </form>
 
       <ul className="rules">

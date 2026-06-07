@@ -1,8 +1,8 @@
 import type {
   StartResponse,
-  SubmitResult,
+  AnswerResponse,
+  Integrity,
   ScoreRow,
-  AnswerInput,
   Voucher,
   AdminScore,
   AdminQuestion,
@@ -45,8 +45,17 @@ export const api = {
   startTest: (name: string, voucher: string) =>
     req<StartResponse>("/api/test/start", { method: "POST", body: J({ name, voucher }) }),
 
-  submitTest: (sessionToken: string, answers: AnswerInput[]) =>
-    req<SubmitResult>("/api/test/submit", { method: "POST", body: J({ sessionToken, answers }) }),
+  answer: (
+    attemptToken: string,
+    nonce: string,
+    selectedIndex: number | null,
+    renderDelayMs: number,
+    integrity: Integrity
+  ) =>
+    req<AnswerResponse>("/api/test/answer", {
+      method: "POST",
+      body: J({ attemptToken, nonce, selectedIndex, renderDelayMs, integrity }),
+    }),
 
   scoreboard: () => req<ScoreRow[]>("/api/scoreboard"),
 

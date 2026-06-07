@@ -59,3 +59,26 @@ CREATE TABLE IF NOT EXISTS settings (
   key   TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+
+-- Server-held state for an in-progress test (enables server-enforced timing,
+-- per-question nonces, and integrity tracking that the client can't tamper).
+CREATE TABLE IF NOT EXISTS attempts (
+  id            TEXT PRIMARY KEY,
+  voucher_code  TEXT,
+  name          TEXT NOT NULL,
+  practice      BOOLEAN NOT NULL DEFAULT false,
+  qids          INT[] NOT NULL,
+  idx           INT NOT NULL DEFAULT 0,
+  current_nonce TEXT,
+  served_at     TIMESTAMPTZ,
+  correct       INT NOT NULL DEFAULT 0,
+  answers       JSONB NOT NULL DEFAULT '[]',
+  integrity     JSONB NOT NULL DEFAULT '{}',
+  status        TEXT NOT NULL DEFAULT 'active', -- active | done
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  finished_at   TIMESTAMPTZ
+);
+
+-- Integrity columns on scores (added to existing tables too).
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;
