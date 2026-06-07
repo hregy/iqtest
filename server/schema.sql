@@ -83,6 +83,9 @@ CREATE TABLE IF NOT EXISTS attempts (
 -- server start the per-question clock at display time (fair with slow loads).
 ALTER TABLE attempts ADD COLUMN IF NOT EXISTS display_pinged BOOLEAN NOT NULL DEFAULT false;
 
+-- Bilingual: Farsi prompt alongside the English one.
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS prompt_fa TEXT NOT NULL DEFAULT '';
+
 -- Integrity columns on scores (added to existing tables too).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;

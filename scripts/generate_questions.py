@@ -467,6 +467,15 @@ PLAN = (
 )
 
 
+# Farsi translations of the (fixed) English prompts.
+PROMPT_FA = {
+    "Find the missing piece": "قطعهٔ گمشده را پیدا کنید",
+    "A is to B as C is to ?": "A به B مانند C به ؟",
+    "Which one is the odd one out?": "کدام‌یک متفاوت است؟",
+    "Which shape completes the pattern?": "کدام شکل الگو را کامل می‌کند؟",
+}
+
+
 def main():
     os.makedirs(ASSET_DIR, exist_ok=True)
     for f in os.listdir(ASSET_DIR):
@@ -489,6 +498,7 @@ def main():
             "type": q["type"],
             "category": q["category"],
             "prompt": q["prompt"],
+            "prompt_fa": PROMPT_FA.get(q["prompt"], ""),
             "has_puzzle": has_puzzle,
             "correctIndex": q["correct"],
             "meta": q["meta"],

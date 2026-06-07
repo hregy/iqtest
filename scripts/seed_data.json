@@ -4,6 +4,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -132,6 +133,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -260,6 +262,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -388,6 +391,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -516,6 +520,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -644,6 +649,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -772,6 +778,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -900,6 +907,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -1028,6 +1036,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -1156,6 +1165,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -1284,6 +1294,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -1412,6 +1423,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -1540,6 +1552,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -1668,6 +1681,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -1796,6 +1810,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -1924,6 +1939,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -2052,6 +2068,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -2180,6 +2197,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -2308,6 +2326,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -2436,6 +2455,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -2564,6 +2584,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -2692,6 +2713,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -2820,6 +2842,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -2948,6 +2971,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -3076,6 +3100,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -3204,6 +3229,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -3332,6 +3358,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -3460,6 +3487,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -3588,6 +3616,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -3716,6 +3745,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -3844,6 +3874,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -3972,6 +4003,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -4100,6 +4132,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -4228,6 +4261,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -4356,6 +4390,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -4484,6 +4519,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -4612,6 +4648,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -4740,6 +4777,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -4868,6 +4906,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -4996,6 +5035,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -5124,6 +5164,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -5252,6 +5293,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -5380,6 +5422,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -5508,6 +5551,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -5636,6 +5680,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -5764,6 +5809,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -5892,6 +5938,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -6020,6 +6067,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -6148,6 +6196,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -6276,6 +6325,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -6404,6 +6454,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -6532,6 +6583,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -6660,6 +6712,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -6788,6 +6841,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -6916,6 +6970,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -7044,6 +7099,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -7172,6 +7228,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -7300,6 +7357,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -7428,6 +7486,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -7556,6 +7615,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -7684,6 +7744,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -7812,6 +7873,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -7940,6 +8002,7 @@
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
+    "prompt_fa": "\u0642\u0637\u0639\u0647\u0654 \u06af\u0645\u0634\u062f\u0647 \u0631\u0627 \u067e\u06cc\u062f\u0627 \u06a9\u0646\u06cc\u062f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -8068,6 +8131,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -8149,6 +8213,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -8230,6 +8295,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -8311,6 +8377,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -8392,6 +8459,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -8473,6 +8541,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -8554,6 +8623,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -8635,6 +8705,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -8716,6 +8787,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -8797,6 +8869,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -8877,6 +8950,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -8958,6 +9032,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -9039,6 +9114,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -9120,6 +9196,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -9201,6 +9278,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -9282,6 +9360,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -9363,6 +9442,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -9444,6 +9524,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -9525,6 +9606,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -9606,6 +9688,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -9687,6 +9770,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -9768,6 +9852,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -9849,6 +9934,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -9930,6 +10016,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -10011,6 +10098,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -10092,6 +10180,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -10173,6 +10262,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -10253,6 +10343,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -10334,6 +10425,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -10415,6 +10507,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -10496,6 +10589,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -10577,6 +10671,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -10658,6 +10753,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -10738,6 +10834,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -10819,6 +10916,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -10900,6 +10998,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -10981,6 +11080,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -11062,6 +11162,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -11142,6 +11243,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -11223,6 +11325,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -11304,6 +11407,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -11385,6 +11489,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -11466,6 +11571,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -11547,6 +11653,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -11628,6 +11735,7 @@
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
+    "prompt_fa": "A \u0628\u0647 B \u0645\u0627\u0646\u0646\u062f C \u0628\u0647 \u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -11709,6 +11817,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -11756,6 +11865,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
@@ -11803,6 +11913,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -11850,6 +11961,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -11897,6 +12009,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -11944,6 +12057,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -11991,6 +12105,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12038,6 +12153,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12085,6 +12201,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12132,6 +12249,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12179,6 +12297,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12226,6 +12345,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -12273,6 +12393,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
@@ -12320,6 +12441,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12367,6 +12489,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12414,6 +12537,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12461,6 +12585,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12508,6 +12633,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
@@ -12555,6 +12681,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12602,6 +12729,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12649,6 +12777,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12696,6 +12825,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -12743,6 +12873,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12790,6 +12921,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12837,6 +12969,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -12884,6 +13017,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -12931,6 +13065,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -12978,6 +13113,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 1,
     "meta": {
@@ -13025,6 +13161,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -13072,6 +13209,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
@@ -13119,6 +13257,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -13166,6 +13305,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
@@ -13213,6 +13353,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -13260,6 +13401,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
@@ -13307,6 +13449,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 3,
     "meta": {
@@ -13354,6 +13497,7 @@
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645\u200c\u06cc\u06a9 \u0645\u062a\u0641\u0627\u0648\u062a \u0627\u0633\u062a\u061f",
     "has_puzzle": false,
     "correctIndex": 0,
     "meta": {
@@ -13401,6 +13545,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -13426,6 +13571,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -13451,6 +13597,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -13476,6 +13623,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -13501,6 +13649,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -13526,6 +13675,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -13551,6 +13701,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -13576,6 +13727,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -13601,6 +13753,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -13626,6 +13779,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -13651,6 +13805,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -13676,6 +13831,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -13701,6 +13857,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -13726,6 +13883,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -13751,6 +13909,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -13776,6 +13935,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -13801,6 +13961,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -13826,6 +13987,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -13851,6 +14013,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -13876,6 +14039,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -13901,6 +14065,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 1,
     "meta": {
@@ -13926,6 +14091,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -13951,6 +14117,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -13976,6 +14143,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14001,6 +14169,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14026,6 +14195,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14051,6 +14221,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14076,6 +14247,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14101,6 +14273,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -14126,6 +14299,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14151,6 +14325,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {
@@ -14176,6 +14351,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -14201,6 +14377,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 0,
     "meta": {
@@ -14226,6 +14403,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -14251,6 +14429,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 2,
     "meta": {
@@ -14276,6 +14455,7 @@
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
+    "prompt_fa": "\u06a9\u062f\u0627\u0645 \u0634\u06a9\u0644 \u0627\u0644\u06af\u0648 \u0631\u0627 \u06a9\u0627\u0645\u0644 \u0645\u06cc\u200c\u06a9\u0646\u062f\u061f",
     "has_puzzle": true,
     "correctIndex": 3,
     "meta": {

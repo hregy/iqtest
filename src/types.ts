@@ -10,6 +10,7 @@ export interface TestQuestion {
   type: string;
   category: string;
   prompt: string;
+  promptFa?: string;
   puzzleImage: string | null;
   options: TestOption[];
 }
@@ -99,6 +100,7 @@ export interface AdminQuestion {
   type: string;
   category: string;
   prompt: string;
+  promptFa?: string;
   correctIndex: number;
   active: boolean;
   puzzleImage: string | null;

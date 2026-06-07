@@ -30,7 +30,7 @@ const imgUrl = (id) => (id ? `/api/images/${id}` : null);
 
 async function buildQuestion(qid) {
   const { rows } = await query(
-    "SELECT id, type, category, prompt, puzzle_image_id FROM questions WHERE id=$1",
+    "SELECT id, type, category, prompt, prompt_fa, puzzle_image_id FROM questions WHERE id=$1",
     [qid]
   );
   if (!rows.length) return null;
@@ -44,6 +44,7 @@ async function buildQuestion(qid) {
     type: row.type,
     category: row.category,
     prompt: row.prompt,
+    promptFa: row.prompt_fa,
     puzzleImage: imgUrl(row.puzzle_image_id),
     options: opts.rows.map((o) => ({
       idx: o.idx,

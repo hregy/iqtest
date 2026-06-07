@@ -78,6 +78,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
       <div style={{ marginTop: 18 }}>
         <span className="kind-chip">{CATEGORY_LABEL[question.category] || question.category}</span>
         {question.prompt && <h2 className="prompt">{question.prompt}</h2>}
+        {question.promptFa && <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>}
       </div>
 
       <div className={"qcontent" + (question.puzzleImage ? "" : " no-puzzle")}>

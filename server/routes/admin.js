@@ -117,7 +117,7 @@ adminRouter.delete("/scores", async (_req, res) => {
 // ---- questions ---------------------------------------------------------
 adminRouter.get("/questions", async (_req, res) => {
   const { rows } = await query(
-    "SELECT id, ext_id, type, category, prompt, correct_index, active, puzzle_image_id FROM questions ORDER BY id"
+    "SELECT id, ext_id, type, category, prompt, prompt_fa, correct_index, active, puzzle_image_id FROM questions ORDER BY id"
   );
   const out = [];
   for (const q of rows) {
@@ -131,6 +131,7 @@ adminRouter.get("/questions", async (_req, res) => {
       type: q.type,
       category: q.category,
       prompt: q.prompt,
+      promptFa: q.prompt_fa,
       correctIndex: q.correct_index,
       active: q.active,
       puzzleImage: q.puzzle_image_id ? `/api/images/${q.puzzle_image_id}` : null,
@@ -158,6 +159,7 @@ adminRouter.post("/questions", upload.fields(optionFields), async (req, res) => 
     const type = (req.body.type || "custom").toString();
     const category = (req.body.category || "custom").toString();
     const prompt = (req.body.prompt || "").toString();
+    const promptFa = (req.body.promptFa || "").toString();
     const optionKind = req.body.optionKind === "text" ? "text" : "image";
     const correctIndex = Number(req.body.correctIndex);
     if (!(correctIndex >= 0 && correctIndex <= 3)) {
@@ -176,9 +178,9 @@ adminRouter.post("/questions", upload.fields(optionFields), async (req, res) => 
     const id = await withTx(async (client) => {
       const puzzleId = files.puzzle?.[0] ? await insertImage(client, files.puzzle[0]) : null;
       const r = await client.query(
-        `INSERT INTO questions(type, category, prompt, correct_index, puzzle_image_id)
-         VALUES($1,$2,$3,$4,$5) RETURNING id`,
-        [type, category, prompt, correctIndex, puzzleId]
+        `INSERT INTO questions(type, category, prompt, prompt_fa, correct_index, puzzle_image_id)
+         VALUES($1,$2,$3,$4,$5,$6) RETURNING id`,
+        [type, category, prompt, promptFa, correctIndex, puzzleId]
       );
       const qid = r.rows[0].id;
       for (let i = 0; i < 4; i++) {
@@ -211,7 +213,7 @@ adminRouter.patch("/questions/:id", async (req, res) => {
   const fields = [];
   const vals = [];
   let n = 1;
-  const map = { prompt: "prompt", type: "type", category: "category", active: "active", correctIndex: "correct_index" };
+  const map = { prompt: "prompt", promptFa: "prompt_fa", type: "type", category: "category", active: "active", correctIndex: "correct_index" };
   for (const [k, col] of Object.entries(map)) {
     if (req.body?.[k] !== undefined) {
       fields.push(`${col}=$${n++}`);

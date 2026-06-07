@@ -65,9 +65,9 @@ export async function seedQuestions() {
     await withTx(async (client) => {
       const puzzleId = q.has_puzzle ? await insertImage(client, `${q.ext_id}_puzzle.svg`) : null;
       const { rows } = await client.query(
-        `INSERT INTO questions(ext_id, type, category, prompt, correct_index, puzzle_image_id)
-         VALUES($1,$2,$3,$4,$5,$6) RETURNING id`,
-        [q.ext_id, q.type, q.category, q.prompt, q.correctIndex, puzzleId]
+        `INSERT INTO questions(ext_id, type, category, prompt, prompt_fa, correct_index, puzzle_image_id)
+         VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING id`,
+        [q.ext_id, q.type, q.category, q.prompt, q.prompt_fa || "", q.correctIndex, puzzleId]
       );
       const qid = rows[0].id;
       for (let i = 0; i < 4; i++) {

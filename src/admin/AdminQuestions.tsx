@@ -3,10 +3,12 @@ import type { AdminQuestion } from "../types";
 import { api, ApiError } from "../api";
 
 const LETTERS = ["A", "B", "C", "D"];
+const PAGE_SIZE = 12;
 
 export function AdminQuestions() {
   const [list, setList] = useState<AdminQuestion[]>([]);
   const [showAdd, setShowAdd] = useState(false);
+  const [page, setPage] = useState(0);
   const load = () => api.admin.questions().then(setList);
   useEffect(() => { load(); }, []);
 
@@ -19,6 +21,10 @@ export function AdminQuestions() {
   const setCorrect = async (q: AdminQuestion, idx: number) => {
     await api.admin.patchQuestion(q.id, { correctIndex: idx }); load();
   };
+
+  const pageCount = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount - 1);
+  const shown = list.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
 
   return (
     <div className="panel">
@@ -34,7 +40,7 @@ export function AdminQuestions() {
 
       <div className="card">
         <div className="q-grid">
-          {list.map((q) => (
+          {shown.map((q) => (
             <div className={"q-card" + (q.active ? "" : " inactive")} key={q.id}>
               <div className="q-thumbs">
                 {q.puzzleImage && <img src={q.puzzleImage} alt="" className="q-thumb puzzle" />}
@@ -51,6 +57,7 @@ export function AdminQuestions() {
                 <span className="tag">{q.type}</span>
                 <span className="tag light">{q.category}</span>
                 {q.prompt && <span className="q-prompt">{q.prompt}</span>}
+                {q.promptFa && <span className="q-prompt" dir="rtl" lang="fa" style={{ fontFamily: "Vazirmatn, Tahoma, sans-serif" }}>{q.promptFa}</span>}
               </div>
               <div className="row gap wrap">
                 <label className="small">Correct:&nbsp;
@@ -64,6 +71,14 @@ export function AdminQuestions() {
             </div>
           ))}
         </div>
+
+        {pageCount > 1 && (
+          <div className="pager">
+            <button className="btn small ghost" disabled={safePage === 0} onClick={() => setPage(safePage - 1)}>‹ Prev</button>
+            <span className="pager-info">Page {safePage + 1} of {pageCount}</span>
+            <button className="btn small ghost" disabled={safePage >= pageCount - 1} onClick={() => setPage(safePage + 1)}>Next ›</button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -73,6 +88,7 @@ function AddQuestion({ onDone }: { onDone: () => void }) {
   const [type, setType] = useState("custom");
   const [category, setCategory] = useState("pattern");
   const [prompt, setPrompt] = useState("");
+  const [promptFa, setPromptFa] = useState("");
   const [optionKind, setOptionKind] = useState<"image" | "text">("image");
   const [correctIndex, setCorrectIndex] = useState(0);
   const [texts, setTexts] = useState(["", "", "", ""]);
@@ -87,6 +103,7 @@ function AddQuestion({ onDone }: { onDone: () => void }) {
     fd.append("type", type);
     fd.append("category", category);
     fd.append("prompt", prompt);
+    fd.append("promptFa", promptFa);
     fd.append("optionKind", optionKind);
     fd.append("correctIndex", String(correctIndex));
     if (puzzleRef.current?.files?.[0]) fd.append("puzzle", puzzleRef.current.files[0]);
@@ -117,8 +134,13 @@ function AddQuestion({ onDone }: { onDone: () => void }) {
           <input value={type} onChange={(e) => setType(e.target.value)} /></label>
         <label className="field sm"><span>Category</span>
           <input value={category} onChange={(e) => setCategory(e.target.value)} /></label>
-        <label className="field"><span>Prompt (optional)</span>
+      </div>
+      <div className="row gap wrap">
+        <label className="field"><span>Prompt — English</span>
           <input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="e.g. Find the missing piece" /></label>
+        <label className="field"><span>Prompt — Farsi (فارسی)</span>
+          <input value={promptFa} dir="rtl" lang="fa" style={{ fontFamily: "Vazirmatn, Tahoma, sans-serif" }}
+            onChange={(e) => setPromptFa(e.target.value)} placeholder="مثلاً: قطعهٔ گمشده را پیدا کنید" /></label>
       </div>
 
       <div className="row gap wrap">
