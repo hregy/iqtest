@@ -10,6 +10,12 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 const labelFor = (c: string) => CATEGORY_LABEL[c] ?? c.charAt(0).toUpperCase() + c.slice(1);
 
+export function fmtDuration(ms: number): string {
+  const s = Math.round(ms / 1000);
+  if (s < 60) return `${s}s`;
+  return `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, "0")}s`;
+}
+
 const QUOTES = [
   "The important thing is not to stop questioning.",
   "Imagination is more important than knowledge.",
@@ -33,7 +39,8 @@ export function Results() {
   const stats: [string, string][] = [
     ["Correct", `${result.correct}/${result.total}`],
     ["Accuracy", `${result.percent}%`],
-    ["Avg time", `${avgSec.toFixed(1)}s`],
+    ["Avg / question", `${avgSec.toFixed(1)}s`],
+    ["Total time", fmtDuration(result.durationMs)],
   ];
 
   return (

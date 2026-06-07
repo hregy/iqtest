@@ -180,8 +180,8 @@ body {
 .practice-badge { display: inline-block; background: var(--iq-accent-soft); color: var(--iq-accent-ink); font-weight: 700; padding: 6px 12px; border-radius: var(--iq-r-full); font-size: 13px; }
 .band-pill { display: inline-flex; align-items: center; gap: 7px; margin-top: 2px; padding: 7px 15px; border-radius: var(--iq-r-full); background: var(--iq-accent-soft); color: var(--iq-accent-ink); font-weight: 800; font-size: 15px; }
 .band-dot { width: 8px; height: 8px; border-radius: 99px; background: var(--iq-accent); }
-.stats { display: flex; gap: 10px; margin-top: 20px; }
-.stat { flex: 1; background: var(--iq-surface); border-radius: var(--iq-r-md); border: 1px solid var(--iq-line); padding: 13px 6px; text-align: center; box-shadow: var(--iq-sh-sm); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+.stat { background: var(--iq-surface); border-radius: var(--iq-r-md); border: 1px solid var(--iq-line); padding: 13px 6px; text-align: center; box-shadow: var(--iq-sh-sm); }
 .stat-v { font-size: 20px; font-weight: 800; color: var(--iq-ink); }
 .stat-k { margin-top: 3px; font-size: 10.5px; }
 .quote-card { margin-top: 16px; background: var(--iq-board); border-radius: var(--iq-r-xl); padding: 18px; display: flex; gap: 14px; align-items: center; box-shadow: var(--iq-sh); text-align: left; }

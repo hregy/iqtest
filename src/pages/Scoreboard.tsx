@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ScoreRow } from "../types";
 import { api } from "../api";
-import { iqFromPercent, bandForIq } from "../lib/scoring";
+import { iqFromPercent } from "../lib/scoring";
+import { fmtDuration } from "./Results";
 
 const initials = (n: string) =>
   n.trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "?";
@@ -42,7 +43,10 @@ export function Scoreboard() {
                 <div className="avatar">{initials(r.name)}</div>
                 <div className="bname">
                   <div className="nm">{r.name}</div>
-                  <div className="bsub">{bandForIq(iq)} · {r.correct}/{r.total}</div>
+                  <div className="bsub">
+                    {r.correct}/{r.total}
+                    {r.duration_ms != null && <> · ⏱ {fmtDuration(r.duration_ms)}</>}
+                  </div>
                 </div>
                 <div className="iq-mono biq">{iq}</div>
               </div>
