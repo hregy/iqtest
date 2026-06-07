@@ -268,6 +268,7 @@ adminRouter.get("/attempts", async (_req, res) => {
   );
   res.json(rows.map((r) => ({
     ...r,
+    humanness: r.integrity && typeof r.integrity.humanness === "number" ? r.integrity.humanness : null,
     flagged: !!(
       (r.integrity && (r.integrity.reasons || []).length) ||
       (r.bot_flags && (r.bot_flags.reasons || []).length)
@@ -308,6 +309,12 @@ adminRouter.get("/attempts/:id/review", async (req, res) => {
     matches: matches.rows,
     review,
   });
+});
+
+adminRouter.get("/attempts/:id/recording", async (req, res) => {
+  const { rows } = await query("SELECT events FROM session_recordings WHERE attempt_id=$1", [req.params.id]);
+  if (!rows.length) return res.status(404).json({ error: "No recording for this attempt" });
+  res.json({ events: JSON.parse(rows[0].events) });
 });
 
 // ---- settings ----------------------------------------------------------

@@ -56,12 +56,19 @@ export const api = {
     nonce: string,
     selectedIndex: number | null,
     renderDelayMs: number,
-    integrity: Integrity
+    integrity: Integrity,
+    q?: { hadInput: boolean; msToFirst: number }
   ) =>
     req<AnswerResponse>("/api/test/answer", {
       method: "POST",
-      body: J({ attemptToken, nonce, selectedIndex, renderDelayMs, integrity }),
+      body: J({ attemptToken, nonce, selectedIndex, renderDelayMs, integrity, q }),
     }),
+
+  sendRecording: (attemptToken: string, events: unknown[]) =>
+    req<{ ok: boolean }>("/api/test/recording", {
+      method: "POST",
+      body: J({ attemptToken, events }),
+    }).catch(() => ({ ok: false })),
 
   scoreboard: () => req<ScoreRow[]>("/api/scoreboard"),
 
@@ -101,6 +108,8 @@ export const api = {
 
     attempts: () => req<AttemptRow[]>("/api/admin/attempts", {}, true),
     attemptReview: (id: string) => req<AttemptReview>(`/api/admin/attempts/${id}/review`, {}, true),
+    attemptRecording: (id: string) =>
+      req<{ events: unknown[] }>(`/api/admin/attempts/${id}/recording`, {}, true),
 
     getSettings: () => req<Record<string, string>>("/api/admin/settings", {}, true),
     putSettings: (s: Record<string, string | number>) =>

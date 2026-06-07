@@ -26,6 +26,13 @@ export interface Integrity {
   downs: number; // taps / pointer-downs
   keys: number; // key presses
   pathPx: number; // cumulative pointer travel
+  resizes: number; // window resizes during the test
+  multiTab: boolean; // test detected open in another tab
+}
+
+export interface QSignal {
+  hadInput: boolean; // any pointer/touch/key before this answer
+  msToFirst: number; // ms from question shown to first input (-1 if none)
 }
 
 export interface StartResponse {
@@ -104,6 +111,7 @@ export interface AttemptRow {
   device: string | null;
   fingerprint: string | null;
   bot_flags: BotFlags | null;
+  humanness: number | null;
 }
 
 export interface Forensics {

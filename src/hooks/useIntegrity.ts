@@ -17,7 +17,7 @@ export interface IntegrityState {
 export function useIntegrity(active: boolean): IntegrityState {
   const integrity = useRef<Integrity>({
     blur: 0, awayMs: 0, fsExits: 0, paste: 0, devtools: false,
-    moves: 0, downs: 0, keys: 0, pathPx: 0,
+    moves: 0, downs: 0, keys: 0, pathPx: 0, resizes: 0, multiTab: false,
   });
   const [obscured, setObscured] = useState(false);
   const [fsLost, setFsLost] = useState(false);
@@ -96,12 +96,23 @@ export function useIntegrity(active: boolean): IntegrityState {
     // trusted ones as a fallback input signal (robust on any mobile browser).
     const onClick = (e: Event) => { if (e.isTrusted) integrity.current.downs += 1; };
 
+    const onResize = () => { integrity.current.resizes += 1; };
+
+    // Multi-tab detection: another instance of the test in another tab.
+    let chan: BroadcastChannel | null = null;
+    try {
+      chan = new BroadcastChannel("iqtest-tab");
+      chan.onmessage = () => { integrity.current.multiTab = true; };
+      chan.postMessage("present");
+    } catch { /* BroadcastChannel unsupported */ }
+
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("touchmove", onMove as EventListener, { passive: true });
     window.addEventListener("pointerdown", onDown, { passive: true });
     window.addEventListener("touchstart", onDown, { passive: true });
     window.addEventListener("click", onClick, { passive: true });
     window.addEventListener("keydown", onKey, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
 
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("blur", onBlur);
@@ -121,6 +132,8 @@ export function useIntegrity(active: boolean): IntegrityState {
       window.removeEventListener("touchstart", onDown);
       window.removeEventListener("click", onClick);
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+      if (chan) { try { chan.close(); } catch { /* ignore */ } }
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("blur", onBlur);
       window.removeEventListener("focus", onFocus);

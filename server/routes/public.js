@@ -121,6 +121,8 @@ function mergeIntegrity(prev, incoming) {
     downs: Math.max(p.downs || 0, Number(i.downs) || 0),
     keys: Math.max(p.keys || 0, Number(i.keys) || 0),
     pathPx: Math.max(p.pathPx || 0, Number(i.pathPx) || 0),
+    resizes: Math.max(p.resizes || 0, Number(i.resizes) || 0),
+    multiTab: !!(p.multiTab || i.multiTab),
   };
 }
 
@@ -142,6 +144,9 @@ function evaluateIntegrity(integrity, answers, total, behaviorTracked) {
   const sels = answered.map((a) => a.sel);
   if (sels.length >= total && new Set(sels).size === 1) reasons.push("identical answer every time");
 
+  if (it.multiTab) reasons.push("test open in another tab");
+  if ((it.resizes || 0) >= 3) reasons.push(`resized the window ${it.resizes}× during the test`);
+
   // Behavioral: answered questions but produced no pointer/touch/key input.
   // Only applied when the browser actually reported movement data (a stale/old
   // cached client sends none, and must NOT be falsely flagged).
@@ -150,9 +155,40 @@ function evaluateIntegrity(integrity, answers, total, behaviorTracked) {
     if (answered.length >= 3 && interactions === 0) reasons.push("no mouse/touch input (bot-like)");
     else if (answered.length >= 5 && (it.downs || 0) === 0 && (it.moves || 0) < 3)
       reasons.push("almost no pointer movement (bot-like)");
+
+    // Per-question: selected answers with no input before the click.
+    const noInput = answered.filter((a) => a.hadInput === false).length;
+    if (answered.length >= 5 && noInput >= Math.ceil(answered.length * 0.6))
+      reasons.push("answers selected without interacting");
+  }
+
+  // Timing uniformity: humans vary; scripted answers are near-identical.
+  const times = answered.map((a) => a.elapsedMs);
+  if (times.length >= 8) {
+    const mean = times.reduce((s, x) => s + x, 0) / times.length;
+    const sd = Math.sqrt(times.reduce((s, x) => s + (x - mean) ** 2, 0) / times.length);
+    if (sd < 120 && mean < 4000) reasons.push("uniform answer timing (bot-like)");
   }
 
   return { flagged: reasons.length > 0, reasons };
+}
+
+// 0..100 "humanness": starts at 100, subtracts for each red flag.
+function humannessScore(reasons, attempt) {
+  let s = 100;
+  const has = (k) => reasons.some((r) => r.includes(k));
+  if (attempt?.bot_flags?.suspectedBot) s -= 55;
+  if (has("no mouse/touch") || has("without interacting") || has("no pointer")) s -= 45;
+  if (has("developer tools")) s -= 40;
+  if (has("another tab")) s -= 25;
+  if (has("improbably fast")) s -= 25;
+  if (has("uniform answer timing")) s -= 20;
+  if (has("same device as")) s -= 20;
+  if (has("identical answer")) s -= 15;
+  if (has("off-screen") || has("left the screen")) s -= 10;
+  if (has("resized")) s -= 8;
+  if (attempt?.is_vpn) s -= 8;
+  return Math.max(0, Math.min(100, s));
 }
 
 publicRouter.get("/config", async (_req, res) =>
@@ -285,6 +321,7 @@ publicRouter.post(
     const selected = sel === null || sel === undefined ? null : Number(sel);
     const isCorrect = !timedOut && qrow && selected === qrow.correct_index;
 
+    const q = req.body?.q || {};
     const answers = a.answers || [];
     answers.push({
       qid,
@@ -293,6 +330,8 @@ publicRouter.post(
       correct: !!isCorrect,
       elapsedMs: Math.max(0, Math.round(effective)),
       timedOut,
+      hadInput: q.hadInput === undefined ? null : !!q.hadInput,
+      msToFirst: Number.isFinite(q.msToFirst) ? q.msToFirst : null,
     });
     const correct = a.correct + (isCorrect ? 1 : 0);
     const integrity = mergeIntegrity(a.integrity, req.body?.integrity);
@@ -308,14 +347,31 @@ publicRouter.post(
         if (ans.correct) c.correct += 1;
       }
       const behaviorTracked = !!(a.client_info && Object.keys(a.client_info).length > 0);
-      const { flagged, reasons } = evaluateIntegrity(integrity, answers, total, behaviorTracked);
+      const { reasons } = evaluateIntegrity(integrity, answers, total, behaviorTracked);
+
+      // Cluster/collusion: same physical device (fingerprint) used by a
+      // different test-taker name.
+      if (a.fingerprint) {
+        try {
+          const cl = await query(
+            `SELECT DISTINCT name FROM attempts
+             WHERE id <> $1 AND name <> $2 AND status='done' AND fingerprint = $3
+             LIMIT 6`,
+            [a.id, a.name, a.fingerprint]
+          );
+          if (cl.rows.length) reasons.push(`same device as other candidate(s): ${cl.rows.map((r) => r.name).join(", ")}`);
+        } catch { /* ignore */ }
+      }
+      const humanness = humannessScore(reasons, a);
+      const flagged = reasons.length > 0;
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
       const correctMs = correctMsOf(answers, settings.questionSeconds);
       const iq = iqFromStored(correct, total, correctMs, settings.questionSeconds);
 
+      const integrityOut = { ...integrity, reasons, flagged, humanness };
       await query(
         "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, status='done', finished_at=now() WHERE id=$5",
-        [nextIdx, correct, JSON.stringify(answers), JSON.stringify({ ...integrity, reasons, flagged }), a.id]
+        [nextIdx, correct, JSON.stringify(answers), JSON.stringify(integrityOut), a.id]
       );
 
       if (!a.practice) {
@@ -323,13 +379,13 @@ publicRouter.post(
           `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, correct_ms, iq, flagged, excluded, integrity)
            VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10)`,
           [a.name, a.voucher_code, correct, total, percent, durationMs, correctMs, iq, flagged,
-           JSON.stringify({ ...integrity, reasons })]
+           JSON.stringify(integrityOut)]
         );
       }
       const review = await buildReview(answers);
       return res.json({
         done: true,
-        result: { correct, total, percent, iq, byCategory, durationMs, practice: a.practice, flagged, reasons },
+        result: { correct, total, percent, iq, byCategory, durationMs, practice: a.practice, flagged, reasons, humanness },
         review,
       });
     }
@@ -363,6 +419,30 @@ publicRouter.post(
       await query("UPDATE attempts SET served_at=now(), display_pinged=true WHERE id=$1", [a.id]);
     }
     res.json({ ok: true });
+  }
+);
+
+// ---- Session recording (rrweb events) for later admin replay.
+publicRouter.post(
+  "/test/recording",
+  rateLimit({ windowMs: 60_000, max: 60, name: "rec" }),
+  async (req, res) => {
+    const claims = verifyToken(req.body?.attemptToken || "");
+    if (!claims?.attemptId) return res.json({ ok: false });
+    const events = Array.isArray(req.body?.events) ? req.body.events : [];
+    if (!events.length) return res.json({ ok: false });
+    const json = JSON.stringify(events);
+    if (json.length > 8_000_000) return res.json({ ok: false, tooLarge: true });
+    try {
+      await query(
+        `INSERT INTO session_recordings(attempt_id, events) VALUES($1,$2)
+         ON CONFLICT (attempt_id) DO UPDATE SET events=$2, created_at=now()`,
+        [claims.attemptId, json]
+      );
+      res.json({ ok: true });
+    } catch {
+      res.json({ ok: false });
+    }
   }
 );
 

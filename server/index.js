@@ -27,9 +27,10 @@ app.use(
         scriptSrc: ["'self'", CF],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:"],
+        imgSrc: ["'self'", "data:", "blob:"],
         connectSrc: ["'self'", CF],
-        frameSrc: [CF],
+        frameSrc: ["'self'", "blob:", CF], // 'self'/blob for rrweb replay iframe
+        workerSrc: ["'self'", "blob:"],
         objectSrc: ["'none'"],
         baseUri: ["'self'"],
         formAction: ["'self'"],
@@ -42,6 +43,8 @@ app.use(
 );
 
 app.use(cookieParser());
+// Session-replay payloads can be large; allow more for just that route.
+app.use("/api/test/recording", express.json({ limit: "10mb" }));
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));

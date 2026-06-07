@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { StartResponse, TestQuestion } from "../types";
+import type { StartResponse, TestQuestion, QSignal } from "../types";
 import { api, ApiError } from "../api";
 import { useIntegrity } from "../hooks/useIntegrity";
 import { QuestionView } from "../components/QuestionView";
 import { EinsteinPortrait } from "../components/Einstein";
 import { Turnstile } from "../components/Turnstile";
 import { collectClient } from "../lib/clientProfile";
+import { startRecording, stopRecording } from "../lib/recorder";
 
 type Phase = "gate" | "running" | "submitting" | "error";
 
@@ -75,6 +76,7 @@ export function Test() {
         questionSeconds: s.settings.questionSeconds,
         watermark: s.watermark,
       });
+      startRecording();
       setPhase("running");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not start the test.");
@@ -87,12 +89,13 @@ export function Test() {
   }, [cur]);
 
   const handleAnswer = useCallback(
-    async (selectedIndex: number | null, renderDelayMs: number) => {
+    async (selectedIndex: number | null, renderDelayMs: number, q: QSignal) => {
       if (!cur) return;
       try {
-        const r = await api.answer(cur.token, cur.nonce, selectedIndex, renderDelayMs, integrity.current);
+        const r = await api.answer(cur.token, cur.nonce, selectedIndex, renderDelayMs, integrity.current, q);
         if (r.done && r.result) {
           setPhase("submitting");
+          api.sendRecording(cur.token, stopRecording()); // upload session replay (fire-and-forget)
           navigate("/results", { replace: true, state: { result: r.result, review: r.review } });
         } else if (r.question && r.nonce !== undefined) {
           setCur({ ...cur, question: r.question, nonce: r.nonce, index: r.index ?? cur.index + 1 });

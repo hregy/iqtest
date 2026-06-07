@@ -60,6 +60,13 @@ CREATE TABLE IF NOT EXISTS settings (
   value TEXT NOT NULL
 );
 
+-- Full session recording (rrweb events) for admin replay.
+CREATE TABLE IF NOT EXISTS session_recordings (
+  attempt_id TEXT PRIMARY KEY,
+  events     TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 -- Server-held state for an in-progress test (enables server-enforced timing,
 -- per-question nonces, and integrity tracking that the client can't tamper).
 CREATE TABLE IF NOT EXISTS attempts (

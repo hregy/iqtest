@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { AttemptRow, AttemptReview } from "../types";
 import { api } from "../api";
 import { ReviewList } from "../components/ReviewList";
+import { SessionReplay } from "../components/SessionReplay";
 
 function fmtDur(ms: number) {
   const s = Math.round(ms / 1000);
@@ -11,6 +12,7 @@ function fmtDur(ms: number) {
 export function AdminReports() {
   const [rows, setRows] = useState<AttemptRow[]>([]);
   const [open, setOpen] = useState<AttemptReview | null>(null);
+  const [replayId, setReplayId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => { api.admin.attempts().then(setRows); }, []);
@@ -28,7 +30,7 @@ export function AdminReports() {
         <div className="table-scroll">
           <table className="table">
             <thead>
-              <tr><th>Name</th><th>Score</th><th>Location</th><th>Device</th><th>IP</th><th>When</th><th></th></tr>
+              <tr><th>Name</th><th>Human</th><th>Score</th><th>Location</th><th>Device</th><th>IP</th><th>When</th><th></th></tr>
             </thead>
             <tbody>
               {rows.map((r) => (
@@ -36,6 +38,13 @@ export function AdminReports() {
                   <td>
                     {r.name}{r.flagged && <span className="flag" title="flagged"> ⚠️</span>}
                     {r.bot_flags?.suspectedBot && <span title="suspected bot"> 🤖</span>}
+                  </td>
+                  <td>
+                    {r.humanness == null ? "—" : (
+                      <span style={{ fontWeight: 800, color: r.humanness >= 70 ? "var(--iq-safe)" : r.humanness >= 40 ? "var(--iq-warn)" : "var(--iq-danger)" }}>
+                        {r.humanness}
+                      </span>
+                    )}
                   </td>
                   <td>{r.correct}/{r.total}</td>
                   <td className="small">
@@ -48,7 +57,7 @@ export function AdminReports() {
                   <td><button className="btn tiny" onClick={() => view(r.id)}>Report</button></td>
                 </tr>
               ))}
-              {rows.length === 0 && <tr><td colSpan={7} className="muted">No completed attempts yet.</td></tr>}
+              {rows.length === 0 && <tr><td colSpan={8} className="muted">No completed attempts yet.</td></tr>}
             </tbody>
           </table>
         </div>
@@ -66,12 +75,18 @@ export function AdminReports() {
                   {open.correct}/{open.total} · {fmtDur(open.durationMs)} · avg{" "}
                   {(open.durationMs / 1000 / Math.max(1, open.total)).toFixed(1)}s
                   {open.practice ? " · practice" : ""}
+                  {typeof open.integrity?.humanness === "number" && (
+                    <> · humanness <b>{Number(open.integrity.humanness)}/100</b></>
+                  )}
                 </div>
                 {open.integrity?.reasons?.length ? (
                   <div className="flag-reasons">⚠️ {open.integrity.reasons.join(" · ")}</div>
                 ) : null}
               </div>
-              <button className="btn small ghost" onClick={() => setOpen(null)}>Close</button>
+              <div className="row gap">
+                <button className="btn small" onClick={() => setReplayId(open.id)}>▶ Replay session</button>
+                <button className="btn small ghost" onClick={() => setOpen(null)}>Close</button>
+              </div>
             </div>
 
             {open.forensics && (
@@ -111,6 +126,8 @@ export function AdminReports() {
           </div>
         </div>
       )}
+
+      {replayId && <SessionReplay attemptId={replayId} onClose={() => setReplayId(null)} />}
     </div>
   );
 }

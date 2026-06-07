@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { TestQuestion } from "../types";
+import type { TestQuestion, QSignal } from "../types";
 import { useCountdown } from "../hooks/useCountdown";
 import { LoadedImage } from "./LoadedImage";
 import { Ring, Segments } from "./brand";
@@ -11,7 +11,7 @@ interface Props {
   questionSeconds: number;
   watermark?: string;
   onReady: () => void;
-  onAnswer: (selectedIndex: number | null, renderDelayMs: number) => void;
+  onAnswer: (selectedIndex: number | null, renderDelayMs: number, q: QSignal) => void;
 }
 
 const LABELS = ["A", "B", "C", "D"];
@@ -26,6 +26,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
   const mountAt = useRef(performance.now());
   const renderDelay = useRef(0);
   const pinged = useRef(false);
+  const firstInputAt = useRef(-1); // ms from display to first pointer/touch/key
 
   const imageUrls = useMemo(() => {
     const urls: string[] = [];
@@ -39,7 +40,27 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
   useEffect(() => {
     setSelected(null); setLocked(false); setLoaded(0);
     mountAt.current = performance.now(); renderDelay.current = 0; pinged.current = false;
+    firstInputAt.current = -1;
   }, [question.id]);
+
+  // Per-question input: record the first real pointer/touch/key for this question.
+  useEffect(() => {
+    const onInput = () => {
+      if (firstInputAt.current < 0 && ready) {
+        firstInputAt.current = Math.round(performance.now() - mountAt.current);
+      }
+    };
+    window.addEventListener("pointerdown", onInput, { passive: true });
+    window.addEventListener("touchstart", onInput, { passive: true });
+    window.addEventListener("pointermove", onInput, { passive: true });
+    window.addEventListener("keydown", onInput, { passive: true });
+    return () => {
+      window.removeEventListener("pointerdown", onInput);
+      window.removeEventListener("touchstart", onInput);
+      window.removeEventListener("pointermove", onInput);
+      window.removeEventListener("keydown", onInput);
+    };
+  }, [question.id, ready]);
 
   useEffect(() => {
     if (ready && !pinged.current) {
@@ -55,7 +76,8 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
     if (locked) return;
     setLocked(true);
     setSelected(choice);
-    window.setTimeout(() => onAnswer(choice, renderDelay.current), choice === null ? 250 : 350);
+    const q: QSignal = { hadInput: firstInputAt.current >= 0, msToFirst: firstInputAt.current };
+    window.setTimeout(() => onAnswer(choice, renderDelay.current, q), choice === null ? 250 : 350);
   };
 
   const remaining = useCountdown(questionSeconds, question.id, !locked && ready, () => commit(null));
