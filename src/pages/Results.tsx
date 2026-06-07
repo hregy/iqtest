@@ -54,7 +54,7 @@ export function Results() {
       <div style={{ textAlign: "center", marginTop: 10 }}>
         {result.practice && <p className="practice-badge">Practice run — not recorded</p>}
         <div style={{ display: "grid", placeItems: "center", marginTop: 8 }}>
-          <Gauge value={iq} size={216} />
+          <Gauge value={iq} size={216} display={iq.toFixed(2)} />
         </div>
         <div className="band-pill"><span className="band-dot" />{bandForIq(iq)}</div>
         <p style={{ margin: "12px 0 0", fontSize: 14, color: "var(--iq-ink-soft)" }}>

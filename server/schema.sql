@@ -89,10 +89,18 @@ ALTER TABLE questions ADD COLUMN IF NOT EXISTS prompt_fa TEXT NOT NULL DEFAULT '
 -- Integrity columns on scores (added to existing tables too).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;
--- Combined correctness+speed score, and the total time on CORRECT answers so
--- the score is fully reproducible from the stored row (for recalculation).
-ALTER TABLE scores ADD COLUMN IF NOT EXISTS iq INT;
+-- Combined correctness+speed score (1-decimal precision so a faster attempt
+-- with the same accuracy is strictly higher), and the total time on CORRECT
+-- answers so the score is fully reproducible from the stored row.
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS iq numeric(6,2);
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS correct_ms INT;
+-- Widen iq to 2-decimal precision if it was created as INT or numeric(5,1).
+DO $$ BEGIN
+  IF (SELECT coalesce(numeric_scale, 0) FROM information_schema.columns
+      WHERE table_name='scores' AND column_name='iq') < 2 THEN
+    ALTER TABLE scores ALTER COLUMN iq TYPE numeric(6,2) USING iq::numeric(6,2);
+  END IF;
+END $$;
 
 -- Vouchers: an assignee note + usage limit (max_uses 0 = unlimited).
 ALTER TABLE vouchers ADD COLUMN IF NOT EXISTS note     TEXT NOT NULL DEFAULT '';

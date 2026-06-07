@@ -48,7 +48,7 @@ export function Segments({ total, current }: { total: number; current: number })
 }
 
 // IQ gauge — 252° arc, value mapped 70..145.
-export function Gauge({ value = 100, size = 216 }: { value?: number; size?: number }) {
+export function Gauge({ value = 100, size = 216, display }: { value?: number; size?: number; display?: string }) {
   const min = 70, max = 145, sweep = 252, startDeg = 144, stroke = 16;
   const r = (size - stroke) / 2 - 6;
   const cx = size / 2, cy = size / 2;
@@ -68,7 +68,7 @@ export function Gauge({ value = 100, size = 216 }: { value?: number; size?: numb
       </svg>
       <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center" }}>
         <div>
-          <div className="iq-mono" style={{ fontSize: 58, fontWeight: 800, lineHeight: 1, color: "var(--iq-ink)" }}>{value}</div>
+          <div className="iq-mono" style={{ fontSize: 48, fontWeight: 800, lineHeight: 1, color: "var(--iq-ink)" }}>{display ?? value}</div>
           <div className="iq-label" style={{ marginTop: 4 }}>Your IQ</div>
         </div>
       </div>

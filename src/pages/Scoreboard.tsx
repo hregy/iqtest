@@ -51,7 +51,7 @@ export function Scoreboard() {
                     )}
                   </div>
                 </div>
-                <div className="iq-mono biq">{iq}</div>
+                <div className="iq-mono biq">{iq.toFixed(2)}</div>
               </div>
             );
           })}

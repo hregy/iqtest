@@ -41,8 +41,9 @@ export function iqFromStored(correct, total, correctMs, questionSeconds) {
     const avg = Math.min(Math.max((correctMs || 0) / correct, 0), L);
     S = 1 - avg / L;
   }
-  const B = (0.85 * 70) / total;
-  return Math.max(70, Math.min(145, Math.round(70 + 70 * A + B * A * S)));
+  const B = (0.9 * 70) / total; // < one correct answer -> accuracy always wins
+  const iq = Math.max(70, Math.min(145, 70 + 70 * A + B * A * S));
+  return Math.round(iq * 100) / 100; // 2-decimal precision (faster -> strictly higher)
 }
 
 // Sum of time spent on CORRECT answers (capped per-question at the limit).
@@ -331,7 +332,7 @@ publicRouter.post(
 publicRouter.get("/scoreboard", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
   const { rows } = await query(
-    `SELECT name, correct, total, percent, duration_ms, iq, created_at
+    `SELECT name, correct, total, percent, duration_ms, iq::float8 AS iq, created_at
      FROM scores WHERE excluded = false
      ORDER BY correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC
      LIMIT $1`,
