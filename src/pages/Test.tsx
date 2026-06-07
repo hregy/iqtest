@@ -83,7 +83,7 @@ export function Test() {
         const r = await api.answer(cur.token, cur.nonce, selectedIndex, renderDelayMs, integrity.current);
         if (r.done && r.result) {
           setPhase("submitting");
-          navigate("/results", { replace: true, state: { result: r.result } });
+          navigate("/results", { replace: true, state: { result: r.result, review: r.review } });
         } else if (r.question && r.nonce !== undefined) {
           setCur({ ...cur, question: r.question, nonce: r.nonce, index: r.index ?? cur.index + 1 });
         }

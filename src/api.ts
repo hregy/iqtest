@@ -6,6 +6,8 @@ import type {
   Voucher,
   AdminScore,
   AdminQuestion,
+  AttemptRow,
+  AttemptReview,
 } from "./types";
 
 const TOKEN_KEY = "iq_admin_token";
@@ -95,6 +97,9 @@ export const api = {
     patchQuestion: (id: number, patch: Record<string, unknown>) =>
       req(`/api/admin/questions/${id}`, { method: "PATCH", body: J(patch) }, true),
     deleteQuestion: (id: number) => req(`/api/admin/questions/${id}`, { method: "DELETE" }, true),
+
+    attempts: () => req<AttemptRow[]>("/api/admin/attempts", {}, true),
+    attemptReview: (id: string) => req<AttemptReview>(`/api/admin/attempts/${id}/review`, {}, true),
 
     getSettings: () => req<Record<string, string>>("/api/admin/settings", {}, true),
     putSettings: (s: Record<string, string | number>) =>

@@ -5,9 +5,10 @@ import { EinsteinMark } from "../components/Einstein";
 import { AdminVouchers } from "../admin/AdminVouchers";
 import { AdminScores } from "../admin/AdminScores";
 import { AdminQuestions } from "../admin/AdminQuestions";
+import { AdminReports } from "../admin/AdminReports";
 import { AdminSettings } from "../admin/AdminSettings";
 
-type Tab = "vouchers" | "scores" | "questions" | "settings";
+type Tab = "vouchers" | "scores" | "reports" | "questions" | "settings";
 
 export function Admin() {
   const [authed, setAuthed] = useState(false);
@@ -46,7 +47,7 @@ export function Admin() {
       </header>
 
       <nav className="admin-tabs">
-        {(["vouchers", "scores", "questions", "settings"] as Tab[]).map((t) => (
+        {(["vouchers", "scores", "reports", "questions", "settings"] as Tab[]).map((t) => (
           <button
             key={t}
             className={"tab" + (tab === t ? " active" : "")}
@@ -60,6 +61,7 @@ export function Admin() {
       <div className="admin-body">
         {tab === "vouchers" && <AdminVouchers adminVoucher={adminVoucher} />}
         {tab === "scores" && <AdminScores />}
+        {tab === "reports" && <AdminReports />}
         {tab === "questions" && <AdminQuestions />}
         {tab === "settings" && <AdminSettings />}
       </div>

@@ -45,6 +45,20 @@ export interface SubmitResult {
   reasons?: string[];
 }
 
+export interface ReviewItem {
+  index: number;
+  prompt: string;
+  promptFa?: string;
+  category: string;
+  puzzleImage: string | null;
+  options: TestOption[];
+  correctIndex: number | null;
+  selectedIndex: number | null;
+  correct: boolean;
+  timedOut: boolean;
+  elapsedMs: number;
+}
+
 export interface AnswerResponse {
   done: boolean;
   question?: TestQuestion;
@@ -52,6 +66,32 @@ export interface AnswerResponse {
   index?: number;
   total?: number;
   result?: SubmitResult;
+  review?: ReviewItem[];
+}
+
+export interface AttemptRow {
+  id: string;
+  name: string;
+  voucher_code: string | null;
+  practice: boolean;
+  correct: number;
+  total: number;
+  status: string;
+  created_at: string;
+  finished_at: string | null;
+  flagged: boolean;
+}
+
+export interface AttemptReview {
+  id: string;
+  name: string;
+  voucher: string | null;
+  practice: boolean;
+  correct: number;
+  total: number;
+  durationMs: number;
+  integrity: { reasons?: string[] } & Record<string, unknown>;
+  review: ReviewItem[];
 }
 
 export interface ScoreRow {

@@ -208,6 +208,33 @@ body {
 .board-row .bsub { font-size: 12px; color: var(--iq-ink-mute); font-weight: 600; }
 .biq { font-size: 19px; font-weight: 800; color: var(--iq-ink); }
 
+/* ---------- Answer review ---------- */
+.review { display: grid; gap: 12px; margin-top: 12px; text-align: left; }
+.rv-card { background: var(--iq-surface); border: 1px solid var(--iq-line); border-left-width: 4px; border-radius: var(--iq-r-md); padding: 12px 14px; box-shadow: var(--iq-sh-sm); }
+.rv-card.ok { border-left-color: var(--iq-safe); }
+.rv-card.bad { border-left-color: var(--iq-danger); }
+.rv-head { display: flex; align-items: center; gap: 10px; }
+.rv-q { font-weight: 800; font-size: 14px; color: var(--iq-ink); }
+.rv-status { font-size: 12.5px; font-weight: 700; }
+.rv-status.ok { color: var(--iq-safe); }
+.rv-status.bad { color: var(--iq-danger); }
+.rv-time { margin-left: auto; font-size: 13px; color: var(--iq-ink-soft); font-weight: 700; }
+.rv-prompt { margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--iq-ink); }
+.rv-prompt-fa { font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 13px; color: var(--iq-ink-soft); }
+.rv-figure { margin-top: 8px; display: flex; justify-content: center; }
+.rv-figure img { max-width: 160px; max-height: 130px; background: var(--iq-page-2); border-radius: 10px; }
+.rv-opts { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rv-opt { position: relative; display: flex; align-items: center; justify-content: center; min-height: 56px; padding: 8px 8px 8px 22px; border: 1.5px solid var(--iq-line-2); border-radius: 10px; background: var(--iq-surface); }
+.rv-opt.correct { border-color: var(--iq-safe); background: var(--iq-safe-bg); }
+.rv-opt.wrong { border-color: var(--iq-danger); background: rgba(214,71,58,0.08); }
+.rv-opt-letter { position: absolute; top: 4px; left: 6px; font-size: 11px; font-weight: 800; color: var(--iq-ink-mute); }
+.rv-opt img { max-width: 70%; max-height: 44px; }
+.rv-opt-text { font-size: 18px; font-weight: 800; }
+.rv-badge { position: absolute; bottom: 3px; right: 5px; font-size: 9.5px; font-weight: 800; padding: 1px 5px; border-radius: 99px; }
+.rv-badge.ok { background: var(--iq-safe); color: #fff; }
+.rv-badge.bad { background: var(--iq-danger); color: #fff; }
+.rv-note { margin-top: 8px; font-size: 12px; color: var(--iq-danger); font-weight: 600; }
+
 /* ---------- Capture / focus guard ---------- */
 .capture-guard { position: fixed; inset: 0; background: rgba(20,24,28,0.96); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); display: grid; place-items: center; padding: 28px; z-index: 50; }
 .capture-guard-card { text-align: center; color: var(--iq-chalk); max-width: 320px; }
@@ -268,6 +295,8 @@ body {
 .opt-input { border: 2px solid var(--iq-line-2); border-radius: 10px; padding: 10px; display: grid; gap: 6px; }
 .opt-input.correct { border-color: var(--iq-safe); }
 .opt-letter { font-weight: 800; font-size: 13px; }
+.report-modal { position: fixed; inset: 0; background: rgba(20,24,28,0.5); display: grid; place-items: start center; padding: 20px; z-index: 60; overflow: auto; }
+.report-sheet { background: var(--iq-page); border-radius: var(--iq-r-lg); padding: 16px; max-width: 520px; width: 100%; box-shadow: var(--iq-sh-lg); }
 .pager { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 16px; }
 .pager-info { font-size: 13px; font-weight: 700; color: var(--iq-ink-soft); }
 .flag { color: var(--iq-accent-deep); }

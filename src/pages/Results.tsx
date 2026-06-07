@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { SubmitResult } from "../types";
+import type { SubmitResult, ReviewItem } from "../types";
 import { iqFromPercent, bandForIq } from "../lib/scoring";
 import { BrandHeader, Gauge } from "../components/brand";
 import { EinsteinMark } from "../components/Einstein";
+import { ReviewList } from "../components/ReviewList";
 
 const CATEGORY_LABEL: Record<string, string> = {
   pattern: "Pattern", analogy: "Analogy", spatial: "Spatial", series: "Series",
@@ -26,7 +27,10 @@ const QUOTES = [
 export function Results() {
   const location = useLocation();
   const navigate = useNavigate();
-  const result = (location.state as { result?: SubmitResult } | null)?.result;
+  const state = location.state as { result?: SubmitResult; review?: ReviewItem[] } | null;
+  const result = state?.result;
+  const review = state?.review || [];
+  const [showReview, setShowReview] = useState(false);
 
   useEffect(() => {
     if (!result) navigate("/", { replace: true });
@@ -92,6 +96,15 @@ export function Results() {
           <div className="by">— A. Einstein</div>
         </div>
       </div>
+
+      {review.length > 0 && (
+        <div style={{ marginTop: 16 }}>
+          <button className="btn block ghost" onClick={() => setShowReview((s) => !s)}>
+            {showReview ? "Hide answer review" : "Review your answers"}
+          </button>
+          {showReview && <ReviewList review={review} />}
+        </div>
+      )}
 
       <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 10 }}>
         <button className="btn block primary" onClick={() => navigate("/scoreboard")}>🏆 See the scoreboard</button>

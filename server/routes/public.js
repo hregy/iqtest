@@ -55,6 +55,31 @@ async function buildQuestion(qid) {
   };
 }
 
+// Per-question review (only built AFTER an attempt is finished): the question,
+// the user's answer, the correct answer, time spent, and right/wrong.
+export async function buildReview(answers) {
+  const out = [];
+  for (let i = 0; i < answers.length; i++) {
+    const a = answers[i];
+    const q = await buildQuestion(a.qid);
+    const cr = (await query("SELECT correct_index FROM questions WHERE id=$1", [a.qid])).rows[0];
+    out.push({
+      index: i,
+      prompt: q?.prompt || "",
+      promptFa: q?.promptFa || "",
+      category: a.category,
+      puzzleImage: q?.puzzleImage || null,
+      options: q?.options || [],
+      correctIndex: cr ? cr.correct_index : null,
+      selectedIndex: a.sel,
+      correct: !!a.correct,
+      timedOut: !!a.timedOut,
+      elapsedMs: a.elapsedMs,
+    });
+  }
+  return out;
+}
+
 function mergeIntegrity(prev, incoming) {
   const p = prev || {};
   const i = incoming || {};
@@ -231,9 +256,11 @@ publicRouter.post(
            JSON.stringify({ ...integrity, reasons })]
         );
       }
+      const review = await buildReview(answers);
       return res.json({
         done: true,
         result: { correct, total, percent, byCategory, durationMs, practice: a.practice, flagged, reasons },
+        review,
       });
     }
 

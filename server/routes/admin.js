@@ -5,6 +5,7 @@ import { query, withTx } from "../db.js";
 import { config } from "../config.js";
 import { signAdmin, requireAdmin } from "../auth.js";
 import { rateLimit } from "../ratelimit.js";
+import { buildReview } from "./public.js";
 
 export const adminRouter = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 3 * 1024 * 1024 } });
@@ -229,6 +230,41 @@ adminRouter.patch("/questions/:id", async (req, res) => {
 adminRouter.delete("/questions/:id", async (req, res) => {
   await query("DELETE FROM questions WHERE id=$1", [Number(req.params.id)]);
   res.json({ ok: true });
+});
+
+// ---- attempts / per-question reports ----------------------------------
+adminRouter.get("/attempts", async (_req, res) => {
+  const { rows } = await query(
+    `SELECT id, name, voucher_code, practice, correct,
+            cardinality(qids) AS total, status, created_at, finished_at, integrity
+     FROM attempts WHERE status='done'
+     ORDER BY finished_at DESC NULLS LAST LIMIT 300`
+  );
+  res.json(rows.map((r) => ({
+    ...r,
+    durationMs: null, // computed in the detail view from per-question times
+    flagged: !!(r.integrity && (r.integrity.reasons || []).length),
+  })));
+});
+
+adminRouter.get("/attempts/:id/review", async (req, res) => {
+  const { rows } = await query("SELECT * FROM attempts WHERE id=$1", [req.params.id]);
+  const a = rows[0];
+  if (!a) return res.status(404).json({ error: "Attempt not found" });
+  const answers = a.answers || [];
+  const review = await buildReview(answers);
+  const durationMs = answers.reduce((s, x) => s + (x.elapsedMs || 0), 0);
+  res.json({
+    id: a.id,
+    name: a.name,
+    voucher: a.voucher_code,
+    practice: a.practice,
+    correct: a.correct,
+    total: a.qids.length,
+    durationMs,
+    integrity: a.integrity || {},
+    review,
+  });
 });
 
 // ---- settings ----------------------------------------------------------
