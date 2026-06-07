@@ -97,6 +97,13 @@ export function AdminReports() {
                     Same IP/device also used by: {[...new Set(open.matches.map((m) => m.name))].join(", ")}
                   </div>
                 )}
+                <div className="muted small" style={{ marginTop: 6 }}>
+                  Input during test: {Number(open.integrity?.moves) || 0} moves · {Number(open.integrity?.downs) || 0} taps ·{" "}
+                  {Number(open.integrity?.keys) || 0} keys · {Number(open.integrity?.pathPx) || 0}px travel
+                  {((Number(open.integrity?.moves) || 0) + (Number(open.integrity?.downs) || 0)) === 0 && open.review.some((r) => r.selectedIndex !== null)
+                    ? " — ⚠️ no human movement"
+                    : ""}
+                </div>
               </div>
             )}
 

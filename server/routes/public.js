@@ -117,6 +117,10 @@ function mergeIntegrity(prev, incoming) {
     fsExits: Math.max(p.fsExits || 0, Number(i.fsExits) || 0),
     paste: Math.max(p.paste || 0, Number(i.paste) || 0),
     devtools: !!(p.devtools || i.devtools),
+    moves: Math.max(p.moves || 0, Number(i.moves) || 0),
+    downs: Math.max(p.downs || 0, Number(i.downs) || 0),
+    keys: Math.max(p.keys || 0, Number(i.keys) || 0),
+    pathPx: Math.max(p.pathPx || 0, Number(i.pathPx) || 0),
   };
 }
 
@@ -137,6 +141,12 @@ function evaluateIntegrity(integrity, answers, total) {
   }
   const sels = answered.map((a) => a.sel);
   if (sels.length >= total && new Set(sels).size === 1) reasons.push("identical answer every time");
+
+  // Behavioral: answered questions but produced no pointer/touch/key input.
+  const interactions = (it.moves || 0) + (it.downs || 0) + (it.keys || 0);
+  if (answered.length >= 3 && interactions === 0) reasons.push("no mouse/touch input (bot-like)");
+  else if (answered.length >= 5 && (it.downs || 0) === 0 && (it.moves || 0) < 3)
+    reasons.push("almost no pointer movement (bot-like)");
 
   return { flagged: reasons.length > 0, reasons };
 }
@@ -300,7 +310,7 @@ publicRouter.post(
 
       await query(
         "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, status='done', finished_at=now() WHERE id=$5",
-        [nextIdx, correct, JSON.stringify(answers), JSON.stringify(integrity), a.id]
+        [nextIdx, correct, JSON.stringify(answers), JSON.stringify({ ...integrity, reasons, flagged }), a.id]
       );
 
       if (!a.practice) {

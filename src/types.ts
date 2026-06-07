@@ -21,6 +21,11 @@ export interface Integrity {
   fsExits: number;
   paste: number;
   devtools: boolean;
+  // behavioral biometrics (bot detection)
+  moves: number; // pointer/touch move events
+  downs: number; // taps / pointer-downs
+  keys: number; // key presses
+  pathPx: number; // cumulative pointer travel
 }
 
 export interface StartResponse {
