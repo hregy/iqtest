@@ -28,17 +28,29 @@ async function getSettings() {
 
 const imgUrl = (id) => (id ? `/api/images/${id}` : null);
 
-// Final score = accuracy first, speed second. A faster attempt with the SAME
-// number correct scores higher; the speed bonus is capped below the value of
-// one correct answer so accuracy always dominates.
-export function combinedIq(correct, total, durationMs, questionSeconds) {
+// Final score = speed-weighted accuracy (accuracy-first, fair).
+//   A = correct / total                         (accuracy, the foundation)
+//   speed_i = 1 - min(t_i, L)/L  for CORRECT answers only (1=instant, 0=full time)
+//   S = average speed over correct answers       (0 if none correct)
+//   IQ = 70 + 70*A + B*A*S
+// B (max speed bonus) is held just UNDER the value of one correct answer
+// (0.85 * 70/total), so a faster player can never overtake one who got more
+// answers right; speed only ranks players within the same accuracy.
+export function combinedIq(answers, total, questionSeconds) {
   if (!total) return 70;
-  const baseIq = 70 + (correct / total) * 70; // 70..140 by accuracy
-  const perCorrect = 70 / total;
-  const bonusMax = Math.min(4, perCorrect * 0.85);
-  const par = total * questionSeconds * 1000;
-  const usedFrac = Math.max(0, Math.min(1, par ? durationMs / par : 1));
-  const iq = baseIq + (1 - usedFrac) * bonusMax;
+  const L = Math.max(1, questionSeconds * 1000);
+  const correctAns = answers.filter((a) => a.correct);
+  const correct = correctAns.length;
+  const A = correct / total;
+  let S = 0;
+  if (correct > 0) {
+    const sum = correctAns.reduce(
+      (s, a) => s + (1 - Math.min(Math.max(a.elapsedMs || 0, 0), L) / L), 0
+    );
+    S = sum / correct;
+  }
+  const B = (0.85 * 70) / total; // < one correct answer's worth -> accuracy always wins
+  const iq = 70 + 70 * A + B * A * S;
   return Math.max(70, Math.min(145, Math.round(iq)));
 }
 
@@ -260,7 +272,7 @@ publicRouter.post(
       }
       const { flagged, reasons } = evaluateIntegrity(integrity, answers, total);
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
-      const iq = combinedIq(correct, total, durationMs, settings.questionSeconds);
+      const iq = combinedIq(answers, total, settings.questionSeconds);
 
       await query(
         "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, status='done', finished_at=now() WHERE id=$5",
@@ -321,7 +333,7 @@ publicRouter.get("/scoreboard", async (req, res) => {
   const { rows } = await query(
     `SELECT name, correct, total, percent, duration_ms, iq, created_at
      FROM scores WHERE excluded = false
-     ORDER BY iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC
+     ORDER BY correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC
      LIMIT $1`,
     [limit]
   );
