@@ -45,7 +45,9 @@ export function Scoreboard() {
                   <div className="nm">{r.name}</div>
                   <div className="bsub">
                     {r.correct}/{r.total}
-                    {r.duration_ms != null && <> · ⏱ {fmtDuration(r.duration_ms)}</>}
+                    {r.duration_ms != null && (
+                      <> · ⏱ {fmtDuration(r.duration_ms)} · avg {(r.duration_ms / 1000 / Math.max(1, r.total)).toFixed(1)}s</>
+                    )}
                   </div>
                 </div>
                 <div className="iq-mono biq">{iq}</div>
