@@ -81,10 +81,12 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
       </div>
 
       <div className={"qcontent" + (question.puzzleImage ? "" : " no-puzzle")}>
-        {question.puzzleImage && (
+        {question.puzzleImage ? (
           <div className="figure">
             <LoadedImage className={"puzzle-img" + (ready ? "" : " hidden")} src={question.puzzleImage} alt="puzzle" onSettled={oneLoaded} />
           </div>
+        ) : (
+          ready && <p className="odd-hint">Three of these are alike — tap the one that's different.</p>
         )}
 
         {!ready && <div className="img-loading"><div className="spinner" /><span>Loading question…</span></div>}
