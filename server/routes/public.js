@@ -28,6 +28,20 @@ async function getSettings() {
 
 const imgUrl = (id) => (id ? `/api/images/${id}` : null);
 
+// Final score = accuracy first, speed second. A faster attempt with the SAME
+// number correct scores higher; the speed bonus is capped below the value of
+// one correct answer so accuracy always dominates.
+export function combinedIq(correct, total, durationMs, questionSeconds) {
+  if (!total) return 70;
+  const baseIq = 70 + (correct / total) * 70; // 70..140 by accuracy
+  const perCorrect = 70 / total;
+  const bonusMax = Math.min(4, perCorrect * 0.85);
+  const par = total * questionSeconds * 1000;
+  const usedFrac = Math.max(0, Math.min(1, par ? durationMs / par : 1));
+  const iq = baseIq + (1 - usedFrac) * bonusMax;
+  return Math.max(70, Math.min(145, Math.round(iq)));
+}
+
 async function buildQuestion(qid) {
   const { rows } = await query(
     "SELECT id, type, category, prompt, prompt_fa, puzzle_image_id FROM questions WHERE id=$1",
@@ -141,14 +155,19 @@ publicRouter.post(
     if (v.expires_at && new Date(v.expires_at) < new Date())
       return res.status(400).json({ error: "This voucher has expired." });
     const practice = v.type === "admin";
-    if (!practice && v.used)
+    const unlimited = practice || v.max_uses === 0;
+    if (!practice && !unlimited && v.uses >= v.max_uses)
       return res.status(400).json({ error: "This voucher has already been used." });
 
     const settings = await getSettings();
     const picked = await withTx(async (client) => {
       if (!practice) {
+        // consume one use atomically (guards against races / exhaustion)
         const upd = await client.query(
-          "UPDATE vouchers SET used=true, used_by=$1, used_at=now() WHERE code=$2 AND used=false",
+          `UPDATE vouchers
+           SET uses = uses + 1, used_by = $1, used_at = now(),
+               used = (max_uses > 0 AND uses + 1 >= max_uses)
+           WHERE code = $2 AND (max_uses = 0 OR uses < max_uses)`,
           [name, code]
         );
         if (upd.rowCount === 0) throw new Error("ALREADY_USED");
@@ -241,6 +260,7 @@ publicRouter.post(
       }
       const { flagged, reasons } = evaluateIntegrity(integrity, answers, total);
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
+      const iq = combinedIq(correct, total, durationMs, settings.questionSeconds);
 
       await query(
         "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, status='done', finished_at=now() WHERE id=$5",
@@ -249,17 +269,16 @@ publicRouter.post(
 
       if (!a.practice) {
         await query(
-          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, flagged, excluded, integrity)
-           VALUES($1,$2,$3,$4,$5,$6,$7,$7,$8)
-           ON CONFLICT (voucher_code) WHERE voucher_code IS NOT NULL AND excluded = false DO NOTHING`,
-          [a.name, a.voucher_code, correct, total, percent, durationMs, flagged,
+          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, iq, flagged, excluded, integrity)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$8,$9)`,
+          [a.name, a.voucher_code, correct, total, percent, durationMs, iq, flagged,
            JSON.stringify({ ...integrity, reasons })]
         );
       }
       const review = await buildReview(answers);
       return res.json({
         done: true,
-        result: { correct, total, percent, byCategory, durationMs, practice: a.practice, flagged, reasons },
+        result: { correct, total, percent, iq, byCategory, durationMs, practice: a.practice, flagged, reasons },
         review,
       });
     }
@@ -300,9 +319,9 @@ publicRouter.post(
 publicRouter.get("/scoreboard", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
   const { rows } = await query(
-    `SELECT name, correct, total, percent, duration_ms, created_at
+    `SELECT name, correct, total, percent, duration_ms, iq, created_at
      FROM scores WHERE excluded = false
-     ORDER BY correct DESC, duration_ms ASC NULLS LAST, created_at ASC
+     ORDER BY iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC
      LIMIT $1`,
     [limit]
   );

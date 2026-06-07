@@ -38,6 +38,7 @@ export interface SubmitResult {
   correct: number;
   total: number;
   percent: number;
+  iq: number;
   byCategory: Record<string, { correct: number; total: number }>;
   durationMs: number;
   practice: boolean;
@@ -100,6 +101,7 @@ export interface ScoreRow {
   correct: number;
   total: number;
   percent: number;
+  iq: number | null;
   duration_ms: number | null;
   created_at: string;
 }
@@ -118,6 +120,9 @@ export interface Voucher {
   used_at: string | null;
   expires_at: string | null;
   created_at: string;
+  note?: string;
+  max_uses?: number;
+  uses?: number;
 }
 
 export interface AdminScore {

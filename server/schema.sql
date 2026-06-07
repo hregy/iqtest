@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS scores (
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- One recorded score per single-use voucher (prevents double submit).
-CREATE UNIQUE INDEX IF NOT EXISTS scores_voucher_unique
-  ON scores (voucher_code) WHERE voucher_code IS NOT NULL AND excluded = false;
+-- (Multi-use vouchers can produce several scores; double-submit is already
+--  prevented per-attempt, so no unique index on voucher_code.)
+DROP INDEX IF EXISTS scores_voucher_unique;
 
 CREATE TABLE IF NOT EXISTS settings (
   key   TEXT PRIMARY KEY,
@@ -89,3 +89,12 @@ ALTER TABLE questions ADD COLUMN IF NOT EXISTS prompt_fa TEXT NOT NULL DEFAULT '
 -- Integrity columns on scores (added to existing tables too).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;
+-- Combined correctness+speed score.
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS iq INT;
+
+-- Vouchers: an assignee note + usage limit (max_uses 0 = unlimited).
+ALTER TABLE vouchers ADD COLUMN IF NOT EXISTS note     TEXT NOT NULL DEFAULT '';
+ALTER TABLE vouchers ADD COLUMN IF NOT EXISTS max_uses INT  NOT NULL DEFAULT 1;
+ALTER TABLE vouchers ADD COLUMN IF NOT EXISTS uses     INT  NOT NULL DEFAULT 0;
+-- Backfill: legacy "used" single vouchers count as one use.
+UPDATE vouchers SET uses = 1 WHERE used = true AND uses = 0;

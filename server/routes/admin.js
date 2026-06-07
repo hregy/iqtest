@@ -35,9 +35,12 @@ adminRouter.get("/vouchers", async (_req, res) => {
   res.json(rows);
 });
 
+const USES_MAP = { single: 1, double: 2, unlimited: 0 };
+
 adminRouter.post("/vouchers", async (req, res) => {
   const count = Math.min(Math.max(Number(req.body?.count) || 1, 1), 500);
-  const type = req.body?.type === "admin" ? "admin" : "single";
+  const maxUses = USES_MAP[req.body?.uses] ?? 1;
+  const note = (req.body?.note || "").toString().slice(0, 80);
   const prefix = (req.body?.prefix || "IQ").toString().replace(/[^A-Za-z0-9]/g, "").slice(0, 6) || "IQ";
   const expiresAt = req.body?.expiresAt ? new Date(req.body.expiresAt) : null;
   const created = [];
@@ -46,8 +49,8 @@ adminRouter.post("/vouchers", async (req, res) => {
       const code = genCode(prefix.toUpperCase());
       try {
         await query(
-          "INSERT INTO vouchers(code, type, expires_at) VALUES($1,$2,$3)",
-          [code, type, expiresAt]
+          "INSERT INTO vouchers(code, type, max_uses, note, expires_at) VALUES($1,'single',$2,$3,$4)",
+          [code, maxUses, note, expiresAt]
         );
         created.push(code);
         break;
@@ -59,9 +62,17 @@ adminRouter.post("/vouchers", async (req, res) => {
   res.json({ created });
 });
 
+adminRouter.patch("/vouchers/:code", async (req, res) => {
+  if (req.body?.note !== undefined) {
+    await query("UPDATE vouchers SET note=$1 WHERE code=$2",
+      [(req.body.note || "").toString().slice(0, 80), req.params.code]);
+  }
+  res.json({ ok: true });
+});
+
 adminRouter.post("/vouchers/:code/reset", async (req, res) => {
   await query(
-    "UPDATE vouchers SET used=false, used_by=NULL, used_at=NULL WHERE code=$1",
+    "UPDATE vouchers SET used=false, uses=0, used_by=NULL, used_at=NULL WHERE code=$1",
     [req.params.code]
   );
   res.json({ ok: true });

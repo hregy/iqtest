@@ -74,12 +74,14 @@ export const api = {
     me: () => req<{ ok: boolean; adminVoucher: string }>("/api/admin/me", {}, true),
 
     vouchers: () => req<Voucher[]>("/api/admin/vouchers", {}, true),
-    createVouchers: (count: number, type: string, prefix: string, expiresAt: string | null) =>
+    createVouchers: (count: number, uses: string, prefix: string, expiresAt: string | null, note: string) =>
       req<{ created: string[] }>(
         "/api/admin/vouchers",
-        { method: "POST", body: J({ count, type, prefix, expiresAt }) },
+        { method: "POST", body: J({ count, uses, prefix, expiresAt, note }) },
         true
       ),
+    setVoucherNote: (code: string, note: string) =>
+      req(`/api/admin/vouchers/${encodeURIComponent(code)}`, { method: "PATCH", body: J({ note }) }, true),
     resetVoucher: (code: string) =>
       req(`/api/admin/vouchers/${encodeURIComponent(code)}/reset`, { method: "POST" }, true),
     deleteVoucher: (code: string) =>

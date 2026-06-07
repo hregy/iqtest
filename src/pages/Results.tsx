@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SubmitResult, ReviewItem } from "../types";
-import { iqFromPercent, bandForIq } from "../lib/scoring";
+import { bandForIq } from "../lib/scoring";
 import { BrandHeader, Gauge } from "../components/brand";
 import { EinsteinMark } from "../components/Einstein";
 import { ReviewList } from "../components/ReviewList";
@@ -37,7 +37,7 @@ export function Results() {
   }, [result, navigate]);
   if (!result) return null;
 
-  const iq = iqFromPercent(result.percent);
+  const iq = result.iq ?? 70;
   const avgSec = result.total ? result.durationMs / 1000 / result.total : 0;
   const quote = QUOTES[result.correct % QUOTES.length];
   const stats: [string, string][] = [

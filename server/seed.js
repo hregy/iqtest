@@ -23,8 +23,8 @@ async function ensureSettings() {
 
 async function ensureAdminVoucher() {
   await query(
-    `INSERT INTO vouchers(code, type) VALUES($1,'admin')
-     ON CONFLICT (code) DO UPDATE SET type='admin', used=false, expires_at=NULL`,
+    `INSERT INTO vouchers(code, type, max_uses, note) VALUES($1,'admin',0,'Master / practice')
+     ON CONFLICT (code) DO UPDATE SET type='admin', used=false, expires_at=NULL, max_uses=0`,
     [config.adminVoucher]
   );
 }

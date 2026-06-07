@@ -4,6 +4,7 @@ import type { ScoreRow } from "../types";
 import { api } from "../api";
 import { iqFromPercent } from "../lib/scoring";
 import { fmtDuration } from "./Results";
+// score = server combined iq (accuracy + speed); fall back for legacy rows
 
 const initials = (n: string) =>
   n.trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "?";
@@ -35,7 +36,7 @@ export function Scoreboard() {
       {rows && rows.length > 0 && (
         <div className="board">
           {rows.map((r) => {
-            const iq = iqFromPercent(r.percent);
+            const iq = r.iq ?? iqFromPercent(r.percent);
             const medal = r.rank <= 3;
             return (
               <div className="board-row" key={r.rank}>
