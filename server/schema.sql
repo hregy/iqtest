@@ -79,6 +79,10 @@ CREATE TABLE IF NOT EXISTS attempts (
   finished_at   TIMESTAMPTZ
 );
 
+-- True once the client confirms the current question is displayed; lets the
+-- server start the per-question clock at display time (fair with slow loads).
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS display_pinged BOOLEAN NOT NULL DEFAULT false;
+
 -- Integrity columns on scores (added to existing tables too).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;

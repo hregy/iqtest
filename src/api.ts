@@ -45,6 +45,13 @@ export const api = {
   startTest: (name: string, voucher: string) =>
     req<StartResponse>("/api/test/start", { method: "POST", body: J({ name, voucher }) }),
 
+  // Tell the server the question is now displayed -> it (re)starts the clock.
+  ready: (attemptToken: string, nonce: string) =>
+    req<{ ok: boolean }>("/api/test/ready", {
+      method: "POST",
+      body: J({ attemptToken, nonce }),
+    }).catch(() => ({ ok: false })),
+
   answer: (
     attemptToken: string,
     nonce: string,

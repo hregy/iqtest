@@ -71,6 +71,10 @@ export function Test() {
     }
   }, [creds, enterFullscreen]);
 
+  const handleReady = useCallback(() => {
+    if (cur) api.ready(cur.token, cur.nonce);
+  }, [cur]);
+
   const handleAnswer = useCallback(
     async (selectedIndex: number | null, renderDelayMs: number) => {
       if (!cur) return;
@@ -128,6 +132,7 @@ export function Test() {
         total={cur.total}
         questionSeconds={cur.questionSeconds}
         watermark={cur.watermark}
+        onReady={handleReady}
         onAnswer={handleAnswer}
       />
 

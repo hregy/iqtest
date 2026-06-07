@@ -6,12 +6,16 @@ import { rateLimit } from "../ratelimit.js";
 
 export const publicRouter = Router();
 
-// How much slack the server gives over the displayed timer:
-//  - up to RENDER_CREDIT_MS is credited back for genuine image-load time
-//    (client-reported, capped so it can't be abused)
-//  - RTT_GRACE_MS absorbs network round-trip jitter
-const RENDER_CREDIT_MS = 4000;
-const RTT_GRACE_MS = 1500;
+// Timing slack:
+//  - the per-question clock is (re)started by the client's "ready" ping when
+//    the question is actually displayed; READY_MAX_MS caps how long after the
+//    serve we'll accept that ping (bounds any stalling abuse).
+//  - if no ready ping arrived, we fall back to crediting client-reported load
+//    time up to RENDER_CREDIT_MS.
+//  - RTT_GRACE_MS absorbs round-trip jitter.
+const READY_MAX_MS = 20000;
+const RENDER_CREDIT_MS = 8000;
+const RTT_GRACE_MS = 2000;
 
 async function getSettings() {
   const { rows } = await query("SELECT key, value FROM settings");
@@ -175,8 +179,12 @@ publicRouter.post(
     const qrow = (await query("SELECT category, correct_index FROM questions WHERE id=$1", [qid])).rows[0];
 
     const serverElapsed = Date.now() - new Date(a.served_at).getTime();
-    const renderCredit = Math.min(Math.max(Number(req.body?.renderDelayMs) || 0, 0), RENDER_CREDIT_MS);
-    const effective = serverElapsed - renderCredit - RTT_GRACE_MS;
+    // If the question was confirmed displayed, served_at already == display time
+    // (no extra credit). Otherwise fall back to crediting client-reported load.
+    const credit = a.display_pinged
+      ? 0
+      : Math.min(Math.max(Number(req.body?.renderDelayMs) || 0, 0), RENDER_CREDIT_MS);
+    const effective = serverElapsed - credit - RTT_GRACE_MS;
     const timedOut = effective > settings.questionSeconds * 1000;
 
     const sel = req.body?.selectedIndex;
@@ -230,11 +238,33 @@ publicRouter.post(
 
     const nonce = crypto.randomBytes(9).toString("hex");
     await query(
-      "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, current_nonce=$5, served_at=now() WHERE id=$6",
+      "UPDATE attempts SET idx=$1, correct=$2, answers=$3, integrity=$4, current_nonce=$5, served_at=now(), display_pinged=false WHERE id=$6",
       [nextIdx, correct, JSON.stringify(answers), JSON.stringify(integrity), nonce, a.id]
     );
     const question = await buildQuestion(a.qids[nextIdx]);
     res.json({ done: false, question, nonce, index: nextIdx, total });
+  }
+);
+
+// ---- Ready ping: the question is displayed, so (re)start its clock now.
+publicRouter.post(
+  "/test/ready",
+  rateLimit({ windowMs: 60_000, max: 200, name: "ready" }),
+  async (req, res) => {
+    const claims = verifyToken(req.body?.attemptToken || "");
+    if (!claims?.attemptId) return res.json({ ok: false });
+    const { rows } = await query(
+      "SELECT id, status, current_nonce, served_at, display_pinged FROM attempts WHERE id=$1",
+      [claims.attemptId]
+    );
+    const a = rows[0];
+    if (!a || a.status !== "active" || (req.body?.nonce || "") !== a.current_nonce) {
+      return res.json({ ok: false });
+    }
+    if (!a.display_pinged && Date.now() - new Date(a.served_at).getTime() < READY_MAX_MS) {
+      await query("UPDATE attempts SET served_at=now(), display_pinged=true WHERE id=$1", [a.id]);
+    }
+    res.json({ ok: true });
   }
 );
 

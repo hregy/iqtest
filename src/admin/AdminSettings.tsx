@@ -26,6 +26,10 @@ export function AdminSettings() {
     <div className="panel">
       <div className="card">
         <h3>Test settings</h3>
+        <p className="muted small">
+          These apply to every <strong>new</strong> test. Server-enforced — changing
+          “seconds per question” changes the real time limit, not just the display.
+        </p>
         <div className="row gap wrap">
           <label className="field sm"><span>Questions per test</span>
             <input type="number" min={1} max={100} value={testLength}

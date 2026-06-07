@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { TestQuestion } from "../types";
 import { useCountdown } from "../hooks/useCountdown";
+import { LoadedImage } from "./LoadedImage";
 
 interface Props {
   question: TestQuestion;
@@ -8,12 +9,13 @@ interface Props {
   total: number;
   questionSeconds: number;
   watermark?: string;
+  onReady: () => void; // images are displayed -> server starts this question's clock
   onAnswer: (selectedIndex: number | null, renderDelayMs: number) => void;
 }
 
 const LABELS = ["A", "B", "C", "D"];
 
-export function QuestionView({ question, index, total, questionSeconds, watermark, onAnswer }: Props) {
+export function QuestionView({ question, index, total, questionSeconds, watermark, onReady, onAnswer }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
   const [loaded, setLoaded] = useState(0);
@@ -37,12 +39,21 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
     renderDelay.current = 0;
   }, [question.id]);
 
-  // Capture how long images took to appear, so the server can credit it back.
+  // When images are actually displayed: record load time and tell the server to
+  // start this question's clock now (so retries/slow loads don't cause unfair
+  // timeouts). Fires exactly once per question.
+  const pinged = useRef(false);
   useEffect(() => {
-    if (ready && renderDelay.current === 0) {
+    if (ready && !pinged.current) {
+      pinged.current = true;
       renderDelay.current = Math.round(performance.now() - mountAt.current);
+      onReady();
     }
-  }, [ready]);
+  }, [ready, onReady]);
+
+  useEffect(() => {
+    pinged.current = false;
+  }, [question.id]);
 
   const oneLoaded = () => setLoaded((n) => n + 1);
 
@@ -73,13 +84,11 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
 
         {question.puzzleImage && (
           <div className="puzzle-wrap">
-            <img
+            <LoadedImage
               className={"puzzle-img" + (ready ? "" : " hidden")}
               src={question.puzzleImage}
               alt="puzzle"
-              draggable={false}
-              onLoad={oneLoaded}
-              onError={oneLoaded}
+              onSettled={oneLoaded}
             />
           </div>
         )}
@@ -98,8 +107,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
             >
               <span className="tile-label">{LABELS[i]}</span>
               {o.kind === "image" && o.image ? (
-                <img className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} draggable={false}
-                  onLoad={oneLoaded} onError={oneLoaded} />
+                <LoadedImage className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} onSettled={oneLoaded} />
               ) : (
                 <span className="tile-text">{o.text}</span>
               )}
