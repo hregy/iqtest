@@ -92,11 +92,15 @@ export function useIntegrity(active: boolean): IntegrityState {
     };
     const onDown = () => { integrity.current.downs += 1; };
     const onKey = () => { integrity.current.keys += 1; };
+    // A genuine tap/click is trusted; a scripted .click() is not — count only
+    // trusted ones as a fallback input signal (robust on any mobile browser).
+    const onClick = (e: Event) => { if (e.isTrusted) integrity.current.downs += 1; };
 
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("touchmove", onMove as EventListener, { passive: true });
     window.addEventListener("pointerdown", onDown, { passive: true });
     window.addEventListener("touchstart", onDown, { passive: true });
+    window.addEventListener("click", onClick, { passive: true });
     window.addEventListener("keydown", onKey, { passive: true });
 
     document.addEventListener("visibilitychange", onVis);
@@ -115,6 +119,7 @@ export function useIntegrity(active: boolean): IntegrityState {
       window.removeEventListener("touchmove", onMove as EventListener);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("touchstart", onDown);
+      window.removeEventListener("click", onClick);
       window.removeEventListener("keydown", onKey);
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("blur", onBlur);

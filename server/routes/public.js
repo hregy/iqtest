@@ -124,7 +124,7 @@ function mergeIntegrity(prev, incoming) {
   };
 }
 
-function evaluateIntegrity(integrity, answers, total) {
+function evaluateIntegrity(integrity, answers, total, behaviorTracked) {
   const reasons = [];
   const it = integrity || {};
   if ((it.blur || 0) >= 2) reasons.push(`left the screen ${it.blur}×`);
@@ -143,10 +143,14 @@ function evaluateIntegrity(integrity, answers, total) {
   if (sels.length >= total && new Set(sels).size === 1) reasons.push("identical answer every time");
 
   // Behavioral: answered questions but produced no pointer/touch/key input.
-  const interactions = (it.moves || 0) + (it.downs || 0) + (it.keys || 0);
-  if (answered.length >= 3 && interactions === 0) reasons.push("no mouse/touch input (bot-like)");
-  else if (answered.length >= 5 && (it.downs || 0) === 0 && (it.moves || 0) < 3)
-    reasons.push("almost no pointer movement (bot-like)");
+  // Only applied when the browser actually reported movement data (a stale/old
+  // cached client sends none, and must NOT be falsely flagged).
+  if (behaviorTracked) {
+    const interactions = (it.moves || 0) + (it.downs || 0) + (it.keys || 0);
+    if (answered.length >= 3 && interactions === 0) reasons.push("no mouse/touch input (bot-like)");
+    else if (answered.length >= 5 && (it.downs || 0) === 0 && (it.moves || 0) < 3)
+      reasons.push("almost no pointer movement (bot-like)");
+  }
 
   return { flagged: reasons.length > 0, reasons };
 }
@@ -303,7 +307,8 @@ publicRouter.post(
         c.total += 1;
         if (ans.correct) c.correct += 1;
       }
-      const { flagged, reasons } = evaluateIntegrity(integrity, answers, total);
+      const behaviorTracked = !!(a.client_info && Object.keys(a.client_info).length > 0);
+      const { flagged, reasons } = evaluateIntegrity(integrity, answers, total, behaviorTracked);
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
       const correctMs = correctMsOf(answers, settings.questionSeconds);
       const iq = iqFromStored(correct, total, correctMs, settings.questionSeconds);

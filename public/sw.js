@@ -4,7 +4,7 @@
 // (the previous cache-first approach pinned users to a stale app shell).
 // Hashed assets and question images use CACHE-FIRST (their URLs change when
 // they change, so caching them forever is safe and makes the app work offline).
-const CACHE = "iq-test-v2";
+const CACHE = "iq-test-v3";
 const SHELL = ["/", "/index.html", "/icon.svg", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
