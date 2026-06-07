@@ -11,12 +11,15 @@ const initials = (n: string) =>
 
 export function Scoreboard() {
   const [rows, setRows] = useState<ScoreRow[] | null>(null);
+  const [tab, setTab] = useState<"classic" | "final">("final");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.scoreboard().then(setRows).catch(() => setError("Could not load scoreboard."));
-  }, []);
+    setRows(null);
+    setError("");
+    api.scoreboard(tab).then(setRows).catch(() => setError("Could not load scoreboard."));
+  }, [tab]);
 
   return (
     <div className="screen">
@@ -24,9 +27,22 @@ export function Scoreboard() {
         <button className="iconbtn" onClick={() => navigate("/")}>‹</button>
         <div>
           <h1>Scoreboard</h1>
-          <div className="muted small" style={{ fontWeight: 600 }}>Top minds this week</div>
+          <div className="muted small" style={{ fontWeight: 600 }}>
+            {tab === "final" ? "Final IQ Test — level-weighted" : "Quick test"}
+          </div>
         </div>
         <div style={{ marginLeft: "auto", fontSize: 24 }}>🏆</div>
+      </div>
+
+      <div className="ttseg" role="tablist" style={{ marginTop: 14 }}>
+        <button type="button" role="tab" aria-selected={tab === "final"}
+          className={"ttseg-btn" + (tab === "final" ? " on" : "")} onClick={() => setTab("final")}>
+          <strong>Final IQ</strong>
+        </button>
+        <button type="button" role="tab" aria-selected={tab === "classic"}
+          className={"ttseg-btn" + (tab === "classic" ? " on" : "")} onClick={() => setTab("classic")}>
+          <strong>Quick test</strong>
+        </button>
       </div>
 
       {error && <p className="form-error" style={{ marginTop: 18 }}>{error}</p>}

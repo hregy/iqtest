@@ -25,6 +25,8 @@ async function getSettings() {
   return {
     testLength: Number(m.test_length || 20),
     questionSeconds: Number(m.question_seconds || 10),
+    finalPerLevel: Math.max(1, Number(m.final_per_level || 6)),
+    finalQuestionSeconds: Number(m.final_question_seconds || 30),
   };
 }
 
@@ -34,10 +36,11 @@ const imgUrl = (id) => (id ? `/api/images/${id}` : null);
 // from stored fields (correct, total, correct_ms) so the board can be recomputed.
 //   A = correct/total ; S = 1 - avgCorrectTime/L (avg over CORRECT answers)
 //   IQ = 70 + 70*A + B*A*S ,  B = 0.85*70/total (< one correct -> accuracy wins)
-export function iqFromStored(correct, total, correctMs, questionSeconds) {
+// Shared core: A is accuracy in [0,1] (plain or level-weighted); speed bonus S
+// is based on the average time over the `correct` answers.
+function iqCore(A, total, correct, correctMs, questionSeconds) {
   if (!total) return 70;
   const L = Math.max(1, questionSeconds * 1000);
-  const A = correct / total;
   let S = 0;
   if (correct > 0) {
     const avg = Math.min(Math.max((correctMs || 0) / correct, 0), L);
@@ -46,6 +49,17 @@ export function iqFromStored(correct, total, correctMs, questionSeconds) {
   const B = (0.9 * 70) / total; // < one correct answer -> accuracy always wins
   const iq = Math.max(70, Math.min(145, 70 + 70 * A + B * A * S));
   return Math.round(iq * 100) / 100; // 2-decimal precision (faster -> strictly higher)
+}
+
+export function iqFromStored(correct, total, correctMs, questionSeconds) {
+  return iqCore(total ? correct / total : 0, total, correct, correctMs, questionSeconds);
+}
+
+// Final IQ test: accuracy is level-weighted (harder levels count more), so a
+// correct hard question lifts the score more than an easy one.
+export function iqWeighted(correctWeight, totalWeight, total, correct, correctMs, questionSeconds) {
+  const A = totalWeight > 0 ? correctWeight / totalWeight : 0;
+  return iqCore(A, total, correct, correctMs, questionSeconds);
 }
 
 // Sum of time spent on CORRECT answers (capped per-question at the limit).
@@ -231,6 +245,10 @@ publicRouter.post(
       return res.status(400).json({ error: "This voucher has already been used." });
 
     const settings = await getSettings();
+    // Test type: classic (20 random) or final (6 per level × 5 = stratified 30).
+    const mode = req.body?.mode === "final" ? "final" : "classic";
+    const qSeconds = mode === "final" ? settings.finalQuestionSeconds : settings.questionSeconds;
+
     const picked = await withTx(async (client) => {
       if (!practice) {
         // consume one use atomically (guards against races / exhaustion)
@@ -243,8 +261,20 @@ publicRouter.post(
         );
         if (upd.rowCount === 0) throw new Error("ALREADY_USED");
       }
+      if (mode === "final") {
+        // Fair stratified sample: an equal random slice from every difficulty level.
+        const ids = [];
+        for (const lv of [1, 2, 3, 4, 5]) {
+          const r = await client.query(
+            "SELECT id FROM questions WHERE active = true AND bank = 'final' AND level = $1 ORDER BY random() LIMIT $2",
+            [lv, settings.finalPerLevel]
+          );
+          ids.push(...r.rows.map((x) => x.id));
+        }
+        return ids;
+      }
       const q = await client.query(
-        "SELECT id FROM questions WHERE active = true ORDER BY random() LIMIT $1",
+        "SELECT id FROM questions WHERE active = true AND bank <> 'final' ORDER BY random() LIMIT $1",
         [settings.testLength]
       );
       return q.rows.map((r) => r.id);
@@ -266,13 +296,14 @@ publicRouter.post(
 
     await query(
       `INSERT INTO attempts(id, voucher_code, name, practice, qids, idx, current_nonce, served_at,
-         ip, country, region, city, isp, is_vpn, ua, browser, os, device, fingerprint, client_info, bot_flags)
+         ip, country, region, city, isp, is_vpn, ua, browser, os, device, fingerprint, client_info, bot_flags,
+         test_type, q_seconds)
        VALUES($1,$2,$3,$4,$5,0,$6, now(),
-         $7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)`,
+         $7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)`,
       [id, code, name, practice, picked, nonce,
        ip, geo.country, geo.region, geo.city, geo.isp, isVpn, ua,
        dev.browser, dev.os, dev.device, (client.fingerprint || "").toString().slice(0, 64),
-       JSON.stringify(client), JSON.stringify(botFlags)]
+       JSON.stringify(client), JSON.stringify(botFlags), mode, qSeconds]
     );
 
     const question = await buildQuestion(picked[0]);
@@ -282,9 +313,10 @@ publicRouter.post(
       nonce,
       index: 0,
       total: picked.length,
-      settings: { questionSeconds: settings.questionSeconds },
+      settings: { questionSeconds: qSeconds },
       watermark: `${name} · ${code} · ${new Date().toISOString().slice(0, 10)}`,
       practice,
+      mode,
     });
   }
 );
@@ -305,8 +337,11 @@ publicRouter.post(
       return res.status(409).json({ error: "Out-of-order submission rejected." });
 
     const settings = await getSettings();
+    // The per-question limit is snapshotted on the attempt at start (classic vs
+    // final differ); fall back to the live global for old in-flight attempts.
+    const seconds = a.q_seconds || settings.questionSeconds;
     const qid = a.qids[a.idx];
-    const qrow = (await query("SELECT category, correct_index FROM questions WHERE id=$1", [qid])).rows[0];
+    const qrow = (await query("SELECT category, correct_index, weight FROM questions WHERE id=$1", [qid])).rows[0];
 
     const serverElapsed = Date.now() - new Date(a.served_at).getTime();
     // If the question was confirmed displayed, served_at already == display time
@@ -315,7 +350,7 @@ publicRouter.post(
       ? 0
       : Math.min(Math.max(Number(req.body?.renderDelayMs) || 0, 0), RENDER_CREDIT_MS);
     const effective = serverElapsed - credit - RTT_GRACE_MS;
-    const timedOut = effective > settings.questionSeconds * 1000;
+    const timedOut = effective > seconds * 1000;
 
     const sel = req.body?.selectedIndex;
     const selected = sel === null || sel === undefined ? null : Number(sel);
@@ -326,6 +361,7 @@ publicRouter.post(
     answers.push({
       qid,
       category: qrow?.category || "?",
+      weight: Number(qrow?.weight) || 1,
       sel: selected,
       correct: !!isCorrect,
       elapsedMs: Math.max(0, Math.round(effective)),
@@ -365,8 +401,16 @@ publicRouter.post(
       const humanness = humannessScore(reasons, a);
       const flagged = reasons.length > 0;
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
-      const correctMs = correctMsOf(answers, settings.questionSeconds);
-      const iq = iqFromStored(correct, total, correctMs, settings.questionSeconds);
+      const correctMs = correctMsOf(answers, seconds);
+
+      // Final test: level-weighted accuracy (harder levels count more). Classic
+      // test: plain accuracy. Store the weighting inputs so recalc stays exact.
+      const isFinal = a.test_type === "final";
+      const totalWeight = answers.reduce((s, x) => s + (Number(x.weight) || 1), 0);
+      const correctWeight = answers.filter((x) => x.correct).reduce((s, x) => s + (Number(x.weight) || 1), 0);
+      const iq = isFinal
+        ? iqWeighted(correctWeight, totalWeight, total, correct, correctMs, seconds)
+        : iqFromStored(correct, total, correctMs, seconds);
 
       const integrityOut = { ...integrity, reasons, flagged, humanness };
       await query(
@@ -376,16 +420,17 @@ publicRouter.post(
 
       if (!a.practice) {
         await query(
-          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, correct_ms, iq, flagged, excluded, integrity)
-           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10)`,
+          `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, correct_ms, iq,
+                              flagged, excluded, integrity, test_type, correct_weight, total_weight, q_seconds)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10,$11,$12,$13,$14)`,
           [a.name, a.voucher_code, correct, total, percent, durationMs, correctMs, iq, flagged,
-           JSON.stringify(integrityOut)]
+           JSON.stringify(integrityOut), a.test_type || "classic", correctWeight, totalWeight, seconds]
         );
       }
       const review = await buildReview(answers);
       return res.json({
         done: true,
-        result: { correct, total, percent, iq, byCategory, durationMs, practice: a.practice, flagged, reasons, humanness },
+        result: { correct, total, percent, iq, byCategory, durationMs, practice: a.practice, flagged, reasons, humanness, testType: a.test_type || "classic" },
         review,
       });
     }
@@ -449,12 +494,19 @@ publicRouter.post(
 // ---- Public scoreboard (flagged/hidden attempts excluded).
 publicRouter.get("/scoreboard", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
+  const type = req.query.type === "final" ? "final" : "classic";
+  // Final (level-weighted IQ) and classic (flat IQ) are separate boards — the
+  // two IQ numbers aren't comparable. Classic ranks by raw correct count first
+  // (unchanged); final ranks by its weighted IQ first.
+  const order = type === "final"
+    ? "iq DESC NULLS LAST, correct DESC, duration_ms ASC NULLS LAST, created_at ASC"
+    : "correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC";
   const { rows } = await query(
     `SELECT name, correct, total, percent, duration_ms, iq::float8 AS iq, created_at
-     FROM scores WHERE excluded = false
-     ORDER BY correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC
+     FROM scores WHERE excluded = false AND test_type = $2
+     ORDER BY ${order}
      LIMIT $1`,
-    [limit]
+    [limit, type]
   );
   res.json(rows.map((r, i) => ({ rank: i + 1, ...r })));
 });

@@ -9,6 +9,8 @@ export function AdminQuestions() {
   const [list, setList] = useState<AdminQuestion[]>([]);
   const [showAdd, setShowAdd] = useState(false);
   const [page, setPage] = useState(0);
+  const [bankFilter, setBankFilter] = useState<"all" | "classic" | "final">("all");
+  const [levelFilter, setLevelFilter] = useState<"all" | "1" | "2" | "3" | "4" | "5">("all");
   const load = () => api.admin.questions().then(setList);
   useEffect(() => { load(); }, []);
 
@@ -22,9 +24,17 @@ export function AdminQuestions() {
     await api.admin.patchQuestion(q.id, { correctIndex: idx }); load();
   };
 
-  const pageCount = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  const bankOf = (q: AdminQuestion) => q.bank || "classic";
+  const filtered = list.filter((q) => {
+    if (bankFilter !== "all" && bankOf(q) !== bankFilter) return false;
+    if (bankFilter === "final" && levelFilter !== "all" && String(q.level) !== levelFilter) return false;
+    return true;
+  });
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, pageCount - 1);
-  const shown = list.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
+  const shown = filtered.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
+  const finalCount = list.filter((q) => bankOf(q) === "final").length;
 
   return (
     <div className="panel">
@@ -34,6 +44,22 @@ export function AdminQuestions() {
           <button className="btn small" onClick={() => setShowAdd((s) => !s)}>
             {showAdd ? "Close" : "+ Add question"}
           </button>
+        </div>
+        <div className="row gap wrap" style={{ marginTop: 8 }}>
+          <label className="field sm"><span>Pool</span>
+            <select value={bankFilter} onChange={(e) => { setBankFilter(e.target.value as typeof bankFilter); setPage(0); }}>
+              <option value="all">All ({list.length})</option>
+              <option value="classic">Quick test ({list.length - finalCount})</option>
+              <option value="final">Final IQ ({finalCount})</option>
+            </select></label>
+          {bankFilter === "final" && (
+            <label className="field sm"><span>Level</span>
+              <select value={levelFilter} onChange={(e) => { setLevelFilter(e.target.value as typeof levelFilter); setPage(0); }}>
+                <option value="all">All levels</option>
+                {[1, 2, 3, 4, 5].map((l) => <option key={l} value={String(l)}>Level {l}</option>)}
+              </select></label>
+          )}
+          <span className="muted small" style={{ alignSelf: "center" }}>Showing {filtered.length}</span>
         </div>
         {showAdd && <AddQuestion onDone={() => { setShowAdd(false); load(); }} />}
       </div>
@@ -54,6 +80,7 @@ export function AdminQuestions() {
                 </div>
               </div>
               <div className="q-meta">
+                {(q.bank || "classic") === "final" && <span className="tag" style={{ background: "var(--iq-accent)", color: "#fff" }}>Final · L{q.level}</span>}
                 <span className="tag">{q.type}</span>
                 <span className="tag light">{q.category}</span>
                 {q.prompt && <span className="q-prompt">{q.prompt}</span>}

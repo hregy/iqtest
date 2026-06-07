@@ -53,6 +53,7 @@ export function Results() {
 
       <div style={{ textAlign: "center", marginTop: 10 }}>
         {result.practice && <p className="practice-badge">Practice run — not recorded</p>}
+        {result.testType === "final" && <p className="band-pill" style={{ marginTop: 0 }}>Final IQ Test · level-weighted</p>}
         <div style={{ display: "grid", placeItems: "center", marginTop: 8 }}>
           <Gauge value={iq} size={216} display={iq.toFixed(2)} />
         </div>

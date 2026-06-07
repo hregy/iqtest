@@ -143,7 +143,7 @@ adminRouter.post("/scores/recalc", async (_req, res) => {
 // ---- questions ---------------------------------------------------------
 adminRouter.get("/questions", async (_req, res) => {
   const { rows } = await query(
-    "SELECT id, ext_id, type, category, prompt, prompt_fa, correct_index, active, puzzle_image_id FROM questions ORDER BY id"
+    "SELECT id, ext_id, type, category, prompt, prompt_fa, correct_index, active, puzzle_image_id, bank, level FROM questions ORDER BY id"
   );
   const out = [];
   for (const q of rows) {
@@ -160,6 +160,8 @@ adminRouter.get("/questions", async (_req, res) => {
       promptFa: q.prompt_fa,
       correctIndex: q.correct_index,
       active: q.active,
+      bank: q.bank,
+      level: q.level,
       puzzleImage: q.puzzle_image_id ? `/api/images/${q.puzzle_image_id}` : null,
       options: opts.rows.map((o) => ({
         idx: o.idx,
@@ -324,7 +326,7 @@ adminRouter.get("/settings", async (_req, res) => {
 });
 
 adminRouter.put("/settings", async (req, res) => {
-  for (const key of ["test_length", "question_seconds"]) {
+  for (const key of ["test_length", "question_seconds", "final_per_level", "final_question_seconds"]) {
     if (req.body?.[key] !== undefined) {
       await query(
         "INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO UPDATE SET value=$2",

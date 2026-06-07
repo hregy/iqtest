@@ -108,6 +108,18 @@ ALTER TABLE attempts ADD COLUMN IF NOT EXISTS bot_flags   JSONB;
 -- Bilingual: Farsi prompt alongside the English one.
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS prompt_fa TEXT NOT NULL DEFAULT '';
 
+-- Final IQ test bank: questions are tagged with a pool (`bank`), a difficulty
+-- `level` (1..5), and a scoring `weight` (harder levels count more). The classic
+-- 165-question pool stays bank='classic' with level NULL / weight 1.
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS bank   TEXT NOT NULL DEFAULT 'classic';
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS level  INT;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS weight REAL NOT NULL DEFAULT 1;
+
+-- Attempts remember which test they are (classic vs final) and snapshot the
+-- per-question time limit at start (immune to admin changing it mid-test).
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS test_type TEXT NOT NULL DEFAULT 'classic';
+ALTER TABLE attempts ADD COLUMN IF NOT EXISTS q_seconds INT;
+
 -- Integrity columns on scores (added to existing tables too).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS flagged   BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;
@@ -116,6 +128,12 @@ ALTER TABLE scores ADD COLUMN IF NOT EXISTS integrity JSONB;
 -- answers so the score is fully reproducible from the stored row.
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS iq numeric(6,2);
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS correct_ms INT;
+-- Final test rows: which board they belong to, the level-weighted accuracy
+-- inputs, and the per-question seconds used (all so iq is reproducible by recalc).
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS test_type      TEXT NOT NULL DEFAULT 'classic';
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS correct_weight REAL;
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS total_weight   REAL;
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS q_seconds      INT;
 -- Widen iq to 2-decimal precision if it was created as INT or numeric(5,1).
 DO $$ BEGIN
   IF (SELECT coalesce(numeric_scale, 0) FROM information_schema.columns

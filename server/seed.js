@@ -16,7 +16,14 @@ async function applySchema() {
 }
 
 async function ensureSettings() {
-  for (const [k, v] of Object.entries({ test_length: "20", question_seconds: "10" })) {
+  const defaults = {
+    test_length: "20",
+    question_seconds: "10",
+    // Final IQ test: 6 questions per level × 5 levels = 30, with their own time limit.
+    final_per_level: "6",
+    final_question_seconds: "30",
+  };
+  for (const [k, v] of Object.entries(defaults)) {
     await query("INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO NOTHING", [k, v]);
   }
 }
@@ -82,6 +89,11 @@ export async function seedQuestions() {
   return seed.length;
 }
 
+async function countFinal() {
+  const { rows } = await query("SELECT count(*)::int AS c FROM questions WHERE bank='final'");
+  return rows[0].c;
+}
+
 // Idempotent boot init: schema + settings + admin voucher, seed only if empty.
 export async function initDb({ seedIfEmpty = false } = {}) {
   await applySchema();
@@ -90,6 +102,16 @@ export async function initDb({ seedIfEmpty = false } = {}) {
   if (seedIfEmpty && (await countQuestions()) === 0) {
     const n = await seedQuestions();
     console.log(`Seeded ${n} questions on first boot.`);
+  }
+  // Load the 300-item Final bank if it's present on disk but not yet imported.
+  if (seedIfEmpty && (await countFinal()) === 0) {
+    try {
+      const { seedFinalBank } = await import("./seed-final.js");
+      const n = await seedFinalBank();
+      if (n) console.log(`Seeded ${n} final-bank questions on first boot.`);
+    } catch (e) {
+      console.warn("Final bank not seeded:", e.message);
+    }
   }
 }
 

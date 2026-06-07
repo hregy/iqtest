@@ -24,7 +24,7 @@ interface Current {
 export function Test() {
   const location = useLocation();
   const navigate = useNavigate();
-  const creds = location.state as { name?: string; voucher?: string } | null;
+  const creds = location.state as { name?: string; voucher?: string; mode?: "classic" | "final" } | null;
 
   const [phase, setPhase] = useState<Phase>("gate");
   const [cur, setCur] = useState<Current | null>(null);
@@ -66,7 +66,7 @@ export function Test() {
     setError("");
     try {
       const client = await collectClient();
-      const s: StartResponse = await api.startTest(creds.name, creds.voucher, token, client);
+      const s: StartResponse = await api.startTest(creds.name, creds.voucher, token, client, creds.mode || "classic");
       setCur({
         token: s.attemptToken,
         question: s.question,
@@ -121,7 +121,11 @@ export function Test() {
           <div className="hero-inner">
             <EinsteinPortrait size={92} hair="var(--iq-chalk)" ring="var(--iq-accent)" />
             <h1 className="hero-title" style={{ marginTop: 14 }}>Ready, <span className="accent">{creds.name}</span>?</h1>
-            <p className="hero-sub">The test runs in full screen and is timed per question.</p>
+            <p className="hero-sub">
+              {creds.mode === "final"
+                ? "Final IQ Test — 30 questions across 5 difficulty levels, timed per question."
+                : "The test runs in full screen and is timed per question."}
+            </p>
           </div>
         </div>
         <div className="rules">

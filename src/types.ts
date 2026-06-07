@@ -44,6 +44,7 @@ export interface StartResponse {
   settings: { questionSeconds: number };
   watermark: string;
   practice: boolean;
+  mode?: "classic" | "final";
 }
 
 export interface SubmitResult {
@@ -56,6 +57,7 @@ export interface SubmitResult {
   practice: boolean;
   flagged?: boolean;
   reasons?: string[];
+  testType?: "classic" | "final";
 }
 
 export interface ReviewItem {
@@ -206,4 +208,6 @@ export interface AdminQuestion {
   active: boolean;
   puzzleImage: string | null;
   options: TestOption[];
+  bank?: string;
+  level?: number | null;
 }

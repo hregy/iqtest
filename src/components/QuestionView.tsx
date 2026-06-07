@@ -109,7 +109,11 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
             <LoadedImage className={"puzzle-img" + (ready ? "" : " hidden")} src={question.puzzleImage} alt="puzzle" onSettled={oneLoaded} />
           </div>
         ) : (
-          ready && <p className="odd-hint">Three of these are alike — tap the one that's different.</p>
+          // Only the classic odd-one-out items (no puzzle AND no prompt) get this
+          // hint; prompt-driven text questions (final bank) speak for themselves.
+          ready && !question.prompt && !question.promptFa && (
+            <p className="odd-hint">Three of these are alike — tap the one that's different.</p>
+          )
         )}
 
         {!ready && <div className="img-loading"><div className="spinner" /><span>Loading question…</span></div>}

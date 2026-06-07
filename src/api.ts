@@ -38,10 +38,10 @@ export const api = {
   getConfig: () =>
     req<{ testLength: number; questionSeconds: number; turnstileSiteKey: string }>("/api/config"),
 
-  startTest: (name: string, voucher: string, turnstileToken: string, client: unknown) =>
+  startTest: (name: string, voucher: string, turnstileToken: string, client: unknown, mode: "classic" | "final" = "classic") =>
     req<StartResponse>("/api/test/start", {
       method: "POST",
-      body: J({ name, voucher, turnstileToken, client }),
+      body: J({ name, voucher, turnstileToken, client, mode }),
     }),
 
   // Tell the server the question is now displayed -> it (re)starts the clock.
@@ -70,7 +70,8 @@ export const api = {
       body: J({ attemptToken, events }),
     }).catch(() => ({ ok: false })),
 
-  scoreboard: () => req<ScoreRow[]>("/api/scoreboard"),
+  scoreboard: (type: "classic" | "final" = "classic") =>
+    req<ScoreRow[]>(`/api/scoreboard?type=${type}`),
 
   admin: {
     login: (password: string) =>

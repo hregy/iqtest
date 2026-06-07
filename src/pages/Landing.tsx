@@ -12,6 +12,7 @@ const RULES = [
 export function Landing() {
   const [name, setName] = useState("");
   const [voucher, setVoucher] = useState("");
+  const [mode, setMode] = useState<"classic" | "final">("classic");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ export function Landing() {
     e.preventDefault();
     if (!name.trim()) return setError("Enter a name to begin.");
     if (!voucher.trim()) return setError("Enter your voucher code.");
-    navigate("/test", { state: { name: name.trim(), voucher: voucher.trim() } });
+    navigate("/test", { state: { name: name.trim(), voucher: voucher.trim(), mode } });
   };
 
   return (
@@ -41,6 +42,21 @@ export function Landing() {
       </div>
 
       <form className="card form" style={{ marginTop: 16 }} onSubmit={submit}>
+        <div className="field">
+          <span>Choose your test</span>
+          <div className="ttseg" role="tablist">
+            <button type="button" role="tab" aria-selected={mode === "classic"}
+              className={"ttseg-btn" + (mode === "classic" ? " on" : "")} onClick={() => setMode("classic")}>
+              <strong>Quick test</strong>
+              <em>20 puzzles · warm-up</em>
+            </button>
+            <button type="button" role="tab" aria-selected={mode === "final"}
+              className={"ttseg-btn" + (mode === "final" ? " on" : "")} onClick={() => setMode("final")}>
+              <strong>Final IQ Test</strong>
+              <em>30 questions · 5 levels</em>
+            </button>
+          </div>
+        </div>
         <label className="field">
           <span>Your name</span>
           <input className="input" value={name} placeholder="e.g. Albert" maxLength={40}
