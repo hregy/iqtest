@@ -1,0 +1,21 @@
+# Render Blueprint. The app is a single Node web service that serves the
+# built React app AND the /api backend, talking to a Postgres database
+# (use Supabase's connection string, or Render Postgres).
+services:
+  - type: web
+    name: iqtest
+    runtime: node
+    plan: free
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false # set to your Supabase Postgres connection string
+      - key: PGSSL
+        value: "true" # Supabase / managed Postgres requires SSL
+      - key: ADMIN_PASSWORD
+        sync: false # choose your admin panel password
+      - key: ADMIN_VOUCHER
+        sync: false # e.g. ADMIN-ALL-ACCESS (master/practice voucher)
+      - key: JWT_SECRET
+        generateValue: true

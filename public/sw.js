@@ -29,6 +29,12 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
+  // Dynamic API responses must always hit the network (scoreboard, config,
+  // admin data). Images are immutable and may be cached.
+  if (url.pathname.startsWith("/api/") && !url.pathname.startsWith("/api/images/")) {
+    return; // let the browser handle it (network)
+  }
+
   const isHTML =
     req.mode === "navigate" ||
     (req.headers.get("accept") || "").includes("text/html");

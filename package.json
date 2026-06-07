@@ -5,14 +5,25 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node server/index.js",
+    "start": "node server/index.js",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host",
+    "seed": "node server/seed.js",
     "generate": "python3 scripts/generate_questions.py",
     "verify": "python3 scripts/verify_questions.py"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "pg": "^8.21.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.17.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

@@ -23,7 +23,7 @@ import sys
 from collections import Counter
 
 HERE = os.path.dirname(__file__)
-VERIFY = os.path.join(HERE, "verify_data.json")
+VERIFY = os.path.join(HERE, "seed_data.json")
 
 ATTRS = ["shape", "color", "rot", "fill", "scale", "count"]
 
@@ -84,7 +84,7 @@ def predict_matrix_cell(grid):
 
 
 def verify_matrix(q, problems):
-    tag = f"{q['id']} (matrix)"
+    tag = f"{q['ext_id']} (matrix)"
     meta = q["meta"]
     pred = predict_matrix_cell(meta["grid"])
     if pred is None:
@@ -114,7 +114,7 @@ def apply_transform(s, t):
 
 
 def verify_analogy(q, problems):
-    tag = f"{q['id']} (analogy)"
+    tag = f"{q['ext_id']} (analogy)"
     m = q["meta"]
     t = m["transform"]
     if not spec_eq(apply_transform(m["A"], t), m["B"]):
@@ -130,7 +130,7 @@ def verify_analogy(q, problems):
 
 # ---- odd-one-out --------------------------------------------------------
 def verify_odd(q, problems):
-    tag = f"{q['id']} (odd)"
+    tag = f"{q['ext_id']} (odd)"
     slots = q["meta"]["slots"]
     found = None
     for a in ATTRS:
@@ -151,7 +151,7 @@ def verify_odd(q, problems):
 
 # ---- progression --------------------------------------------------------
 def verify_progression(q, problems):
-    tag = f"{q['id']} (progression)"
+    tag = f"{q['ext_id']} (progression)"
     m = q["meta"]
     mode, seq, ans = m["mode"], m["seq_vals"], m["answer_val"]
     if mode == "count":
@@ -181,7 +181,7 @@ def main():
     problems = []
     for q in data:
         if not (0 <= q["correctIndex"] <= 3):
-            problems.append(f"{q['id']}: correctIndex out of range")
+            problems.append(f"{q['ext_id']}: correctIndex out of range")
             continue
         k = q["meta"]["kind"]
         if k == "matrix":
@@ -193,10 +193,10 @@ def main():
         elif k == "progression":
             verify_progression(q, problems)
         else:
-            problems.append(f"{q['id']}: unknown kind {k}")
+            problems.append(f"{q['ext_id']}: unknown kind {k}")
 
     print(f"Checked {len(data)} questions.")
-    print("Type counts:", dict(Counter(q["type"] for q in data)))
+    print("Type counts:", dict(Counter(q.get("type","?") for q in data)))
     if problems:
         print(f"\nFAILED — {len(problems)} problem(s):")
         for p in problems:

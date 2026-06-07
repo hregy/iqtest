@@ -1,19 +1,80 @@
-export type Category = "pattern" | "analogy" | "spatial" | "series";
+export interface TestOption {
+  idx: number;
+  kind: "image" | "text";
+  text?: string | null;
+  image?: string | null;
+}
 
-export interface Question {
-  id: string;
-  image: string;
+export interface TestQuestion {
+  id: number;
   type: string;
-  category: Category;
-  options: string[]; // always ["A","B","C","D"]
-  correctIndex: number; // 0..3
+  category: string;
+  prompt: string;
+  puzzleImage: string | null;
+  options: TestOption[];
 }
 
-export interface Answer {
-  questionId: string;
-  selectedIndex: number | null; // null = timed out / skipped
-  correct: boolean;
-  category: Category;
+export interface StartResponse {
+  sessionToken: string;
+  questions: TestQuestion[];
+  settings: { questionSeconds: number };
 }
 
-export type Phase = "start" | "question" | "results";
+export interface SubmitResult {
+  correct: number;
+  total: number;
+  percent: number;
+  byCategory: Record<string, { correct: number; total: number }>;
+  durationMs: number;
+  practice: boolean;
+}
+
+export interface ScoreRow {
+  rank: number;
+  name: string;
+  correct: number;
+  total: number;
+  percent: number;
+  duration_ms: number | null;
+  created_at: string;
+}
+
+export interface AnswerInput {
+  id: number;
+  selectedIndex: number | null;
+}
+
+// ---- admin types ----
+export interface Voucher {
+  code: string;
+  type: "single" | "admin";
+  used: boolean;
+  used_by: string | null;
+  used_at: string | null;
+  expires_at: string | null;
+  created_at: string;
+}
+
+export interface AdminScore {
+  id: number;
+  name: string;
+  voucher_code: string | null;
+  correct: number;
+  total: number;
+  percent: number;
+  duration_ms: number | null;
+  excluded: boolean;
+  created_at: string;
+}
+
+export interface AdminQuestion {
+  id: number;
+  ext_id: string | null;
+  type: string;
+  category: string;
+  prompt: string;
+  correctIndex: number;
+  active: boolean;
+  puzzleImage: string | null;
+  options: TestOption[];
+}

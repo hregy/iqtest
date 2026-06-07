@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 """
-Generate 100 image-based, purely-visual IQ puzzles as SVG files plus a
-manifest (questions.json) consumed by the web app.
+Generate 100 image-based, purely-visual IQ puzzles in DECOUPLED form:
 
-Every question is a single self-contained SVG (portrait, 400x540) with the
-four answer choices drawn into the 2x2 grid at the bottom (labeled A-D). The
-web UI overlays tap targets on those four boxes, so the layout of the option
-grid must stay fixed (see option_grid + HOTSPOTS in src/screens/Question.tsx).
+  for each question we emit
+    - one PUZZLE image (the prompt graphic; omitted for odd-one-out)
+    - four OPTION images (the tappable answer tiles)
+  plus a server-only seed file (scripts/seed_data.json) that contains the
+  correct index and verification metadata. The correct answer is NEVER part
+  of anything shipped to the browser; the backend scores submissions.
 
-Question types (all procedurally generated, single unambiguous answer):
-  1. matrix-reasoning   "Find the missing piece" (3x3 Raven's-style)   -> pattern
-  2. visual-analogy     "A is to B as C is to ?"                        -> analogy
-  3. odd-one-out        "Which one is the odd one out?"                 -> spatial
-  4. shape-progression  "Which shape completes the pattern?"            -> series
+Outputs:
+  scripts/seed_assets/qNNN_puzzle.svg
+  scripts/seed_assets/qNNN_opt0.svg .. qNNN_opt3.svg
+  scripts/seed_data.json
+
+Question types (single unambiguous answer):
+  matrix-reasoning   (pattern)  | visual-analogy (analogy)
+  odd-one-out        (spatial)  | shape-progression (series)
 
 Run:  python3 scripts/generate_questions.py
 """
@@ -26,53 +30,40 @@ import random
 SEED = 20260606
 rng = random.Random(SEED)
 
-OUT_IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "public", "questions")
-OUT_MANIFEST = os.path.join(os.path.dirname(__file__), "..", "src", "data", "questions.json")
+HERE = os.path.dirname(__file__)
+ASSET_DIR = os.path.join(HERE, "seed_assets")
+SEED_DATA = os.path.join(HERE, "seed_data.json")
 
-W, H = 400, 540
 INK = "#1f2933"
 ACCENT = "#3b5bdb"
 MUTED = "#828ba3"
-PAPER = "#ffffff"
-BOXBG = "#f1f3f9"
 BOXLINE = "#c3cae0"
 
 PAL = ["#1f2933", "#e8590c", "#2b8a3e", "#5f3dc4", "#c92a2a", "#1c7ed6"]
 SHAPES = ["circle", "triangle", "square", "pentagon", "hexagon", "star", "diamond"]
-# Shapes whose rotation is visually obvious (used when rotation is a variable).
-ROT_VIS = ["triangle", "pentagon", "star", "arrow"]
-OPT_LABELS = ["A", "B", "C", "D"]
+ROT_VIS = ["triangle", "pentagon", "star", "arrow"]  # rotation is visually obvious
+
+OPT_W, OPT_H = 160, 120  # option tile canvas
 
 # ---------------------------------------------------------------------------
 # SVG primitives
 # ---------------------------------------------------------------------------
 
-def svg_open():
+def svg_doc(w, h, inner):
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
-        f'width="{W}" height="{H}" font-family="Verdana,Arial,sans-serif">'
-        f'<rect x="0" y="0" width="{W}" height="{H}" fill="{PAPER}"/>'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
+        f'width="{w}" height="{h}" font-family="Verdana,Arial,sans-serif">{inner}</svg>'
     )
-
-
-def svg_close():
-    return "</svg>"
 
 
 def text(x, y, s, size=22, fill=INK, anchor="middle", weight="normal"):
     return (
         f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" '
-        f'text-anchor="{anchor}" font-weight="{weight}" '
-        f'dominant-baseline="middle">{s}</text>'
+        f'text-anchor="{anchor}" font-weight="{weight}" dominant-baseline="middle">{s}</text>'
     )
 
 
-def title(prompt):
-    size = 20 if len(prompt) <= 26 else 17
-    return text(W / 2, 40, prompt, size=size, fill=ACCENT, weight="bold")
-
-
-def rounded_rect(x, y, w, h, fill=BOXBG, stroke=BOXLINE, rx=12, sw=2):
+def rounded_rect(x, y, w, h, fill="none", stroke=BOXLINE, rx=12, sw=2):
     return (
         f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{rx}" '
         f'fill="{fill}" stroke="{stroke}" stroke-width="{sw}"/>'
@@ -80,7 +71,6 @@ def rounded_rect(x, y, w, h, fill=BOXBG, stroke=BOXLINE, rx=12, sw=2):
 
 
 def qbox(cx, cy, half):
-    """The yellow '?' box used for the missing cell."""
     return (
         rounded_rect(cx - half, cy - half, 2 * half, 2 * half, fill="#fff3bf", stroke="#f0b429")
         + text(cx, cy, "?", size=int(half * 1.1), fill="#b07908", weight="bold")
@@ -133,7 +123,7 @@ def shape(kind, cx, cy, r, color=INK, rotation=0, fill="none", sw=4):
 
 
 # ---------------------------------------------------------------------------
-# Shape "spec": one dict describes a drawn element across all puzzle types.
+# Shape "spec" shared by rendering + verification
 # ---------------------------------------------------------------------------
 
 def base_spec():
@@ -141,18 +131,14 @@ def base_spec():
 
 
 def sig(s):
-    """Hashable signature for distinctness / comparison."""
     return (s["shape"], s["color"], int(s.get("rot", 0)) % 360,
             s.get("fill", "none"), round(s.get("scale", 1.0), 2), int(s.get("count", 1)))
 
 
 def render_spec(cx, cy, r, s):
-    kind = s["shape"]
-    color = s["color"]
-    rot = s.get("rot", 0)
-    fill = s.get("fill", "none")
-    scale = s.get("scale", 1.0)
-    count = int(s.get("count", 1))
+    kind, color = s["shape"], s["color"]
+    rot, fill = s.get("rot", 0), s.get("fill", "none")
+    scale, count = s.get("scale", 1.0), int(s.get("count", 1))
     rr = r * scale
     if count <= 1:
         return shape(kind, cx, cy, rr, color=color, rotation=rot, fill=fill, sw=4)
@@ -160,8 +146,7 @@ def render_spec(cx, cy, r, s):
     rows = math.ceil(count / cols)
     step = (r * 1.8) / max(cols, rows)
     mini = step * 0.42
-    out = []
-    placed = 0
+    out, placed = [], 0
     for ry in range(rows):
         for cc in range(cols):
             if placed >= count:
@@ -173,59 +158,30 @@ def render_spec(cx, cy, r, s):
     return "".join(out)
 
 
+def option_svg(spec):
+    """A single answer tile image rendering one spec."""
+    return svg_doc(OPT_W, OPT_H, render_spec(OPT_W / 2, OPT_H / 2, 42, spec))
+
+
 def set_attr(s, attr, val):
-    if attr == "count":
-        s["count"] = val
-    elif attr == "shape":
-        s["shape"] = val
-    elif attr == "rot":
-        s["rot"] = val
-    elif attr == "color":
-        s["color"] = val
-    elif attr == "size":
-        s["scale"] = val
+    keys = {"count": "count", "shape": "shape", "rot": "rot", "color": "color", "size": "scale"}
+    s[keys[attr]] = val
 
 
 def values_for(attr):
-    if attr == "count":
-        return [1, 2, 3]
-    if attr == "rot":
-        return [0, 90, 180]
-    if attr == "size":
-        return [0.55, 0.8, 1.1]
-    if attr == "color":
-        return rng.sample(PAL, 3)
-    if attr == "shape":
-        return rng.sample(SHAPES, 3)
-    raise ValueError(attr)
-
-
-# ---------------------------------------------------------------------------
-# Option grid (2x2 A/B/C/D) -- layout fixed; mirrored by HOTSPOTS in the app.
-# ---------------------------------------------------------------------------
-
-def option_grid(render_content):
-    out = []
-    bx, by = 30, 330
-    bw, bh = 165, 95
-    gap_x, gap_y = 10, 10
-    r = 30
-    for i in range(4):
-        col, row = i % 2, i // 2
-        x = bx + col * (bw + gap_x)
-        y = by + row * (bh + gap_y)
-        cx, cy = x + bw / 2, y + bh / 2
-        out.append(rounded_rect(x, y, bw, bh))
-        out.append(text(x + 16, y + 18, OPT_LABELS[i], size=18, fill=ACCENT, weight="bold"))
-        out.append(render_content(i, cx, cy, r))
-    return "".join(out)
+    return {
+        "count": [1, 2, 3],
+        "rot": [0, 90, 180],
+        "size": [0.55, 0.8, 1.1],
+        "color": lambda: rng.sample(PAL, 3),
+        "shape": lambda: rng.sample(SHAPES, 3),
+    }[attr] if attr in ("count", "rot", "size") else (rng.sample(PAL, 3) if attr == "color" else rng.sample(SHAPES, 3))
 
 
 def shuffle_options(options, answer_index):
     order = list(range(len(options)))
     rng.shuffle(order)
-    ordered = [options[i] for i in order]
-    return ordered, order.index(answer_index)
+    return [options[i] for i in order], order.index(answer_index)
 
 
 # ---------------------------------------------------------------------------
@@ -233,7 +189,6 @@ def shuffle_options(options, answer_index):
 # ---------------------------------------------------------------------------
 
 def gen_matrix():
-    # Choose two independent attributes: one varies by column, one by row.
     if rng.random() < 0.45:
         col_attr = "rot"
         row_attr = rng.choice(["count", "color", "size"])
@@ -248,9 +203,7 @@ def gen_matrix():
     if "color" not in (col_attr, row_attr):
         base["color"] = rng.choice(PAL)
 
-    col_vals = values_for(col_attr)
-    row_vals = values_for(row_attr)
-
+    col_vals, row_vals = values_for(col_attr), values_for(row_attr)
     grid = [[None] * 3 for _ in range(3)]
     for r in range(3):
         for c in range(3):
@@ -260,10 +213,7 @@ def gen_matrix():
             grid[r][c] = s
     answer = dict(grid[2][2])
 
-    # Plausible distractors: combinations that appear elsewhere in the grid.
-    seen = {sig(answer)}
-    distract = []
-    pool = []
+    seen, distract, pool = {sig(answer)}, [], []
     for cv in col_vals[:2]:
         s = dict(answer); set_attr(s, col_attr, cv); pool.append(s)
     for rv in row_vals[:2]:
@@ -273,38 +223,38 @@ def gen_matrix():
         if sig(s) not in seen:
             seen.add(sig(s)); distract.append(s)
     while len(distract) < 3:
-        s = dict(answer)
-        set_attr(s, col_attr, rng.choice(col_vals))
-        set_attr(s, row_attr, rng.choice(row_vals))
+        s = dict(answer); set_attr(s, col_attr, rng.choice(col_vals)); set_attr(s, row_attr, rng.choice(row_vals))
         if sig(s) not in seen:
             seen.add(sig(s)); distract.append(s)
     rng.shuffle(distract)
     options = [answer] + distract[:3]
     ordered, correct = shuffle_options(options, 0)
 
-    # ---- draw ----
-    body = [title("Find the missing piece")]
-    gx, gy, cell = 95, 66, 70
+    # puzzle image: 3x3 grid with missing bottom-right cell
+    gx, gy, cell = 9, 9, 84
+    inner = []
     for r in range(3):
         for c in range(3):
             x, y = gx + c * cell, gy + r * cell
             cx, cy = x + cell / 2, y + cell / 2
             if (r, c) == (2, 2):
-                body.append(qbox(cx, cy, 30))
+                inner.append(qbox(cx, cy, 34))
             else:
-                body.append(rounded_rect(x + 4, y + 4, cell - 8, cell - 8,
-                                         fill="#f8f9fd", stroke=BOXLINE, rx=10, sw=1.5))
-                body.append(render_spec(cx, cy, 19, grid[r][c]))
-    body.append(option_grid(lambda i, cx, cy, r: render_spec(cx, cy, r, ordered[i])))
+                inner.append(rounded_rect(x + 5, y + 5, cell - 10, cell - 10,
+                                          fill="#f8f9fd", stroke=BOXLINE, rx=10, sw=1.5))
+                inner.append(render_spec(cx, cy, 23, grid[r][c]))
+    puzzle = svg_doc(3 * cell + 18, 3 * cell + 18, "".join(inner))
 
     grid_meta = [[(None if (r, c) == (2, 2) else grid[r][c]) for c in range(3)] for r in range(3)]
     meta = {"kind": "matrix", "colAttr": col_attr, "rowAttr": row_attr,
             "grid": grid_meta, "answer": answer, "options": ordered}
-    return "".join(body), correct, "pattern", meta
+    return {"prompt": "Find the missing piece", "puzzle": puzzle,
+            "options": [option_svg(o) for o in ordered], "correct": correct,
+            "type": "matrix-reasoning", "category": "pattern", "meta": meta}
 
 
 # ---------------------------------------------------------------------------
-# 2) Visual analogy  (A : B :: C : ?)
+# 2) Visual analogy
 # ---------------------------------------------------------------------------
 
 def apply_transform(s, t):
@@ -331,18 +281,15 @@ def gen_analogy():
     elif kind == "fill":
         t = {"kind": "fill"}
         sa, sc = rng.sample(SHAPES, 2)
-        col = rng.choice(PAL)
-        A = dict(base_spec(), shape=sa, color=col, fill="none")
+        A = dict(base_spec(), shape=sa, color=rng.choice(PAL), fill="none")
         C = dict(base_spec(), shape=sc, color=rng.choice(PAL), fill="none")
     elif kind == "color":
         to = rng.choice(PAL)
         t = {"kind": "color", "to": to}
         sa, sc = rng.sample(SHAPES, 2)
-        ca = rng.choice([p for p in PAL if p != to])
-        cc = rng.choice([p for p in PAL if p != to])
-        A = dict(base_spec(), shape=sa, color=ca)
-        C = dict(base_spec(), shape=sc, color=cc)
-    else:  # size
+        A = dict(base_spec(), shape=sa, color=rng.choice([p for p in PAL if p != to]))
+        C = dict(base_spec(), shape=sc, color=rng.choice([p for p in PAL if p != to]))
+    else:
         t = {"kind": "size", "factor": rng.choice([0.55, 1.6])}
         sa, sc = rng.sample(SHAPES, 2)
         A = dict(base_spec(), shape=sa, color=rng.choice(PAL))
@@ -351,9 +298,7 @@ def gen_analogy():
     B = apply_transform(A, t)
     answer = apply_transform(C, t)
 
-    # Distractors: wrong transforms applied to C (identity + others).
-    seen = {sig(answer)}
-    pool = [dict(C)]  # "no change"
+    seen, pool = {sig(answer)}, [dict(C)]
     if kind == "rot":
         for d in (90, 180, 270):
             pool.append(dict(C, rot=(C.get("rot", 0) + d) % 360))
@@ -364,7 +309,7 @@ def gen_analogy():
     elif kind == "color":
         for col in PAL:
             pool.append(dict(C, color=col))
-    else:  # size
+    else:
         for f in (0.55, 0.8, 1.3, 1.6):
             pool.append(dict(C, scale=round(C.get("scale", 1.0) * f, 2)))
     distract = []
@@ -379,32 +324,30 @@ def gen_analogy():
     options = [answer] + distract[:3]
     ordered, correct = shuffle_options(options, 0)
 
-    # ---- draw ----
-    body = [title("A is to B as C is to ?")]
-    body.append(render_spec(85, 120, 30, A))
-    body.append(shape("arrow", 200, 120, 24, color=MUTED, sw=4))
-    body.append(render_spec(305, 120, 30, B))
-    body.append(text(85, 168, "A", size=13, fill=MUTED))
-    body.append(text(305, 168, "B", size=13, fill=MUTED))
-    body.append(render_spec(85, 235, 30, C))
-    body.append(shape("arrow", 200, 235, 24, color=MUTED, sw=4))
-    body.append(qbox(305, 235, 30))
-    body.append(text(85, 283, "C", size=13, fill=MUTED))
-    body.append(option_grid(lambda i, cx, cy, r: render_spec(cx, cy, r, ordered[i])))
+    inner = [
+        render_spec(60, 55, 32, A),
+        shape("arrow", 180, 55, 26, color=MUTED, sw=4),
+        render_spec(300, 55, 32, B),
+        render_spec(60, 150, 32, C),
+        shape("arrow", 180, 150, 26, color=MUTED, sw=4),
+        qbox(300, 150, 32),
+    ]
+    puzzle = svg_doc(360, 205, "".join(inner))
 
     meta = {"kind": "analogy", "transform": t, "A": A, "B": B, "C": C,
             "answer": answer, "options": ordered}
-    return "".join(body), correct, "analogy", meta
+    return {"prompt": "A is to B as C is to ?", "puzzle": puzzle,
+            "options": [option_svg(o) for o in ordered], "correct": correct,
+            "type": "visual-analogy", "category": "analogy", "meta": meta}
 
 
 # ---------------------------------------------------------------------------
-# 3) Odd-one-out  (harder: includes size + combined-attribute backgrounds)
+# 3) Odd-one-out  (no puzzle image; the four tiles are the puzzle)
 # ---------------------------------------------------------------------------
 
 def gen_odd():
     mode = rng.choice(["shape", "color", "rotation", "fillstate", "size"])
     odd = rng.randint(0, 3)
-
     base = base_spec()
     base["color"] = rng.choice(PAL)
     base["shape"] = rng.choice(ROT_VIS if mode == "rotation" else SHAPES)
@@ -412,28 +355,24 @@ def gen_odd():
 
     slots = [dict(base) for _ in range(4)]
     if mode == "shape":
-        other = rng.choice([s for s in SHAPES if s != base["shape"]])
-        slots[odd]["shape"] = other
+        slots[odd]["shape"] = rng.choice([s for s in SHAPES if s != base["shape"]])
     elif mode == "color":
-        other = rng.choice([c for c in PAL if c != base["color"]])
-        slots[odd]["color"] = other
+        slots[odd]["color"] = rng.choice([c for c in PAL if c != base["color"]])
     elif mode == "rotation":
         slots[odd]["rot"] = (base["rot"] + 40) % 360
     elif mode == "fillstate":
         slots[odd]["fill"] = base["color"]
-    else:  # size
+    else:
         slots[odd]["scale"] = 0.55 if base.get("scale", 1.0) >= 0.9 else 1.15
 
-    body = [title("Which one is the odd one out?")]
-    body.append(text(W / 2, 120, "Three are alike — find the different one.", size=13, fill=MUTED))
-    body.append(option_grid(lambda i, cx, cy, r: render_spec(cx, cy, r, slots[i])))
-
     meta = {"kind": "odd", "mode": mode, "odd": odd, "slots": slots}
-    return "".join(body), odd, "spatial", meta
+    return {"prompt": "Which one is the odd one out?", "puzzle": None,
+            "options": [option_svg(s) for s in slots], "correct": odd,
+            "type": "odd-one-out", "category": "spatial", "meta": meta}
 
 
 # ---------------------------------------------------------------------------
-# 4) Shape progression / series  (count, rotation, sides, size)
+# 4) Shape progression / series
 # ---------------------------------------------------------------------------
 
 SIDES_KIND = {3: "triangle", 4: "square", 5: "pentagon", 6: "hexagon"}
@@ -463,33 +402,32 @@ def gen_progression():
         ans_val = 6
         opts = [6, 5, 4, 3]
         to_spec = lambda v: dict(base, shape=SIDES_KIND[v])
-    else:  # size
+    else:
         seq_vals = [1.2, 1.0, 0.8]
         ans_val = 0.6
         opts = [0.6, 0.8, 1.0, 0.45]
         base["shape"] = rng.choice(["circle", "square", "hexagon", "triangle"])
         to_spec = lambda v: dict(base, scale=round(v, 2))
 
-    # de-dup option values while keeping the answer
     uniq = []
     for v in opts:
         if v not in uniq:
             uniq.append(v)
     while len(uniq) < 4:
-        uniq.append(uniq[-1] + (1 if mode in ("count",) else 0) + 0.01)
+        uniq.append(uniq[-1] + (1 if mode == "count" else 0.01))
     opt_vals = uniq[:4]
     ordered_vals, correct = shuffle_options(opt_vals, opt_vals.index(ans_val))
 
-    body = [title("Which shape completes the pattern?")]
-    positions = [80, 175, 270]
-    for i, v in enumerate(seq_vals):
-        body.append(render_spec(positions[i], 180, 28, to_spec(v)))
-    body.append(qbox(335, 180, 32))
-    body.append(option_grid(lambda i, cx, cy, r: render_spec(cx, cy, r, to_spec(ordered_vals[i]))))
+    positions = [55, 140, 225]
+    inner = [render_spec(positions[i], 60, 28, to_spec(v)) for i, v in enumerate(seq_vals)]
+    inner.append(qbox(315, 60, 30))
+    puzzle = svg_doc(360, 120, "".join(inner))
 
     meta = {"kind": "progression", "mode": mode, "seq_vals": seq_vals,
             "answer_val": ans_val, "opt_vals": ordered_vals, "correct": correct}
-    return "".join(body), correct, "series", meta
+    return {"prompt": "Which shape completes the pattern?", "puzzle": puzzle,
+            "options": [option_svg(to_spec(v)) for v in ordered_vals], "correct": correct,
+            "type": "shape-progression", "category": "series", "meta": meta}
 
 
 # ---------------------------------------------------------------------------
@@ -497,49 +435,45 @@ def gen_progression():
 # ---------------------------------------------------------------------------
 
 PLAN = (
-    [("matrix-reasoning", gen_matrix)] * 35
-    + [("visual-analogy", gen_analogy)] * 25
-    + [("odd-one-out", gen_odd)] * 20
-    + [("shape-progression", gen_progression)] * 20
+    [gen_matrix] * 35 + [gen_analogy] * 25 + [gen_odd] * 20 + [gen_progression] * 20
 )
 
 
 def main():
-    os.makedirs(OUT_IMG_DIR, exist_ok=True)
-    os.makedirs(os.path.dirname(OUT_MANIFEST), exist_ok=True)
-    # clear any stale images from a previous (different-sized) run
-    for f in os.listdir(OUT_IMG_DIR):
+    os.makedirs(ASSET_DIR, exist_ok=True)
+    for f in os.listdir(ASSET_DIR):
         if f.endswith(".svg"):
-            os.remove(os.path.join(OUT_IMG_DIR, f))
+            os.remove(os.path.join(ASSET_DIR, f))
 
-    manifest, verify = [], []
-    for i, (qtype, gen) in enumerate(PLAN, start=1):
-        inner, correct, category, meta = gen()
-        svg = svg_open() + inner + svg_close()
-        fname = f"q{i:03d}.svg"
-        with open(os.path.join(OUT_IMG_DIR, fname), "w") as f:
-            f.write(svg)
-        entry = {
-            "id": f"q{i:03d}",
-            "image": f"/questions/{fname}",
-            "type": qtype,
-            "category": category,
-            "options": OPT_LABELS,
-            "correctIndex": correct,
-        }
-        manifest.append(entry)
-        verify.append({"id": entry["id"], "type": qtype, "correctIndex": correct, "meta": meta})
+    seed = []
+    for i, gen in enumerate(PLAN, start=1):
+        q = gen()
+        qid = f"q{i:03d}"
+        has_puzzle = q["puzzle"] is not None
+        if has_puzzle:
+            with open(os.path.join(ASSET_DIR, f"{qid}_puzzle.svg"), "w") as f:
+                f.write(q["puzzle"])
+        for j, opt in enumerate(q["options"]):
+            with open(os.path.join(ASSET_DIR, f"{qid}_opt{j}.svg"), "w") as f:
+                f.write(opt)
+        seed.append({
+            "ext_id": qid,
+            "type": q["type"],
+            "category": q["category"],
+            "prompt": q["prompt"],
+            "has_puzzle": has_puzzle,
+            "correctIndex": q["correct"],
+            "meta": q["meta"],
+        })
 
-    rng.shuffle(manifest)
-    with open(OUT_MANIFEST, "w") as f:
-        json.dump(manifest, f, indent=2)
-    with open(os.path.join(os.path.dirname(__file__), "verify_data.json"), "w") as f:
-        json.dump(verify, f, indent=2)
+    with open(SEED_DATA, "w") as f:
+        json.dump(seed, f, indent=2)
 
-    print(f"Generated {len(manifest)} questions -> {OUT_IMG_DIR}")
-    print("By type:", dict(Counter(m["type"] for m in manifest)))
-    print("By category:", dict(Counter(m["category"] for m in manifest)))
-    print("Answer index distribution:", dict(Counter(m["correctIndex"] for m in manifest)))
+    print(f"Generated {len(seed)} questions -> {ASSET_DIR}")
+    print("By type:", dict(Counter(s["type"] for s in seed)))
+    print("By category:", dict(Counter(s["category"] for s in seed)))
+    print("Answer index distribution:", dict(Counter(s["correctIndex"] for s in seed)))
+    print(f"Seed data -> {SEED_DATA}")
 
 
 if __name__ == "__main__":
