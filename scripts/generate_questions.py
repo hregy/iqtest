@@ -39,7 +39,10 @@ ACCENT = "#3b5bdb"
 MUTED = "#828ba3"
 BOXLINE = "#c3cae0"
 
-PAL = ["#1f2933", "#e8590c", "#2b8a3e", "#5f3dc4", "#c92a2a", "#1c7ed6"]
+# Color is intentionally NOT used as a puzzle attribute (no color-based
+# questions). Every shape is drawn in one neutral ink so nothing depends on
+# color perception.
+SHAPE_COLOR = "#2C363B"
 SHAPES = ["circle", "triangle", "square", "pentagon", "hexagon", "star", "diamond"]
 # Rotation is only UNMISTAKABLE on these (arrows point; a triangle is clearly
 # oriented). Polygons like pentagon/hexagon/star look nearly identical when
@@ -213,19 +216,18 @@ def shuffle_options(options, answer_index):
 def gen_matrix():
     if rng.random() < 0.45:
         col_attr = "rot"
-        row_attr = rng.choice(["count", "color", "size"])
+        row_attr = rng.choice(["count", "size"])
     else:
-        col_attr, row_attr = rng.sample(["count", "color", "shape", "size"], 2)
+        col_attr, row_attr = rng.sample(["count", "shape", "size"], 2)
     if rng.random() < 0.5:
         col_attr, row_attr = row_attr, col_attr
 
     base = base_spec()
+    base["color"] = SHAPE_COLOR
     if "rot" in (col_attr, row_attr):
         base["shape"] = "arrow"  # rotation must be unmistakable
     elif "shape" not in (col_attr, row_attr):
         base["shape"] = rng.choice(SHAPES)
-    if "color" not in (col_attr, row_attr):
-        base["color"] = rng.choice(PAL)
 
     col_vals, row_vals = values_for(col_attr), values_for(row_attr)
     grid = [[None] * 3 for _ in range(3)]
@@ -272,7 +274,9 @@ def gen_matrix():
     grid_meta = [[(None if (r, c) == (2, 2) else grid[r][c]) for c in range(3)] for r in range(3)]
     meta = {"kind": "matrix", "colAttr": col_attr, "rowAttr": row_attr,
             "grid": grid_meta, "answer": answer, "options": ordered}
-    return {"prompt": "Find the missing piece", "puzzle": puzzle,
+    csig = ("matrix", col_attr, row_attr,
+            tuple(viz_sig(grid[r][c]) for r in range(3) for c in range(3)))
+    return {"prompt": "Find the missing piece", "puzzle": puzzle, "csig": csig,
             "options": [option_svg(o) for o in ordered], "correct": correct,
             "type": "matrix-reasoning", "category": "pattern", "meta": meta}
 
@@ -296,45 +300,35 @@ def apply_transform(s, t):
 
 
 def gen_analogy():
-    kind = rng.choice(["rot", "fill", "color", "size"])
+    kind = rng.choice(["rot", "fill", "size"])  # no color transforms
     if kind == "rot":
         t = {"kind": "rot", "deg": rng.choice([90, 180])}
         sa, sc = rng.sample(ROT_CLEAR, 2)  # only arrow/triangle -> rotation is obvious
-        A = dict(base_spec(), shape=sa, color=rng.choice(PAL))
-        C = dict(base_spec(), shape=sc, color=rng.choice(PAL))
+        A = dict(base_spec(), shape=sa, color=SHAPE_COLOR)
+        C = dict(base_spec(), shape=sc, color=SHAPE_COLOR)
     elif kind == "fill":
         t = {"kind": "fill"}
         sa, sc = rng.sample(SHAPES, 2)
-        A = dict(base_spec(), shape=sa, color=rng.choice(PAL), fill="none")
-        C = dict(base_spec(), shape=sc, color=rng.choice(PAL), fill="none")
-    elif kind == "color":
-        to = rng.choice(PAL)
-        t = {"kind": "color", "to": to}
-        sa, sc = rng.sample(SHAPES, 2)
-        A = dict(base_spec(), shape=sa, color=rng.choice([p for p in PAL if p != to]))
-        C = dict(base_spec(), shape=sc, color=rng.choice([p for p in PAL if p != to]))
+        A = dict(base_spec(), shape=sa, color=SHAPE_COLOR, fill="none")
+        C = dict(base_spec(), shape=sc, color=SHAPE_COLOR, fill="none")
     else:
         t = {"kind": "size", "factor": rng.choice([0.55, 1.6])}
         sa, sc = rng.sample(SHAPES, 2)
-        A = dict(base_spec(), shape=sa, color=rng.choice(PAL))
-        C = dict(base_spec(), shape=sc, color=rng.choice(PAL))
+        A = dict(base_spec(), shape=sa, color=SHAPE_COLOR)
+        C = dict(base_spec(), shape=sc, color=SHAPE_COLOR)
 
     B = apply_transform(A, t)
     answer = apply_transform(C, t)
 
     seen, pool = {viz_sig(answer)}, [dict(C)]
-    others = [p for p in PAL if p != C["color"]]
     if kind == "rot":
         for d in (90, 180, 270):
             pool.append(dict(C, rot=(C.get("rot", 0) + d) % 360))
     elif kind == "fill":
-        # distractors differ by COLOR, not rotation, so none look alike
-        pool.append(dict(C, color=others[0]))                     # outline, other colour
-        pool.append(dict(C, fill=others[1], color=others[1]))      # filled, wrong colour
-        pool.append(dict(C, color=others[2]))                     # outline, other colour
-    elif kind == "color":
-        for col in PAL:
-            pool.append(dict(C, color=col))
+        # distractors differ by SIZE + fill state (never color), so none look alike
+        pool.append(apply_transform(dict(C, scale=0.62), t))  # filled, smaller
+        pool.append(apply_transform(dict(C, scale=1.4), t))   # filled, larger
+        pool.append(dict(C, scale=0.62))                       # outline, smaller
     else:
         for f in (0.55, 0.8, 1.3, 1.6):
             pool.append(dict(C, scale=round(C.get("scale", 1.0) * f, 2)))
@@ -343,7 +337,7 @@ def gen_analogy():
         if viz_sig(s) not in seen:
             seen.add(viz_sig(s)); distract.append(s)
     while len(distract) < 3:
-        s = dict(C, color=rng.choice(PAL))
+        s = dict(C, scale=round(rng.choice([0.5, 0.7, 1.3, 1.5]), 2))
         if viz_sig(s) not in seen:
             seen.add(viz_sig(s)); distract.append(s)
     rng.shuffle(distract)
@@ -362,7 +356,8 @@ def gen_analogy():
 
     meta = {"kind": "analogy", "transform": t, "A": A, "B": B, "C": C,
             "answer": answer, "options": ordered}
-    return {"prompt": "A is to B as C is to ?", "puzzle": puzzle,
+    csig = ("analogy", t["kind"], t.get("deg"), t.get("factor"), viz_sig(A), viz_sig(C))
+    return {"prompt": "A is to B as C is to ?", "puzzle": puzzle, "csig": csig,
             "options": [option_svg(o) for o in ordered], "correct": correct,
             "type": "visual-analogy", "category": "analogy", "meta": meta}
 
@@ -372,18 +367,16 @@ def gen_analogy():
 # ---------------------------------------------------------------------------
 
 def gen_odd():
-    mode = rng.choice(["shape", "color", "rotation", "fillstate", "size"])
+    mode = rng.choice(["shape", "rotation", "fillstate", "size"])  # no color mode
     odd = rng.randint(0, 3)
     base = base_spec()
-    base["color"] = rng.choice(PAL)
+    base["color"] = SHAPE_COLOR
     base["shape"] = rng.choice(ROT_CLEAR if mode == "rotation" else SHAPES)
     base["rot"] = rng.choice([0, 20]) if mode != "rotation" else rng.choice([0, 15, 30])
 
     slots = [dict(base) for _ in range(4)]
     if mode == "shape":
         slots[odd]["shape"] = rng.choice([s for s in SHAPES if s != base["shape"]])
-    elif mode == "color":
-        slots[odd]["color"] = rng.choice([c for c in PAL if c != base["color"]])
     elif mode == "rotation":
         slots[odd]["rot"] = (base["rot"] + 40) % 360
     elif mode == "fillstate":
@@ -392,7 +385,8 @@ def gen_odd():
         slots[odd]["scale"] = 0.55 if base.get("scale", 1.0) >= 0.9 else 1.15
 
     meta = {"kind": "odd", "mode": mode, "odd": odd, "slots": slots}
-    return {"prompt": "Which one is the odd one out?", "puzzle": None,
+    csig = ("odd", mode, tuple(viz_sig(s) for s in slots), odd)
+    return {"prompt": "Which one is the odd one out?", "puzzle": None, "csig": csig,
             "options": [option_svg(s) for s in slots], "correct": odd,
             "type": "odd-one-out", "category": "spatial", "meta": meta}
 
@@ -407,32 +401,34 @@ SIDES_KIND = {3: "triangle", 4: "square", 5: "pentagon", 6: "hexagon"}
 def gen_progression():
     mode = rng.choice(["count", "rotation", "sides", "size"])
     base = base_spec()
-    base["color"] = ACCENT
+    base["color"] = SHAPE_COLOR
 
     if mode == "count":
-        start = rng.randint(1, 3)
+        start = rng.randint(1, 4)
         seq_vals = [start, start + 1, start + 2]
         ans_val = start + 3
         opts = [ans_val, ans_val - 1, ans_val + 1, max(1, ans_val - 2)]
-        base["shape"] = rng.choice(["circle", "square", "star", "triangle"])
+        base["shape"] = rng.choice(["circle", "square", "star", "triangle", "hexagon"])
         to_spec = lambda v: dict(base, count=v)
     elif mode == "rotation":
         step = rng.choice([45, 90])
-        seq_vals = [0, step, step * 2]
-        ans_val = (step * 3) % 360
+        start = rng.choice([0, 45, 90])
+        seq_vals = [start, start + step, start + 2 * step]
+        ans_val = (start + step * 3) % 360
         opts = [ans_val, (ans_val + step) % 360, (ans_val - step) % 360, (ans_val + 2 * step) % 360]
         base["shape"] = "arrow"
-        to_spec = lambda v: dict(base, rot=v)
+        to_spec = lambda v: dict(base, rot=v % 360)
     elif mode == "sides":
-        seq_vals = [3, 4, 5]
-        ans_val = 6
-        opts = [6, 5, 4, 3]
+        if rng.random() < 0.5:
+            seq_vals, ans_val, opts = [3, 4, 5], 6, [6, 5, 4, 3]   # growing
+        else:
+            seq_vals, ans_val, opts = [6, 5, 4], 3, [3, 4, 5, 6]   # shrinking
         to_spec = lambda v: dict(base, shape=SIDES_KIND[v])
     else:
         seq_vals = [1.2, 1.0, 0.8]
         ans_val = 0.6
         opts = [0.6, 0.8, 1.0, 0.45]
-        base["shape"] = rng.choice(["circle", "square", "hexagon", "triangle"])
+        base["shape"] = rng.choice(["circle", "square", "hexagon", "triangle", "star", "pentagon"])
         to_spec = lambda v: dict(base, scale=round(v, 2))
 
     uniq = []
@@ -451,7 +447,8 @@ def gen_progression():
 
     meta = {"kind": "progression", "mode": mode, "seq_vals": seq_vals,
             "answer_val": ans_val, "opt_vals": ordered_vals, "correct": correct}
-    return {"prompt": "Which shape completes the pattern?", "puzzle": puzzle,
+    csig = ("prog", mode, base["shape"], tuple(seq_vals), ans_val)
+    return {"prompt": "Which shape completes the pattern?", "puzzle": puzzle, "csig": csig,
             "options": [option_svg(to_spec(v)) for v in ordered_vals], "correct": correct,
             "type": "shape-progression", "category": "series", "meta": meta}
 
@@ -462,9 +459,28 @@ def gen_progression():
 
 # Larger pool => two test-takers rarely get the same 20 questions, which kills
 # answer-sharing (expected overlap with a 180 pool, 20-question test is ~2).
-PLAN = (
-    [gen_matrix] * 63 + [gen_analogy] * 45 + [gen_odd] * 36 + [gen_progression] * 36
-)
+# (target count, generator) per type. Each is filled with UNIQUE questions only
+# (deduped by content signature); a type stops early if its variety is exhausted.
+PLAN = [
+    ("matrix-reasoning", gen_matrix, 64),
+    ("visual-analogy", gen_analogy, 45),
+    ("odd-one-out", gen_odd, 36),
+    ("shape-progression", gen_progression, 20),
+]
+
+
+def gen_unique(gen, target, seen):
+    """Generate up to `target` questions whose content signature is new."""
+    out, fails = [], 0
+    while len(out) < target and fails < 600:
+        q = gen()
+        if q["csig"] in seen:
+            fails += 1
+            continue
+        seen.add(q["csig"])
+        out.append(q)
+        fails = 0
+    return out
 
 
 # Farsi translations of the (fixed) English prompts.
@@ -482,9 +498,15 @@ def main():
         if f.endswith(".svg"):
             os.remove(os.path.join(ASSET_DIR, f))
 
+    # Build a pool of UNIQUE questions across all types, then shuffle the order.
+    seen_sigs = set()
+    questions = []
+    for _name, gen, target in PLAN:
+        questions.extend(gen_unique(gen, target, seen_sigs))
+    rng.shuffle(questions)
+
     seed = []
-    for i, gen in enumerate(PLAN, start=1):
-        q = gen()
+    for i, q in enumerate(questions, start=1):
         qid = f"q{i:03d}"
         has_puzzle = q["puzzle"] is not None
         if has_puzzle:

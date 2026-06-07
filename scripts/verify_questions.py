@@ -181,7 +181,8 @@ def verify_progression(q, problems):
         step = (seq[1] - seq[0]) % 360
         ok = (seq[-1] + step) % 360 == ans % 360
     elif mode == "sides":
-        ok = ans == seq[-1] + 1
+        d = seq[1] - seq[0]
+        ok = ans == seq[-1] + d
     elif mode == "size":
         d = round(seq[1] - seq[0], 2)
         ok = all(round(seq[i + 1] - seq[i], 2) == d for i in range(len(seq) - 1)) and round(seq[-1] + d, 2) == round(ans, 2)
