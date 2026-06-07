@@ -63,7 +63,7 @@ export function QuestionView({ question, index, total, questionSeconds, onAnswer
         />
       </div>
 
-      <div className="qcontent">
+      <div className={"qcontent" + (question.puzzleImage ? "" : " no-puzzle")}>
         {question.prompt && <p className="prompt">{question.prompt}</p>}
 
         {question.puzzleImage && (

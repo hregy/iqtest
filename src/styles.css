@@ -386,7 +386,11 @@ body {
   box-shadow: 0 2px 12px rgba(31,41,51,.07); pointer-events: none; -webkit-user-drag: none; user-select: none;
 }
 .puzzle-img.hidden, .options-grid.hidden { visibility: hidden; }
-.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: auto; }
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+/* Odd-one-out has no puzzle image: center the tiles instead of leaving a void. */
+.qcontent.no-puzzle { justify-content: center; }
+.qcontent.no-puzzle .options-grid { margin-top: 8px; }
+.qcontent.no-puzzle .option-tile { min-height: 120px; }
 .option-tile {
   position: relative; border: 2px solid var(--line); background: var(--paper); border-radius: 14px;
   min-height: 92px; display: flex; align-items: center; justify-content: center; cursor: pointer;
