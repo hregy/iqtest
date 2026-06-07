@@ -98,7 +98,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
       </div>
 
       <div style={{ marginTop: 18 }}>
-        <span className="kind-chip">{CATEGORY_LABEL[question.category] || question.category}</span>
+        <span className="kind-chip">{CATEGORY_LABEL[question.category] || question.category.replace(/_/g, " ")}</span>
         {question.prompt && <h2 className="prompt">{question.prompt}</h2>}
         {question.promptFa && <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>}
       </div>
@@ -126,7 +126,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
               {o.kind === "image" && o.image ? (
                 <LoadedImage className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} onSettled={oneLoaded} />
               ) : (
-                <span className="tile-text">{o.text}</span>
+                <span className="tile-text" dir="auto" lang="fa">{o.text}</span>
               )}
             </button>
           ))}

@@ -24,7 +24,7 @@ function OptionMini({
       {o.kind === "image" && o.image ? (
         <img src={o.image} alt={`Option ${LABELS[i]}`} draggable={false} />
       ) : (
-        <span className="rv-opt-text">{o.text}</span>
+        <span className="rv-opt-text" dir="auto" lang="fa">{o.text}</span>
       )}
       {isCorrect && <span className="rv-badge ok">✓ correct</span>}
       {isChosen && !isCorrect && <span className="rv-badge bad">your answer</span>}

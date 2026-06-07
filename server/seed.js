@@ -103,12 +103,17 @@ export async function initDb({ seedIfEmpty = false } = {}) {
     const n = await seedQuestions();
     console.log(`Seeded ${n} questions on first boot.`);
   }
-  // Load the 300-item Final bank if it's present on disk but not yet imported.
-  if (seedIfEmpty && (await countFinal()) === 0) {
+  // Load the 300-item Final bank if it's present on disk but missing or only
+  // PARTIALLY imported (e.g. a prior seed was interrupted). Re-seeding when the
+  // DB count doesn't match the file means an incomplete bank self-heals on boot.
+  if (seedIfEmpty) {
     try {
-      const { seedFinalBank } = await import("./seed-final.js");
-      const n = await seedFinalBank();
-      if (n) console.log(`Seeded ${n} final-bank questions on first boot.`);
+      const { seedFinalBank, finalBankFileCount } = await import("./seed-final.js");
+      const expected = finalBankFileCount();
+      if (expected > 0 && (await countFinal()) !== expected) {
+        const n = await seedFinalBank();
+        if (n) console.log(`Seeded ${n} final-bank questions on boot.`);
+      }
     } catch (e) {
       console.warn("Final bank not seeded:", e.message);
     }

@@ -44,6 +44,20 @@ async function wipeFinal(client) {
   }
 }
 
+// Number of items in the bank file (0 if the file is missing/empty). Used by
+// boot init to detect an incomplete bank that must be (re)seeded.
+export function finalBankFileCount() {
+  const file = findBankFile();
+  if (!file) return 0;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+    const items = Array.isArray(parsed) ? parsed : parsed.items;
+    return Array.isArray(items) ? items.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export async function seedFinalBank() {
   const file = findBankFile();
   if (!file) {
@@ -57,21 +71,21 @@ export async function seedFinalBank() {
     return 0;
   }
 
+  // Whole import runs in ONE transaction: a partial bank is never visible to a
+  // running test (readers see the old state until commit, then all 300 at once).
+  // This is what prevents the "only some levels seeded -> short test" race.
+  let imported = 0;
   await withTx(async (client) => {
     await wipeFinal(client);
-  });
+    for (const it of items) {
+      const correctIndex = OPT_INDEX[it.answerOptionId];
+      if (correctIndex === undefined || !Array.isArray(it.options) || it.options.length !== 4) {
+        console.warn(`Skipping ${it.id}: bad answer/options.`);
+        continue;
+      }
+      const level = Number(it.level) || 1;
+      const weight = LEVEL_WEIGHT[level] ?? Number(it.scoringWeight) ?? 1;
 
-  let imported = 0;
-  for (const it of items) {
-    const correctIndex = OPT_INDEX[it.answerOptionId];
-    if (correctIndex === undefined || !Array.isArray(it.options) || it.options.length !== 4) {
-      console.warn(`Skipping ${it.id}: bad answer/options.`);
-      continue;
-    }
-    const level = Number(it.level) || 1;
-    const weight = LEVEL_WEIGHT[level] ?? Number(it.scoringWeight) ?? 1;
-
-    await withTx(async (client) => {
       const puzzleId = it.questionSvg ? await insertSvg(client, it.questionSvg) : null;
       const { rows } = await client.query(
         `INSERT INTO questions(ext_id, type, category, prompt, prompt_fa, correct_index,
@@ -96,9 +110,9 @@ export async function seedFinalBank() {
           );
         }
       }
-    });
-    imported += 1;
-  }
+      imported += 1;
+    }
+  });
   return imported;
 }
 

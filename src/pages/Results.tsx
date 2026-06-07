@@ -9,7 +9,10 @@ import { ReviewList } from "../components/ReviewList";
 const CATEGORY_LABEL: Record<string, string> = {
   pattern: "Pattern", analogy: "Analogy", spatial: "Spatial", series: "Series",
 };
-const labelFor = (c: string) => CATEGORY_LABEL[c] ?? c.charAt(0).toUpperCase() + c.slice(1);
+// Final-bank categories are domains like "quantitative_reasoning" — prettify
+// underscores to spaces and capitalise so they read cleanly.
+const labelFor = (c: string) =>
+  CATEGORY_LABEL[c] ?? c.replace(/_/g, " ").replace(/^\w/, (m) => m.toUpperCase());
 
 export function fmtDuration(ms: number): string {
   const s = Math.round(ms / 1000);
@@ -81,9 +84,9 @@ export function Results() {
               const pct = Math.round((correct / total) * 100);
               return (
                 <div className="cat-row" key={c}>
-                  <span className="cat-name">{labelFor(c)}</span>
-                  <div className="cat-bar"><div className="cat-bar-fill" style={{ width: `${pct}%` }} /></div>
+                  <span className="cat-name" title={labelFor(c)}>{labelFor(c)}</span>
                   <span className="cat-count">{correct}/{total}</span>
+                  <div className="cat-bar"><div className="cat-bar-fill" style={{ width: `${pct}%` }} /></div>
                 </div>
               );
             })}
