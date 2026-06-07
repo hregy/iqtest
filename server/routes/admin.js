@@ -3,7 +3,7 @@ import crypto from "crypto";
 import multer from "multer";
 import { query, withTx } from "../db.js";
 import { config } from "../config.js";
-import { signAdmin, requireAdmin } from "../auth.js";
+import { requireAdmin, checkAdminPassword, setAdminCookie, clearAdminCookie } from "../auth.js";
 import { rateLimit } from "../ratelimit.js";
 import { buildReview } from "./public.js";
 import { recalcScores } from "../recalc.js";
@@ -11,11 +11,19 @@ import { recalcScores } from "../recalc.js";
 export const adminRouter = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 3 * 1024 * 1024 } });
 
-// ---- login (rate-limited to deter password brute-forcing) --------------
+// ---- login (rate-limited; sets an httpOnly session cookie) -------------
 adminRouter.post("/login", rateLimit({ windowMs: 60_000, max: 10, name: "login" }), (req, res) => {
   const pw = (req.body?.password || "").toString();
-  if (pw && pw === config.adminPassword) return res.json({ token: signAdmin() });
+  if (checkAdminPassword(pw)) {
+    setAdminCookie(req, res);
+    return res.json({ ok: true });
+  }
   res.status(401).json({ error: "Wrong password." });
+});
+
+adminRouter.post("/logout", (req, res) => {
+  clearAdminCookie(res);
+  res.json({ ok: true });
 });
 
 // everything below requires admin

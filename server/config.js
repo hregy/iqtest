@@ -9,6 +9,9 @@ export const config = {
   // Supabase / managed Postgres needs SSL; local does not.
   pgSsl: (process.env.PGSSL ?? "false").toLowerCase() === "true",
   adminPassword: process.env.ADMIN_PASSWORD || "admin123",
+  // Optional bcrypt hash of the admin password (takes precedence over the
+  // plaintext above). Generate with: npm run hash-admin -- 'yourPassword'
+  adminPasswordHash: process.env.ADMIN_PASSWORD_HASH || "",
   jwtSecret: process.env.JWT_SECRET || "dev-insecure-secret-change-me",
   // The non-expiring master voucher (admin/practice; never recorded).
   adminVoucher: process.env.ADMIN_VOUCHER || "ADMIN-ALL-ACCESS",

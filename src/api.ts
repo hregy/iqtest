@@ -10,11 +10,6 @@ import type {
   AttemptReview,
 } from "./types";
 
-const TOKEN_KEY = "iq_admin_token";
-export const getToken = () => localStorage.getItem(TOKEN_KEY);
-export const setToken = (t: string) => localStorage.setItem(TOKEN_KEY, t);
-export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
-
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -23,16 +18,14 @@ export class ApiError extends Error {
   }
 }
 
-async function req<T>(path: string, opts: RequestInit = {}, auth = false): Promise<T> {
+// Admin auth is now an httpOnly cookie set by the server; same-origin requests
+// send it automatically. The third arg is kept for call-site compatibility.
+async function req<T>(path: string, opts: RequestInit = {}, _auth = false): Promise<T> {
   const headers = new Headers(opts.headers);
   if (opts.body && !(opts.body instanceof FormData)) {
     headers.set("Content-Type", "application/json");
   }
-  if (auth) {
-    const t = getToken();
-    if (t) headers.set("Authorization", `Bearer ${t}`);
-  }
-  const res = await fetch(path, { ...opts, headers });
+  const res = await fetch(path, { ...opts, headers, credentials: "same-origin" });
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
   if (!res.ok) throw new ApiError(res.status, data?.error || `Request failed (${res.status})`);
@@ -74,7 +67,8 @@ export const api = {
 
   admin: {
     login: (password: string) =>
-      req<{ token: string }>("/api/admin/login", { method: "POST", body: J({ password }) }),
+      req<{ ok: boolean }>("/api/admin/login", { method: "POST", body: J({ password }) }),
+    logout: () => req<{ ok: boolean }>("/api/admin/logout", { method: "POST" }),
     me: () => req<{ ok: boolean; adminVoucher: string }>("/api/admin/me", {}, true),
 
     vouchers: () => req<Voucher[]>("/api/admin/vouchers", {}, true),

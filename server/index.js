@@ -2,6 +2,8 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import { config } from "./config.js";
 import { publicRouter } from "./routes/public.js";
 import { adminRouter } from "./routes/admin.js";
@@ -9,9 +11,37 @@ import { initDb } from "./seed.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(__dirname, "..", "dist");
+const CF = "https://challenges.cloudflare.com"; // Turnstile
 
 const app = express();
 app.set("trust proxy", 1); // behind Render's proxy — get real client IP for rate limiting
+
+// Security headers + Content-Security-Policy (allow only our origin + Turnstile
+// + Google Fonts). Also neutralises inline scripts inside served SVGs.
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: false,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", CF],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'", CF],
+        frameSrc: [CF],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        frameAncestors: ["'self'"],
+        upgradeInsecureRequests: [],
+      },
+    },
+    crossOriginEmbedderPolicy: false, // don't break Turnstile / fonts
+  })
+);
+
+app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));

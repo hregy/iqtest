@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, getToken, setToken, clearToken, ApiError } from "../api";
+import { api, ApiError } from "../api";
 import { EinsteinMark } from "../components/Einstein";
 import { AdminVouchers } from "../admin/AdminVouchers";
 import { AdminScores } from "../admin/AdminScores";
@@ -17,19 +17,20 @@ export function Admin() {
   const [adminVoucher, setAdminVoucher] = useState("");
 
   useEffect(() => {
-    if (!getToken()) {
-      setChecking(false);
-      return;
-    }
     api.admin
       .me()
       .then((r) => {
         setAdminVoucher(r.adminVoucher);
         setAuthed(true);
       })
-      .catch(() => clearToken())
+      .catch(() => {})
       .finally(() => setChecking(false));
   }, []);
+
+  const logout = async () => {
+    try { await api.admin.logout(); } catch { /* ignore */ }
+    setAuthed(false);
+  };
 
   if (checking) return <div className="screen center"><div className="spinner" /></div>;
   if (!authed) return <Login onAuthed={(av) => { setAdminVoucher(av); setAuthed(true); }} />;
@@ -40,7 +41,7 @@ export function Admin() {
         <h1>Admin</h1>
         <div className="admin-top-right">
           <Link className="link" to="/">View site →</Link>
-          <button className="btn small ghost" onClick={() => { clearToken(); setAuthed(false); }}>
+          <button className="btn small ghost" onClick={logout}>
             Log out
           </button>
         </div>
@@ -79,8 +80,7 @@ function Login({ onAuthed }: { onAuthed: (adminVoucher: string) => void }) {
     setError("");
     setBusy(true);
     try {
-      const { token } = await api.admin.login(password);
-      setToken(token);
+      await api.admin.login(password); // sets httpOnly cookie
       const me = await api.admin.me();
       onAuthed(me.adminVoucher);
     } catch (err) {

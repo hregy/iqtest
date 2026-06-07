@@ -11,6 +11,7 @@
     "preview": "vite preview --host",
     "seed": "node server/seed.js",
     "recalc": "node server/recalc.js",
+    "hash-admin": "node server/hash-admin.js",
     "generate": "python3 scripts/generate_questions.py",
     "verify": "python3 scripts/verify_questions.py"
   },
@@ -19,6 +20,7 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.1.1",
     "pg": "^8.21.0",
