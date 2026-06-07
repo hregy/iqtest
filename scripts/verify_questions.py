@@ -43,6 +43,22 @@ def get(s, a):
 def spec_eq(a, b):
     return all(get(a, x) == get(b, x) for x in ATTRS)
 
+# Detect options that LOOK identical (rotation reduced by the shape's symmetry).
+SYM = {"circle": 0, "square": 90, "diamond": 90, "triangle": 120,
+       "pentagon": 72, "hexagon": 60, "star": 72, "arrow": 360}
+
+
+def viz_sig(s):
+    shape = s["shape"]
+    fold = SYM.get(shape, 360)
+    rot = 0 if shape == "circle" else (int(s.get("rot", 0)) % (fold if fold < 360 else 360))
+    return (shape, s["color"], rot, s.get("fill", "none"),
+            round(s.get("scale", 1.0), 2), int(s.get("count", 1)))
+
+
+def options_look_distinct(options):
+    return len({viz_sig(o) for o in options}) == len(options)
+
 
 # ---- matrix -------------------------------------------------------------
 def predict_matrix_cell(grid):
@@ -96,6 +112,8 @@ def verify_matrix(q, problems):
     matches = [i for i, o in enumerate(opts) if spec_eq(o, pred)]
     if matches != [q["correctIndex"]]:
         problems.append(f"{tag}: options matching the rule are {matches}, key is {q['correctIndex']}")
+    if not options_look_distinct(opts):
+        problems.append(f"{tag}: two options look identical")
 
 
 # ---- analogy ------------------------------------------------------------
@@ -126,6 +144,8 @@ def verify_analogy(q, problems):
     matches = [i for i, o in enumerate(opts) if spec_eq(o, expected)]
     if matches != [q["correctIndex"]]:
         problems.append(f"{tag}: options matching transform are {matches}, key is {q['correctIndex']}")
+    if not options_look_distinct(opts):
+        problems.append(f"{tag}: two options look identical")
 
 
 # ---- odd-one-out --------------------------------------------------------

@@ -133,7 +133,7 @@
     "category": "pattern",
     "prompt": "Find the missing piece",
     "has_puzzle": true,
-    "correctIndex": 1,
+    "correctIndex": 2,
     "meta": {
       "kind": "matrix",
       "colAttr": "rot",
@@ -141,7 +141,7 @@
       "grid": [
         [
           {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#2b8a3e",
             "rot": 0,
             "fill": "none",
@@ -149,7 +149,7 @@
             "count": 1
           },
           {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#2b8a3e",
             "rot": 90,
             "fill": "none",
@@ -157,7 +157,7 @@
             "count": 1
           },
           {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#2b8a3e",
             "rot": 180,
             "fill": "none",
@@ -167,24 +167,24 @@
         ],
         [
           {
-            "shape": "star",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
@@ -193,16 +193,16 @@
         ],
         [
           {
-            "shape": "star",
-            "color": "#1c7ed6",
+            "shape": "arrow",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1c7ed6",
+            "shape": "arrow",
+            "color": "#5f3dc4",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
@@ -212,8 +212,8 @@
         ]
       ],
       "answer": {
-        "shape": "star",
-        "color": "#1c7ed6",
+        "shape": "arrow",
+        "color": "#5f3dc4",
         "rot": 180,
         "fill": "none",
         "scale": 1.0,
@@ -221,15 +221,15 @@
       },
       "options": [
         {
-          "shape": "star",
-          "color": "#1c7ed6",
+          "shape": "arrow",
+          "color": "#5f3dc4",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "star",
+          "shape": "arrow",
           "color": "#1c7ed6",
           "rot": 180,
           "fill": "none",
@@ -237,7 +237,7 @@
           "count": 1
         },
         {
-          "shape": "star",
+          "shape": "arrow",
           "color": "#5f3dc4",
           "rot": 180,
           "fill": "none",
@@ -245,8 +245,8 @@
           "count": 1
         },
         {
-          "shape": "star",
-          "color": "#1c7ed6",
+          "shape": "arrow",
+          "color": "#5f3dc4",
           "rot": 90,
           "fill": "none",
           "scale": 1.0,
@@ -265,75 +265,75 @@
     "meta": {
       "kind": "matrix",
       "colAttr": "count",
-      "rowAttr": "rot",
+      "rowAttr": "size",
       "grid": [
         [
           {
             "shape": "pentagon",
-            "color": "#e8590c",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
             "count": 1
           },
           {
             "shape": "pentagon",
-            "color": "#e8590c",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
             "count": 2
           },
           {
             "shape": "pentagon",
-            "color": "#e8590c",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
             "count": 3
           }
         ],
         [
           {
             "shape": "pentagon",
-            "color": "#e8590c",
-            "rot": 90,
+            "color": "#5f3dc4",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.8,
             "count": 1
           },
           {
             "shape": "pentagon",
-            "color": "#e8590c",
-            "rot": 90,
+            "color": "#5f3dc4",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.8,
             "count": 2
           },
           {
             "shape": "pentagon",
-            "color": "#e8590c",
-            "rot": 90,
+            "color": "#5f3dc4",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.8,
             "count": 3
           }
         ],
         [
           {
             "shape": "pentagon",
-            "color": "#e8590c",
-            "rot": 180,
+            "color": "#5f3dc4",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 1.1,
             "count": 1
           },
           {
             "shape": "pentagon",
-            "color": "#e8590c",
-            "rot": 180,
+            "color": "#5f3dc4",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 1.1,
             "count": 2
           },
           null
@@ -341,44 +341,44 @@
       ],
       "answer": {
         "shape": "pentagon",
-        "color": "#e8590c",
-        "rot": 180,
+        "color": "#5f3dc4",
+        "rot": 0,
         "fill": "none",
-        "scale": 1.0,
+        "scale": 1.1,
         "count": 3
       },
       "options": [
         {
           "shape": "pentagon",
-          "color": "#e8590c",
-          "rot": 180,
+          "color": "#5f3dc4",
+          "rot": 0,
           "fill": "none",
-          "scale": 1.0,
+          "scale": 1.1,
           "count": 3
         },
         {
           "shape": "pentagon",
-          "color": "#e8590c",
+          "color": "#5f3dc4",
           "rot": 0,
           "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#e8590c",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
+          "scale": 0.8,
           "count": 3
+        },
+        {
+          "shape": "pentagon",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 3
+        },
+        {
+          "shape": "pentagon",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
         }
       ]
     }
@@ -392,32 +392,58 @@
     "correctIndex": 1,
     "meta": {
       "kind": "matrix",
-      "colAttr": "color",
-      "rowAttr": "size",
+      "colAttr": "shape",
+      "rowAttr": "color",
       "grid": [
         [
           {
             "shape": "hexagon",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.55,
-            "count": 1
-          },
-          {
-            "shape": "hexagon",
             "color": "#1f2933",
             "rot": 0,
             "fill": "none",
-            "scale": 0.55,
+            "scale": 1.0,
             "count": 1
           },
+          {
+            "shape": "diamond",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "star",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          }
+        ],
+        [
           {
             "shape": "hexagon",
             "color": "#e8590c",
             "rot": 0,
             "fill": "none",
-            "scale": 0.55,
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "star",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
             "count": 1
           }
         ],
@@ -427,85 +453,59 @@
             "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
-            "scale": 0.8,
+            "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "hexagon",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          },
-          {
-            "shape": "hexagon",
-            "color": "#e8590c",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "hexagon",
+            "shape": "diamond",
             "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
-            "scale": 1.1,
-            "count": 1
-          },
-          {
-            "shape": "hexagon",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.1,
+            "scale": 1.0,
             "count": 1
           },
           null
         ]
       ],
       "answer": {
-        "shape": "hexagon",
-        "color": "#e8590c",
+        "shape": "star",
+        "color": "#c92a2a",
         "rot": 0,
         "fill": "none",
-        "scale": 1.1,
+        "scale": 1.0,
         "count": 1
       },
       "options": [
         {
-          "shape": "hexagon",
+          "shape": "star",
           "color": "#e8590c",
           "rot": 0,
           "fill": "none",
-          "scale": 0.8,
+          "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "hexagon",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.1,
-          "count": 1
-        },
-        {
-          "shape": "hexagon",
+          "shape": "star",
           "color": "#c92a2a",
           "rot": 0,
           "fill": "none",
-          "scale": 1.1,
+          "scale": 1.0,
           "count": 1
         },
         {
           "shape": "hexagon",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
           "color": "#c92a2a",
           "rot": 0,
           "fill": "none",
-          "scale": 0.55,
+          "scale": 1.0,
           "count": 1
         }
       ]
@@ -1293,24 +1293,24 @@
       "grid": [
         [
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
@@ -1319,24 +1319,24 @@
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 2
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 2
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
@@ -1345,16 +1345,16 @@
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 3
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
@@ -1364,8 +1364,8 @@
         ]
       ],
       "answer": {
-        "shape": "pentagon",
-        "color": "#2b8a3e",
+        "shape": "arrow",
+        "color": "#1c7ed6",
         "rot": 180,
         "fill": "none",
         "scale": 1.0,
@@ -1373,32 +1373,32 @@
       },
       "options": [
         {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
+          "shape": "arrow",
+          "color": "#1c7ed6",
           "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 3
+        },
+        {
+          "shape": "arrow",
+          "color": "#1c7ed6",
+          "rot": 180,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
+          "shape": "arrow",
+          "color": "#1c7ed6",
           "rot": 180,
           "fill": "none",
           "scale": 1.0,
           "count": 2
         },
         {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
+          "shape": "arrow",
+          "color": "#1c7ed6",
           "rot": 180,
           "fill": "none",
           "scale": 1.0,
@@ -1416,12 +1416,12 @@
     "correctIndex": 0,
     "meta": {
       "kind": "matrix",
-      "colAttr": "shape",
-      "rowAttr": "size",
+      "colAttr": "size",
+      "rowAttr": "rot",
       "grid": [
         [
           {
-            "shape": "pentagon",
+            "shape": "arrow",
             "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
@@ -1429,25 +1429,7 @@
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1c7ed6",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.55,
-            "count": 1
-          },
-          {
-            "shape": "diamond",
-            "color": "#1c7ed6",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.55,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "pentagon",
+            "shape": "arrow",
             "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
@@ -1455,81 +1437,99 @@
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1c7ed6",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          },
-          {
-            "shape": "diamond",
-            "color": "#1c7ed6",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "pentagon",
+            "shape": "arrow",
             "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.1,
             "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "arrow",
+            "color": "#1c7ed6",
+            "rot": 90,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
           },
           {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#1c7ed6",
-            "rot": 0,
+            "rot": 90,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1c7ed6",
+            "rot": 90,
             "fill": "none",
             "scale": 1.1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "arrow",
+            "color": "#1c7ed6",
+            "rot": 180,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1c7ed6",
+            "rot": 180,
+            "fill": "none",
+            "scale": 0.8,
             "count": 1
           },
           null
         ]
       ],
       "answer": {
-        "shape": "diamond",
+        "shape": "arrow",
         "color": "#1c7ed6",
-        "rot": 0,
+        "rot": 180,
         "fill": "none",
         "scale": 1.1,
         "count": 1
       },
       "options": [
         {
-          "shape": "diamond",
+          "shape": "arrow",
           "color": "#1c7ed6",
-          "rot": 0,
+          "rot": 180,
           "fill": "none",
           "scale": 1.1,
           "count": 1
         },
         {
-          "shape": "diamond",
+          "shape": "arrow",
           "color": "#1c7ed6",
-          "rot": 0,
+          "rot": 180,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1c7ed6",
+          "rot": 180,
           "fill": "none",
           "scale": 0.8,
           "count": 1
         },
         {
-          "shape": "diamond",
+          "shape": "arrow",
           "color": "#1c7ed6",
           "rot": 0,
           "fill": "none",
-          "scale": 0.55,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1c7ed6",
-          "rot": 0,
-          "fill": "none",
-          "scale": 0.55,
+          "scale": 1.1,
           "count": 1
         }
       ]
@@ -1537,6 +1537,134 @@
   },
   {
     "ext_id": "q013",
+    "type": "matrix-reasoning",
+    "category": "pattern",
+    "prompt": "Find the missing piece",
+    "has_puzzle": true,
+    "correctIndex": 1,
+    "meta": {
+      "kind": "matrix",
+      "colAttr": "size",
+      "rowAttr": "rot",
+      "grid": [
+        [
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 90,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 90,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 90,
+            "fill": "none",
+            "scale": 1.1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 180,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#1f2933",
+            "rot": 180,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          null
+        ]
+      ],
+      "answer": {
+        "shape": "arrow",
+        "color": "#1f2933",
+        "rot": 180,
+        "fill": "none",
+        "scale": 1.1,
+        "count": 1
+      },
+      "options": [
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 180,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 180,
+          "fill": "none",
+          "scale": 0.8,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q014",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -1664,7 +1792,7 @@
     }
   },
   {
-    "ext_id": "q014",
+    "ext_id": "q015",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -1792,7 +1920,7 @@
     }
   },
   {
-    "ext_id": "q015",
+    "ext_id": "q016",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -1920,7 +2048,7 @@
     }
   },
   {
-    "ext_id": "q016",
+    "ext_id": "q017",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -2048,7 +2176,7 @@
     }
   },
   {
-    "ext_id": "q017",
+    "ext_id": "q018",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -2176,7 +2304,7 @@
     }
   },
   {
-    "ext_id": "q018",
+    "ext_id": "q019",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -2190,7 +2318,7 @@
         [
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
             "scale": 0.55,
@@ -2198,7 +2326,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 90,
             "fill": "none",
             "scale": 0.55,
@@ -2206,7 +2334,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 180,
             "fill": "none",
             "scale": 0.55,
@@ -2216,7 +2344,7 @@
         [
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
             "scale": 0.8,
@@ -2224,7 +2352,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 90,
             "fill": "none",
             "scale": 0.8,
@@ -2232,7 +2360,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 180,
             "fill": "none",
             "scale": 0.8,
@@ -2242,7 +2370,7 @@
         [
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
             "scale": 1.1,
@@ -2250,7 +2378,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1f2933",
+            "color": "#5f3dc4",
             "rot": 90,
             "fill": "none",
             "scale": 1.1,
@@ -2261,7 +2389,7 @@
       ],
       "answer": {
         "shape": "arrow",
-        "color": "#1f2933",
+        "color": "#5f3dc4",
         "rot": 180,
         "fill": "none",
         "scale": 1.1,
@@ -2270,15 +2398,15 @@
       "options": [
         {
           "shape": "arrow",
-          "color": "#1f2933",
-          "rot": 0,
+          "color": "#5f3dc4",
+          "rot": 180,
           "fill": "none",
-          "scale": 1.1,
+          "scale": 0.8,
           "count": 1
         },
         {
           "shape": "arrow",
-          "color": "#1f2933",
+          "color": "#5f3dc4",
           "rot": 0,
           "fill": "none",
           "scale": 0.55,
@@ -2286,7 +2414,7 @@
         },
         {
           "shape": "arrow",
-          "color": "#1f2933",
+          "color": "#5f3dc4",
           "rot": 180,
           "fill": "none",
           "scale": 1.1,
@@ -2294,138 +2422,10 @@
         },
         {
           "shape": "arrow",
-          "color": "#1f2933",
-          "rot": 180,
-          "fill": "none",
-          "scale": 0.8,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q019",
-    "type": "matrix-reasoning",
-    "category": "pattern",
-    "prompt": "Find the missing piece",
-    "has_puzzle": true,
-    "correctIndex": 2,
-    "meta": {
-      "kind": "matrix",
-      "colAttr": "rot",
-      "rowAttr": "color",
-      "grid": [
-        [
-          {
-            "shape": "star",
-            "color": "#1c7ed6",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#1c7ed6",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#1c7ed6",
-            "rot": 180,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 180,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "star",
-            "color": "#5f3dc4",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#5f3dc4",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          null
-        ]
-      ],
-      "answer": {
-        "shape": "star",
-        "color": "#5f3dc4",
-        "rot": 180,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "options": [
-        {
-          "shape": "star",
-          "color": "#1c7ed6",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#c92a2a",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
           "color": "#5f3dc4",
-          "rot": 180,
+          "rot": 90,
           "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
+          "scale": 1.1,
           "count": 1
         }
       ]
@@ -2440,30 +2440,30 @@
     "correctIndex": 2,
     "meta": {
       "kind": "matrix",
-      "colAttr": "shape",
+      "colAttr": "rot",
       "rowAttr": "color",
       "grid": [
         [
           {
-            "shape": "triangle",
-            "color": "#1f2933",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1f2933",
-            "rot": 0,
+            "shape": "arrow",
+            "color": "#1c7ed6",
+            "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "diamond",
-            "color": "#1f2933",
-            "rot": 0,
+            "shape": "arrow",
+            "color": "#1c7ed6",
+            "rot": 180,
             "fill": "none",
             "scale": 1.0,
             "count": 1
@@ -2471,25 +2471,25 @@
         ],
         [
           {
-            "shape": "triangle",
-            "color": "#1c7ed6",
+            "shape": "arrow",
+            "color": "#2b8a3e",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1c7ed6",
-            "rot": 0,
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "diamond",
-            "color": "#1c7ed6",
-            "rot": 0,
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 180,
             "fill": "none",
             "scale": 1.0,
             "count": 1
@@ -2497,7 +2497,7 @@
         ],
         [
           {
-            "shape": "triangle",
+            "shape": "arrow",
             "color": "#5f3dc4",
             "rot": 0,
             "fill": "none",
@@ -2505,9 +2505,9 @@
             "count": 1
           },
           {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#5f3dc4",
-            "rot": 0,
+            "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
@@ -2516,41 +2516,41 @@
         ]
       ],
       "answer": {
-        "shape": "diamond",
+        "shape": "arrow",
         "color": "#5f3dc4",
-        "rot": 0,
+        "rot": 180,
         "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "options": [
         {
-          "shape": "triangle",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
+          "shape": "arrow",
           "color": "#1c7ed6",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#2b8a3e",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#5f3dc4",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#5f3dc4",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -2568,6 +2568,134 @@
     "correctIndex": 2,
     "meta": {
       "kind": "matrix",
+      "colAttr": "shape",
+      "rowAttr": "color",
+      "grid": [
+        [
+          {
+            "shape": "triangle",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "star",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#1f2933",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "triangle",
+            "color": "#1c7ed6",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "star",
+            "color": "#1c7ed6",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#1c7ed6",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "triangle",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "star",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          null
+        ]
+      ],
+      "answer": {
+        "shape": "diamond",
+        "color": "#5f3dc4",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "options": [
+        {
+          "shape": "triangle",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#1c7ed6",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q022",
+    "type": "matrix-reasoning",
+    "category": "pattern",
+    "prompt": "Find the missing piece",
+    "has_puzzle": true,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "matrix",
       "colAttr": "count",
       "rowAttr": "shape",
       "grid": [
@@ -2688,134 +2816,6 @@
     }
   },
   {
-    "ext_id": "q022",
-    "type": "matrix-reasoning",
-    "category": "pattern",
-    "prompt": "Find the missing piece",
-    "has_puzzle": true,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "matrix",
-      "colAttr": "size",
-      "rowAttr": "rot",
-      "grid": [
-        [
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.55,
-            "count": 1
-          },
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          },
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.1,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 0.55,
-            "count": 1
-          },
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          },
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.1,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 180,
-            "fill": "none",
-            "scale": 0.55,
-            "count": 1
-          },
-          {
-            "shape": "triangle",
-            "color": "#1f2933",
-            "rot": 180,
-            "fill": "none",
-            "scale": 0.8,
-            "count": 1
-          },
-          null
-        ]
-      ],
-      "answer": {
-        "shape": "triangle",
-        "color": "#1f2933",
-        "rot": 180,
-        "fill": "none",
-        "scale": 1.1,
-        "count": 1
-      },
-      "options": [
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.1,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.1,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 0.55,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 180,
-          "fill": "none",
-          "scale": 0.8,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
     "ext_id": "q023",
     "type": "matrix-reasoning",
     "category": "pattern",
@@ -2824,120 +2824,120 @@
     "correctIndex": 0,
     "meta": {
       "kind": "matrix",
-      "colAttr": "count",
+      "colAttr": "size",
       "rowAttr": "rot",
       "grid": [
         [
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
-            "count": 2
+            "scale": 0.8,
+            "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
-            "count": 3
+            "scale": 1.1,
+            "count": 1
           }
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 90,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 90,
             "fill": "none",
-            "scale": 1.0,
-            "count": 2
+            "scale": 0.8,
+            "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 90,
             "fill": "none",
-            "scale": 1.0,
-            "count": 3
+            "scale": 1.1,
+            "count": 1
           }
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 180,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#c92a2a",
             "rot": 180,
             "fill": "none",
-            "scale": 1.0,
-            "count": 2
+            "scale": 0.8,
+            "count": 1
           },
           null
         ]
       ],
       "answer": {
-        "shape": "pentagon",
-        "color": "#e8590c",
+        "shape": "arrow",
+        "color": "#c92a2a",
         "rot": 180,
         "fill": "none",
-        "scale": 1.0,
-        "count": 3
+        "scale": 1.1,
+        "count": 1
       },
       "options": [
         {
-          "shape": "pentagon",
-          "color": "#e8590c",
+          "shape": "arrow",
+          "color": "#c92a2a",
           "rot": 180,
           "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "pentagon",
-          "color": "#e8590c",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "pentagon",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
+          "scale": 1.1,
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#e8590c",
+          "shape": "arrow",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#c92a2a",
           "rot": 180,
           "fill": "none",
-          "scale": 1.0,
+          "scale": 0.8,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#c92a2a",
+          "rot": 90,
+          "fill": "none",
+          "scale": 1.1,
           "count": 1
         }
       ]
@@ -2945,6 +2945,134 @@
   },
   {
     "ext_id": "q024",
+    "type": "matrix-reasoning",
+    "category": "pattern",
+    "prompt": "Find the missing piece",
+    "has_puzzle": true,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "matrix",
+      "colAttr": "color",
+      "rowAttr": "size",
+      "grid": [
+        [
+          {
+            "shape": "diamond",
+            "color": "#1c7ed6",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#c92a2a",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "diamond",
+            "color": "#1c7ed6",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#c92a2a",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "diamond",
+            "color": "#1c7ed6",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.1,
+            "count": 1
+          },
+          {
+            "shape": "diamond",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.1,
+            "count": 1
+          },
+          null
+        ]
+      ],
+      "answer": {
+        "shape": "diamond",
+        "color": "#c92a2a",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.1,
+        "count": 1
+      },
+      "options": [
+        {
+          "shape": "diamond",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.8,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#1c7ed6",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#1c7ed6",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q025",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -3072,7 +3200,7 @@
     }
   },
   {
-    "ext_id": "q025",
+    "ext_id": "q026",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -3086,7 +3214,7 @@
         [
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
             "scale": 0.55,
@@ -3094,7 +3222,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 90,
             "fill": "none",
             "scale": 0.55,
@@ -3102,7 +3230,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 180,
             "fill": "none",
             "scale": 0.55,
@@ -3112,7 +3240,7 @@
         [
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
             "scale": 0.8,
@@ -3120,7 +3248,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 90,
             "fill": "none",
             "scale": 0.8,
@@ -3128,7 +3256,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 180,
             "fill": "none",
             "scale": 0.8,
@@ -3138,7 +3266,7 @@
         [
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 0,
             "fill": "none",
             "scale": 1.1,
@@ -3146,7 +3274,7 @@
           },
           {
             "shape": "arrow",
-            "color": "#1c7ed6",
+            "color": "#c92a2a",
             "rot": 90,
             "fill": "none",
             "scale": 1.1,
@@ -3157,7 +3285,7 @@
       ],
       "answer": {
         "shape": "arrow",
-        "color": "#1c7ed6",
+        "color": "#c92a2a",
         "rot": 180,
         "fill": "none",
         "scale": 1.1,
@@ -3166,23 +3294,7 @@
       "options": [
         {
           "shape": "arrow",
-          "color": "#1c7ed6",
-          "rot": 180,
-          "fill": "none",
-          "scale": 0.8,
-          "count": 1
-        },
-        {
-          "shape": "arrow",
-          "color": "#1c7ed6",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.1,
-          "count": 1
-        },
-        {
-          "shape": "arrow",
-          "color": "#1c7ed6",
+          "color": "#c92a2a",
           "rot": 90,
           "fill": "none",
           "scale": 1.1,
@@ -3190,7 +3302,23 @@
         },
         {
           "shape": "arrow",
-          "color": "#1c7ed6",
+          "color": "#c92a2a",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#c92a2a",
+          "rot": 180,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#c92a2a",
           "rot": 0,
           "fill": "none",
           "scale": 0.55,
@@ -3200,7 +3328,7 @@
     }
   },
   {
-    "ext_id": "q026",
+    "ext_id": "q027",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -3328,12 +3456,12 @@
     }
   },
   {
-    "ext_id": "q027",
+    "ext_id": "q028",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
     "has_puzzle": true,
-    "correctIndex": 2,
+    "correctIndex": 0,
     "meta": {
       "kind": "matrix",
       "colAttr": "rot",
@@ -3341,24 +3469,24 @@
       "grid": [
         [
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#2b8a3e",
+            "shape": "arrow",
+            "color": "#1c7ed6",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
@@ -3367,24 +3495,24 @@
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#e8590c",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#e8590c",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#e8590c",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
@@ -3393,16 +3521,16 @@
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#1f2933",
+            "shape": "arrow",
+            "color": "#2b8a3e",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#1f2933",
+            "shape": "arrow",
+            "color": "#2b8a3e",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
@@ -3412,8 +3540,8 @@
         ]
       ],
       "answer": {
-        "shape": "pentagon",
-        "color": "#1f2933",
+        "shape": "arrow",
+        "color": "#2b8a3e",
         "rot": 180,
         "fill": "none",
         "scale": 1.0,
@@ -3421,15 +3549,7 @@
       },
       "options": [
         {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
+          "shape": "arrow",
           "color": "#2b8a3e",
           "rot": 180,
           "fill": "none",
@@ -3437,148 +3557,28 @@
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#1f2933",
+          "shape": "arrow",
+          "color": "#2b8a3e",
+          "rot": 90,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1c7ed6",
           "rot": 180,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#1f2933",
+          "shape": "arrow",
+          "color": "#1c7ed6",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q028",
-    "type": "matrix-reasoning",
-    "category": "pattern",
-    "prompt": "Find the missing piece",
-    "has_puzzle": true,
-    "correctIndex": 2,
-    "meta": {
-      "kind": "matrix",
-      "colAttr": "count",
-      "rowAttr": "color",
-      "grid": [
-        [
-          {
-            "shape": "diamond",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "diamond",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          {
-            "shape": "diamond",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 3
-          }
-        ],
-        [
-          {
-            "shape": "diamond",
-            "color": "#e8590c",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "diamond",
-            "color": "#e8590c",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          {
-            "shape": "diamond",
-            "color": "#e8590c",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 3
-          }
-        ],
-        [
-          {
-            "shape": "diamond",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "diamond",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          null
-        ]
-      ],
-      "answer": {
-        "shape": "diamond",
-        "color": "#1f2933",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 3
-      },
-      "options": [
-        {
-          "shape": "diamond",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "diamond",
-          "color": "#c92a2a",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "diamond",
-          "color": "#c92a2a",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
         }
       ]
     }
@@ -3589,123 +3589,123 @@
     "category": "pattern",
     "prompt": "Find the missing piece",
     "has_puzzle": true,
-    "correctIndex": 0,
+    "correctIndex": 3,
     "meta": {
       "kind": "matrix",
-      "colAttr": "color",
-      "rowAttr": "rot",
+      "colAttr": "rot",
+      "rowAttr": "size",
       "grid": [
         [
           {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#e8590c",
             "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 90,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 180,
+            "fill": "none",
+            "scale": 0.55,
             "count": 1
           }
         ],
         [
           {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 90,
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.8,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
+            "shape": "arrow",
             "color": "#e8590c",
             "rot": 90,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 180,
+            "fill": "none",
+            "scale": 0.8,
             "count": 1
           }
         ],
         [
           {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 180,
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 0,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 1.1,
             "count": 1
           },
           {
-            "shape": "star",
-            "color": "#1f2933",
-            "rot": 180,
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 90,
             "fill": "none",
-            "scale": 1.0,
+            "scale": 1.1,
             "count": 1
           },
           null
         ]
       ],
       "answer": {
-        "shape": "star",
+        "shape": "arrow",
         "color": "#e8590c",
         "rot": 180,
         "fill": "none",
-        "scale": 1.0,
+        "scale": 1.1,
         "count": 1
       },
       "options": [
         {
-          "shape": "star",
+          "shape": "arrow",
           "color": "#e8590c",
           "rot": 180,
           "fill": "none",
-          "scale": 1.0,
+          "scale": 0.55,
           "count": 1
         },
         {
-          "shape": "star",
+          "shape": "arrow",
           "color": "#e8590c",
           "rot": 0,
           "fill": "none",
-          "scale": 1.0,
+          "scale": 1.1,
           "count": 1
         },
         {
-          "shape": "star",
-          "color": "#c92a2a",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#c92a2a",
+          "shape": "arrow",
+          "color": "#e8590c",
           "rot": 180,
           "fill": "none",
-          "scale": 1.0,
+          "scale": 0.8,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.1,
           "count": 1
         }
       ]
@@ -3717,32 +3717,32 @@
     "category": "pattern",
     "prompt": "Find the missing piece",
     "has_puzzle": true,
-    "correctIndex": 2,
+    "correctIndex": 3,
     "meta": {
       "kind": "matrix",
       "colAttr": "rot",
-      "rowAttr": "color",
+      "rowAttr": "count",
       "grid": [
         [
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#1f2933",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#1f2933",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "pentagon",
-            "color": "#e8590c",
+            "shape": "arrow",
+            "color": "#1f2933",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
@@ -3751,61 +3751,61 @@
         ],
         [
           {
-            "shape": "pentagon",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#1f2933",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 2
           },
           {
-            "shape": "pentagon",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#1f2933",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 2
           },
           {
-            "shape": "pentagon",
-            "color": "#5f3dc4",
+            "shape": "arrow",
+            "color": "#1f2933",
             "rot": 180,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 2
           }
         ],
         [
           {
-            "shape": "pentagon",
+            "shape": "arrow",
             "color": "#1f2933",
             "rot": 0,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 3
           },
           {
-            "shape": "pentagon",
+            "shape": "arrow",
             "color": "#1f2933",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 3
           },
           null
         ]
       ],
       "answer": {
-        "shape": "pentagon",
+        "shape": "arrow",
         "color": "#1f2933",
         "rot": 180,
         "fill": "none",
         "scale": 1.0,
-        "count": 1
+        "count": 3
       },
       "options": [
         {
-          "shape": "pentagon",
+          "shape": "arrow",
           "color": "#1f2933",
           "rot": 0,
           "fill": "none",
@@ -3813,23 +3813,279 @@
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#5f3dc4",
-          "rot": 180,
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 90,
           "fill": "none",
           "scale": 1.0,
-          "count": 1
+          "count": 3
         },
         {
-          "shape": "pentagon",
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 3
+        },
+        {
+          "shape": "arrow",
           "color": "#1f2933",
           "rot": 180,
           "fill": "none",
           "scale": 1.0,
+          "count": 3
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q031",
+    "type": "matrix-reasoning",
+    "category": "pattern",
+    "prompt": "Find the missing piece",
+    "has_puzzle": true,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "matrix",
+      "colAttr": "size",
+      "rowAttr": "count",
+      "grid": [
+        [
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 1
+          },
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 1
+          },
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 2
+          },
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 2
+          },
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.55,
+            "count": 3
+          },
+          {
+            "shape": "square",
+            "color": "#5f3dc4",
+            "rot": 0,
+            "fill": "none",
+            "scale": 0.8,
+            "count": 3
+          },
+          null
+        ]
+      ],
+      "answer": {
+        "shape": "square",
+        "color": "#5f3dc4",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.1,
+        "count": 3
+      },
+      "options": [
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 3
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 2
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.1,
+          "count": 3
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q032",
+    "type": "matrix-reasoning",
+    "category": "pattern",
+    "prompt": "Find the missing piece",
+    "has_puzzle": true,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "matrix",
+      "colAttr": "rot",
+      "rowAttr": "count",
+      "grid": [
+        [
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 90,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 180,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 2
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 90,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 2
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 180,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 3
+          },
+          {
+            "shape": "arrow",
+            "color": "#e8590c",
+            "rot": 90,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 3
+          },
+          null
+        ]
+      ],
+      "answer": {
+        "shape": "arrow",
+        "color": "#e8590c",
+        "rot": 180,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 3
+      },
+      "options": [
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 3
+        },
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "pentagon",
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 2
+        },
+        {
+          "shape": "arrow",
           "color": "#e8590c",
           "rot": 0,
           "fill": "none",
@@ -3840,7 +4096,7 @@
     }
   },
   {
-    "ext_id": "q031",
+    "ext_id": "q033",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -3968,7 +4224,7 @@
     }
   },
   {
-    "ext_id": "q032",
+    "ext_id": "q034",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
@@ -4096,276 +4352,20 @@
     }
   },
   {
-    "ext_id": "q033",
-    "type": "matrix-reasoning",
-    "category": "pattern",
-    "prompt": "Find the missing piece",
-    "has_puzzle": true,
-    "correctIndex": 3,
-    "meta": {
-      "kind": "matrix",
-      "colAttr": "rot",
-      "rowAttr": "count",
-      "grid": [
-        [
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 180,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 180,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          }
-        ],
-        [
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 3
-          },
-          {
-            "shape": "star",
-            "color": "#c92a2a",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 3
-          },
-          null
-        ]
-      ],
-      "answer": {
-        "shape": "star",
-        "color": "#c92a2a",
-        "rot": 180,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 3
-      },
-      "options": [
-        {
-          "shape": "star",
-          "color": "#c92a2a",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "star",
-          "color": "#c92a2a",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "star",
-          "color": "#c92a2a",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#c92a2a",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q034",
-    "type": "matrix-reasoning",
-    "category": "pattern",
-    "prompt": "Find the missing piece",
-    "has_puzzle": true,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "matrix",
-      "colAttr": "rot",
-      "rowAttr": "count",
-      "grid": [
-        [
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 180,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
-          }
-        ],
-        [
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          },
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 180,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 2
-          }
-        ],
-        [
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 0,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 3
-          },
-          {
-            "shape": "pentagon",
-            "color": "#1f2933",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 3
-          },
-          null
-        ]
-      ],
-      "answer": {
-        "shape": "pentagon",
-        "color": "#1f2933",
-        "rot": 180,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 3
-      },
-      "options": [
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 2
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 3
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
     "ext_id": "q035",
     "type": "matrix-reasoning",
     "category": "pattern",
     "prompt": "Find the missing piece",
     "has_puzzle": true,
-    "correctIndex": 0,
+    "correctIndex": 2,
     "meta": {
       "kind": "matrix",
-      "colAttr": "color",
-      "rowAttr": "rot",
+      "colAttr": "rot",
+      "rowAttr": "count",
       "grid": [
         [
           {
-            "shape": "triangle",
+            "shape": "arrow",
             "color": "#2b8a3e",
             "rot": 0,
             "fill": "none",
@@ -4373,17 +4373,17 @@
             "count": 1
           },
           {
-            "shape": "triangle",
-            "color": "#e8590c",
-            "rot": 0,
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 90,
             "fill": "none",
             "scale": 1.0,
             "count": 1
           },
           {
-            "shape": "triangle",
-            "color": "#5f3dc4",
-            "rot": 0,
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 180,
             "fill": "none",
             "scale": 1.0,
             "count": 1
@@ -4391,77 +4391,69 @@
         ],
         [
           {
-            "shape": "triangle",
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 0,
+            "fill": "none",
+            "scale": 1.0,
+            "count": 2
+          },
+          {
+            "shape": "arrow",
             "color": "#2b8a3e",
             "rot": 90,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 2
           },
           {
-            "shape": "triangle",
-            "color": "#e8590c",
-            "rot": 90,
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 180,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
-          },
-          {
-            "shape": "triangle",
-            "color": "#5f3dc4",
-            "rot": 90,
-            "fill": "none",
-            "scale": 1.0,
-            "count": 1
+            "count": 2
           }
         ],
         [
           {
-            "shape": "triangle",
+            "shape": "arrow",
             "color": "#2b8a3e",
-            "rot": 180,
+            "rot": 0,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 3
           },
           {
-            "shape": "triangle",
-            "color": "#e8590c",
-            "rot": 180,
+            "shape": "arrow",
+            "color": "#2b8a3e",
+            "rot": 90,
             "fill": "none",
             "scale": 1.0,
-            "count": 1
+            "count": 3
           },
           null
         ]
       ],
       "answer": {
-        "shape": "triangle",
-        "color": "#5f3dc4",
+        "shape": "arrow",
+        "color": "#2b8a3e",
         "rot": 180,
         "fill": "none",
         "scale": 1.0,
-        "count": 1
+        "count": 3
       },
       "options": [
         {
-          "shape": "triangle",
-          "color": "#5f3dc4",
-          "rot": 180,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#5f3dc4",
+          "shape": "arrow",
+          "color": "#2b8a3e",
           "rot": 90,
           "fill": "none",
           "scale": 1.0,
-          "count": 1
+          "count": 3
         },
         {
-          "shape": "triangle",
+          "shape": "arrow",
           "color": "#2b8a3e",
           "rot": 180,
           "fill": "none",
@@ -4469,12 +4461,20 @@
           "count": 1
         },
         {
-          "shape": "triangle",
+          "shape": "arrow",
+          "color": "#2b8a3e",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 3
+        },
+        {
+          "shape": "arrow",
           "color": "#2b8a3e",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
-          "count": 1
+          "count": 3
         }
       ]
     }
@@ -4485,15 +4485,14 @@
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
     "has_puzzle": true,
-    "correctIndex": 3,
+    "correctIndex": 2,
     "meta": {
       "kind": "analogy",
       "transform": {
-        "kind": "color",
-        "to": "#1f2933"
+        "kind": "fill"
       },
       "A": {
-        "shape": "triangle",
+        "shape": "square",
         "color": "#e8590c",
         "rot": 0,
         "fill": "none",
@@ -4501,59 +4500,59 @@
         "count": 1
       },
       "B": {
-        "shape": "triangle",
-        "color": "#1f2933",
+        "shape": "square",
+        "color": "#e8590c",
         "rot": 0,
-        "fill": "none",
+        "fill": "#e8590c",
         "scale": 1.0,
         "count": 1
       },
       "C": {
-        "shape": "hexagon",
-        "color": "#2b8a3e",
+        "shape": "diamond",
+        "color": "#e8590c",
         "rot": 0,
         "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "answer": {
-        "shape": "hexagon",
-        "color": "#1f2933",
+        "shape": "diamond",
+        "color": "#e8590c",
         "rot": 0,
-        "fill": "none",
+        "fill": "#e8590c",
         "scale": 1.0,
         "count": 1
       },
       "options": [
         {
-          "shape": "hexagon",
-          "color": "#c92a2a",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "hexagon",
-          "color": "#2b8a3e",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "hexagon",
-          "color": "#1c7ed6",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "hexagon",
+          "shape": "diamond",
           "color": "#1f2933",
           "rot": 0,
           "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "#e8590c",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#2b8a3e",
+          "rot": 0,
+          "fill": "#2b8a3e",
           "scale": 1.0,
           "count": 1
         }
@@ -4566,64 +4565,56 @@
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
     "has_puzzle": true,
-    "correctIndex": 0,
+    "correctIndex": 1,
     "meta": {
       "kind": "analogy",
       "transform": {
-        "kind": "rot",
-        "deg": 90
+        "kind": "color",
+        "to": "#e8590c"
       },
       "A": {
-        "shape": "triangle",
-        "color": "#1c7ed6",
+        "shape": "pentagon",
+        "color": "#5f3dc4",
         "rot": 0,
         "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "B": {
-        "shape": "triangle",
-        "color": "#1c7ed6",
-        "rot": 90,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "C": {
-        "shape": "star",
+        "shape": "pentagon",
         "color": "#e8590c",
         "rot": 0,
         "fill": "none",
         "scale": 1.0,
         "count": 1
       },
+      "C": {
+        "shape": "square",
+        "color": "#1f2933",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
       "answer": {
-        "shape": "star",
+        "shape": "square",
         "color": "#e8590c",
-        "rot": 90,
+        "rot": 0,
         "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "options": [
         {
-          "shape": "star",
-          "color": "#e8590c",
-          "rot": 90,
+          "shape": "square",
+          "color": "#c92a2a",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "star",
-          "color": "#e8590c",
-          "rot": 270,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
+          "shape": "square",
           "color": "#e8590c",
           "rot": 0,
           "fill": "none",
@@ -4631,9 +4622,17 @@
           "count": 1
         },
         {
-          "shape": "star",
-          "color": "#e8590c",
-          "rot": 180,
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "square",
+          "color": "#2b8a3e",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -4647,15 +4646,16 @@
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
     "has_puzzle": true,
-    "correctIndex": 3,
+    "correctIndex": 1,
     "meta": {
       "kind": "analogy",
       "transform": {
-        "kind": "fill"
+        "kind": "size",
+        "factor": 1.6
       },
       "A": {
         "shape": "square",
-        "color": "#1f2933",
+        "color": "#2b8a3e",
         "rot": 0,
         "fill": "none",
         "scale": 1.0,
@@ -4663,14 +4663,14 @@
       },
       "B": {
         "shape": "square",
-        "color": "#1f2933",
+        "color": "#2b8a3e",
         "rot": 0,
-        "fill": "#1f2933",
-        "scale": 1.0,
+        "fill": "none",
+        "scale": 1.6,
         "count": 1
       },
       "C": {
-        "shape": "circle",
+        "shape": "diamond",
         "color": "#1f2933",
         "rot": 0,
         "fill": "none",
@@ -4678,32 +4678,16 @@
         "count": 1
       },
       "answer": {
-        "shape": "circle",
+        "shape": "diamond",
         "color": "#1f2933",
         "rot": 0,
-        "fill": "#1f2933",
-        "scale": 1.0,
+        "fill": "none",
+        "scale": 1.6,
         "count": 1
       },
       "options": [
         {
-          "shape": "circle",
-          "color": "#1f2933",
-          "rot": 90,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#1c7ed6",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "circle",
+          "shape": "diamond",
           "color": "#1f2933",
           "rot": 0,
           "fill": "none",
@@ -4711,11 +4695,27 @@
           "count": 1
         },
         {
-          "shape": "circle",
+          "shape": "diamond",
           "color": "#1f2933",
           "rot": 0,
-          "fill": "#1f2933",
-          "scale": 1.0,
+          "fill": "none",
+          "scale": 1.6,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.8,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.3,
           "count": 1
         }
       ]
@@ -4727,15 +4727,16 @@
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
     "has_puzzle": true,
-    "correctIndex": 0,
+    "correctIndex": 2,
     "meta": {
       "kind": "analogy",
       "transform": {
-        "kind": "fill"
+        "kind": "color",
+        "to": "#1f2933"
       },
       "A": {
         "shape": "circle",
-        "color": "#5f3dc4",
+        "color": "#e8590c",
         "rot": 0,
         "fill": "none",
         "scale": 1.0,
@@ -4743,14 +4744,14 @@
       },
       "B": {
         "shape": "circle",
-        "color": "#5f3dc4",
+        "color": "#1f2933",
         "rot": 0,
-        "fill": "#5f3dc4",
+        "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "C": {
-        "shape": "pentagon",
+        "shape": "square",
         "color": "#1c7ed6",
         "rot": 0,
         "fill": "none",
@@ -4758,32 +4759,16 @@
         "count": 1
       },
       "answer": {
-        "shape": "pentagon",
-        "color": "#1c7ed6",
+        "shape": "square",
+        "color": "#1f2933",
         "rot": 0,
-        "fill": "#1c7ed6",
+        "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "options": [
         {
-          "shape": "pentagon",
-          "color": "#1c7ed6",
-          "rot": 0,
-          "fill": "#1c7ed6",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1c7ed6",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
+          "shape": "square",
           "color": "#2b8a3e",
           "rot": 0,
           "fill": "none",
@@ -4791,9 +4776,25 @@
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#1c7ed6",
-          "rot": 90,
+          "shape": "square",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "square",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -4811,21 +4812,264 @@
     "meta": {
       "kind": "analogy",
       "transform": {
-        "kind": "fill"
+        "kind": "size",
+        "factor": 0.55
       },
       "A": {
-        "shape": "star",
-        "color": "#1c7ed6",
+        "shape": "square",
+        "color": "#1f2933",
         "rot": 0,
         "fill": "none",
         "scale": 1.0,
         "count": 1
       },
       "B": {
-        "shape": "star",
-        "color": "#1c7ed6",
+        "shape": "square",
+        "color": "#1f2933",
         "rot": 0,
-        "fill": "#1c7ed6",
+        "fill": "none",
+        "scale": 0.55,
+        "count": 1
+      },
+      "C": {
+        "shape": "circle",
+        "color": "#1f2933",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "answer": {
+        "shape": "circle",
+        "color": "#1f2933",
+        "rot": 0,
+        "fill": "none",
+        "scale": 0.55,
+        "count": 1
+      },
+      "options": [
+        {
+          "shape": "circle",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.3,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.8,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q041",
+    "type": "visual-analogy",
+    "category": "analogy",
+    "prompt": "A is to B as C is to ?",
+    "has_puzzle": true,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "analogy",
+      "transform": {
+        "kind": "rot",
+        "deg": 180
+      },
+      "A": {
+        "shape": "triangle",
+        "color": "#c92a2a",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "B": {
+        "shape": "triangle",
+        "color": "#c92a2a",
+        "rot": 180,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "C": {
+        "shape": "arrow",
+        "color": "#e8590c",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "answer": {
+        "shape": "arrow",
+        "color": "#e8590c",
+        "rot": 180,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "options": [
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 270,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 180,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 90,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q042",
+    "type": "visual-analogy",
+    "category": "analogy",
+    "prompt": "A is to B as C is to ?",
+    "has_puzzle": true,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "analogy",
+      "transform": {
+        "kind": "size",
+        "factor": 1.6
+      },
+      "A": {
+        "shape": "diamond",
+        "color": "#2b8a3e",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "B": {
+        "shape": "diamond",
+        "color": "#2b8a3e",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.6,
+        "count": 1
+      },
+      "C": {
+        "shape": "pentagon",
+        "color": "#c92a2a",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "answer": {
+        "shape": "pentagon",
+        "color": "#c92a2a",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.6,
+        "count": 1
+      },
+      "options": [
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.8,
+          "count": 1
+        },
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.6,
+          "count": 1
+        },
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.3,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q043",
+    "type": "visual-analogy",
+    "category": "analogy",
+    "prompt": "A is to B as C is to ?",
+    "has_puzzle": true,
+    "correctIndex": 1,
+    "meta": {
+      "kind": "analogy",
+      "transform": {
+        "kind": "fill"
+      },
+      "A": {
+        "shape": "hexagon",
+        "color": "#1f2933",
+        "rot": 0,
+        "fill": "none",
+        "scale": 1.0,
+        "count": 1
+      },
+      "B": {
+        "shape": "hexagon",
+        "color": "#1f2933",
+        "rot": 0,
+        "fill": "#1f2933",
         "scale": 1.0,
         "count": 1
       },
@@ -4848,8 +5092,8 @@
       "options": [
         {
           "shape": "diamond",
-          "color": "#5f3dc4",
-          "rot": 90,
+          "color": "#1f2933",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -4864,15 +5108,15 @@
         },
         {
           "shape": "diamond",
-          "color": "#5f3dc4",
+          "color": "#e8590c",
           "rot": 0,
-          "fill": "none",
+          "fill": "#e8590c",
           "scale": 1.0,
           "count": 1
         },
         {
           "shape": "diamond",
-          "color": "#1c7ed6",
+          "color": "#2b8a3e",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -4882,88 +5126,7 @@
     }
   },
   {
-    "ext_id": "q041",
-    "type": "visual-analogy",
-    "category": "analogy",
-    "prompt": "A is to B as C is to ?",
-    "has_puzzle": true,
-    "correctIndex": 3,
-    "meta": {
-      "kind": "analogy",
-      "transform": {
-        "kind": "size",
-        "factor": 0.55
-      },
-      "A": {
-        "shape": "square",
-        "color": "#5f3dc4",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "B": {
-        "shape": "square",
-        "color": "#5f3dc4",
-        "rot": 0,
-        "fill": "none",
-        "scale": 0.55,
-        "count": 1
-      },
-      "C": {
-        "shape": "circle",
-        "color": "#e8590c",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "answer": {
-        "shape": "circle",
-        "color": "#e8590c",
-        "rot": 0,
-        "fill": "none",
-        "scale": 0.55,
-        "count": 1
-      },
-      "options": [
-        {
-          "shape": "circle",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.6,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 0.8,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.3,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 0.55,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q042",
+    "ext_id": "q044",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5044,7 +5207,7 @@
     }
   },
   {
-    "ext_id": "q043",
+    "ext_id": "q045",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5098,24 +5261,24 @@
         },
         {
           "shape": "diamond",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "diamond",
           "color": "#5f3dc4",
           "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#e8590c",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#e8590c",
-          "rot": 90,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -5124,7 +5287,7 @@
     }
   },
   {
-    "ext_id": "q044",
+    "ext_id": "q046",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5205,7 +5368,7 @@
     }
   },
   {
-    "ext_id": "q045",
+    "ext_id": "q047",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5286,7 +5449,7 @@
     }
   },
   {
-    "ext_id": "q046",
+    "ext_id": "q048",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5367,7 +5530,7 @@
     }
   },
   {
-    "ext_id": "q047",
+    "ext_id": "q049",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5448,7 +5611,7 @@
     }
   },
   {
-    "ext_id": "q048",
+    "ext_id": "q050",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5510,7 +5673,7 @@
         },
         {
           "shape": "diamond",
-          "color": "#2b8a3e",
+          "color": "#1f2933",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -5518,8 +5681,8 @@
         },
         {
           "shape": "diamond",
-          "color": "#5f3dc4",
-          "rot": 90,
+          "color": "#2b8a3e",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -5528,7 +5691,7 @@
     }
   },
   {
-    "ext_id": "q049",
+    "ext_id": "q051",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5582,9 +5745,9 @@
         },
         {
           "shape": "star",
-          "color": "#5f3dc4",
-          "rot": 90,
-          "fill": "none",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "#e8590c",
           "scale": 1.0,
           "count": 1
         },
@@ -5598,7 +5761,7 @@
         },
         {
           "shape": "star",
-          "color": "#e8590c",
+          "color": "#2b8a3e",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -5608,7 +5771,7 @@
     }
   },
   {
-    "ext_id": "q050",
+    "ext_id": "q052",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5689,7 +5852,7 @@
     }
   },
   {
-    "ext_id": "q051",
+    "ext_id": "q053",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5743,7 +5906,7 @@
         },
         {
           "shape": "hexagon",
-          "color": "#5f3dc4",
+          "color": "#1f2933",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -5751,9 +5914,9 @@
         },
         {
           "shape": "hexagon",
-          "color": "#c92a2a",
-          "rot": 90,
-          "fill": "none",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "#e8590c",
           "scale": 1.0,
           "count": 1
         },
@@ -5769,7 +5932,7 @@
     }
   },
   {
-    "ext_id": "q052",
+    "ext_id": "q054",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5850,7 +6013,7 @@
     }
   },
   {
-    "ext_id": "q053",
+    "ext_id": "q055",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -5896,7 +6059,7 @@
       "options": [
         {
           "shape": "diamond",
-          "color": "#2b8a3e",
+          "color": "#5f3dc4",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -5904,9 +6067,9 @@
         },
         {
           "shape": "diamond",
-          "color": "#e8590c",
-          "rot": 90,
-          "fill": "none",
+          "color": "#2b8a3e",
+          "rot": 0,
+          "fill": "#2b8a3e",
           "scale": 1.0,
           "count": 1
         },
@@ -5930,7 +6093,7 @@
     }
   },
   {
-    "ext_id": "q054",
+    "ext_id": "q056",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -6011,7 +6174,7 @@
     }
   },
   {
-    "ext_id": "q055",
+    "ext_id": "q057",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -6092,7 +6255,7 @@
     }
   },
   {
-    "ext_id": "q056",
+    "ext_id": "q058",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -6146,9 +6309,9 @@
         },
         {
           "shape": "star",
-          "color": "#5f3dc4",
-          "rot": 90,
-          "fill": "none",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "#e8590c",
           "scale": 1.0,
           "count": 1
         },
@@ -6162,7 +6325,7 @@
         },
         {
           "shape": "star",
-          "color": "#c92a2a",
+          "color": "#1f2933",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -6172,7 +6335,7 @@
     }
   },
   {
-    "ext_id": "q057",
+    "ext_id": "q059",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -6253,7 +6416,7 @@
     }
   },
   {
-    "ext_id": "q058",
+    "ext_id": "q060",
     "type": "visual-analogy",
     "category": "analogy",
     "prompt": "A is to B as C is to ?",
@@ -6334,207 +6497,45 @@
     }
   },
   {
-    "ext_id": "q059",
-    "type": "visual-analogy",
-    "category": "analogy",
-    "prompt": "A is to B as C is to ?",
-    "has_puzzle": true,
-    "correctIndex": 3,
-    "meta": {
-      "kind": "analogy",
-      "transform": {
-        "kind": "color",
-        "to": "#2b8a3e"
-      },
-      "A": {
-        "shape": "triangle",
-        "color": "#1f2933",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "B": {
-        "shape": "triangle",
-        "color": "#2b8a3e",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "C": {
-        "shape": "diamond",
-        "color": "#1f2933",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "answer": {
-        "shape": "diamond",
-        "color": "#2b8a3e",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "options": [
-        {
-          "shape": "diamond",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#1c7ed6",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "diamond",
-          "color": "#2b8a3e",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q060",
-    "type": "visual-analogy",
-    "category": "analogy",
-    "prompt": "A is to B as C is to ?",
-    "has_puzzle": true,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "analogy",
-      "transform": {
-        "kind": "size",
-        "factor": 0.55
-      },
-      "A": {
-        "shape": "diamond",
-        "color": "#1c7ed6",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "B": {
-        "shape": "diamond",
-        "color": "#1c7ed6",
-        "rot": 0,
-        "fill": "none",
-        "scale": 0.55,
-        "count": 1
-      },
-      "C": {
-        "shape": "square",
-        "color": "#5f3dc4",
-        "rot": 0,
-        "fill": "none",
-        "scale": 1.0,
-        "count": 1
-      },
-      "answer": {
-        "shape": "square",
-        "color": "#5f3dc4",
-        "rot": 0,
-        "fill": "none",
-        "scale": 0.55,
-        "count": 1
-      },
-      "options": [
-        {
-          "shape": "square",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 0.8,
-          "count": 1
-        },
-        {
-          "shape": "square",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 0.55,
-          "count": 1
-        },
-        {
-          "shape": "square",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "square",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.6,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
     "ext_id": "q061",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
     "has_puzzle": false,
-    "correctIndex": 3,
+    "correctIndex": 2,
     "meta": {
       "kind": "odd",
       "mode": "rotation",
-      "odd": 3,
+      "odd": 2,
       "slots": [
         {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
+          "shape": "arrow",
+          "color": "#e8590c",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
+          "shape": "arrow",
+          "color": "#e8590c",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#2b8a3e",
+          "shape": "arrow",
+          "color": "#e8590c",
           "rot": 40,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#e8590c",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -6548,39 +6549,39 @@
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
     "has_puzzle": false,
-    "correctIndex": 2,
+    "correctIndex": 1,
     "meta": {
       "kind": "odd",
-      "mode": "size",
-      "odd": 2,
+      "mode": "shape",
+      "odd": 1,
       "slots": [
         {
-          "shape": "square",
-          "color": "#2b8a3e",
+          "shape": "hexagon",
+          "color": "#5f3dc4",
           "rot": 20,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#2b8a3e",
+          "shape": "circle",
+          "color": "#5f3dc4",
           "rot": 20,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#2b8a3e",
+          "shape": "hexagon",
+          "color": "#5f3dc4",
           "rot": 20,
           "fill": "none",
-          "scale": 0.55,
+          "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#2b8a3e",
+          "shape": "hexagon",
+          "color": "#5f3dc4",
           "rot": 20,
           "fill": "none",
           "scale": 1.0,
@@ -6595,14 +6596,61 @@
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
     "has_puzzle": false,
-    "correctIndex": 1,
+    "correctIndex": 3,
     "meta": {
       "kind": "odd",
-      "mode": "shape",
-      "odd": 1,
+      "mode": "size",
+      "odd": 3,
       "slots": [
         {
-          "shape": "triangle",
+          "shape": "circle",
+          "color": "#5f3dc4",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#5f3dc4",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#5f3dc4",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#5f3dc4",
+          "rot": 20,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q064",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "prompt": "Which one is the odd one out?",
+    "has_puzzle": false,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd",
+      "mode": "fillstate",
+      "odd": 2,
+      "slots": [
+        {
+          "shape": "square",
           "color": "#5f3dc4",
           "rot": 20,
           "fill": "none",
@@ -6618,64 +6666,17 @@
           "count": 1
         },
         {
-          "shape": "triangle",
+          "shape": "square",
           "color": "#5f3dc4",
           "rot": 20,
-          "fill": "none",
+          "fill": "#5f3dc4",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "triangle",
+          "shape": "square",
           "color": "#5f3dc4",
           "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q064",
-    "type": "odd-one-out",
-    "category": "spatial",
-    "prompt": "Which one is the odd one out?",
-    "has_puzzle": false,
-    "correctIndex": 0,
-    "meta": {
-      "kind": "odd",
-      "mode": "rotation",
-      "odd": 0,
-      "slots": [
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 70,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 30,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 30,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "pentagon",
-          "color": "#1f2933",
-          "rot": 30,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -6689,40 +6690,40 @@
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
     "has_puzzle": false,
-    "correctIndex": 3,
+    "correctIndex": 0,
     "meta": {
       "kind": "odd",
-      "mode": "color",
-      "odd": 3,
+      "mode": "rotation",
+      "odd": 0,
       "slots": [
         {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#2b8a3e",
+          "rot": 55,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#2b8a3e",
+          "rot": 15,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#2b8a3e",
+          "rot": 15,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#1c7ed6",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#2b8a3e",
+          "rot": 15,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -6739,37 +6740,37 @@
     "correctIndex": 1,
     "meta": {
       "kind": "odd",
-      "mode": "shape",
+      "mode": "size",
       "odd": 1,
       "slots": [
         {
-          "shape": "circle",
-          "color": "#5f3dc4",
-          "rot": 0,
+          "shape": "hexagon",
+          "color": "#1f2933",
+          "rot": 20,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "diamond",
-          "color": "#5f3dc4",
-          "rot": 0,
+          "shape": "hexagon",
+          "color": "#1f2933",
+          "rot": 20,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "hexagon",
+          "color": "#1f2933",
+          "rot": 20,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "circle",
-          "color": "#5f3dc4",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#5f3dc4",
-          "rot": 0,
+          "shape": "hexagon",
+          "color": "#1f2933",
+          "rot": 20,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -6783,40 +6784,40 @@
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
     "has_puzzle": false,
-    "correctIndex": 1,
+    "correctIndex": 2,
     "meta": {
       "kind": "odd",
-      "mode": "shape",
-      "odd": 1,
+      "mode": "rotation",
+      "odd": 2,
       "slots": [
         {
-          "shape": "square",
-          "color": "#e8590c",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#1c7ed6",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "hexagon",
-          "color": "#e8590c",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#1c7ed6",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#e8590c",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#1c7ed6",
+          "rot": 40,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "square",
-          "color": "#e8590c",
-          "rot": 20,
+          "shape": "triangle",
+          "color": "#1c7ed6",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -6833,37 +6834,37 @@
     "correctIndex": 3,
     "meta": {
       "kind": "odd",
-      "mode": "rotation",
+      "mode": "color",
       "odd": 3,
       "slots": [
         {
-          "shape": "arrow",
-          "color": "#1f2933",
-          "rot": 15,
+          "shape": "square",
+          "color": "#e8590c",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "arrow",
-          "color": "#1f2933",
-          "rot": 15,
+          "shape": "square",
+          "color": "#e8590c",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "arrow",
-          "color": "#1f2933",
-          "rot": 15,
+          "shape": "square",
+          "color": "#e8590c",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
         },
         {
-          "shape": "arrow",
-          "color": "#1f2933",
-          "rot": 55,
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
           "fill": "none",
           "scale": 1.0,
           "count": 1
@@ -6877,14 +6878,61 @@
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
     "has_puzzle": false,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd",
+      "mode": "shape",
+      "odd": 0,
+      "slots": [
+        {
+          "shape": "pentagon",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "star",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "star",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "star",
+          "color": "#e8590c",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q070",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "prompt": "Which one is the odd one out?",
+    "has_puzzle": false,
     "correctIndex": 2,
     "meta": {
       "kind": "odd",
-      "mode": "color",
+      "mode": "size",
       "odd": 2,
       "slots": [
         {
-          "shape": "circle",
+          "shape": "hexagon",
           "color": "#2b8a3e",
           "rot": 0,
           "fill": "none",
@@ -6892,7 +6940,7 @@
           "count": 1
         },
         {
-          "shape": "circle",
+          "shape": "hexagon",
           "color": "#2b8a3e",
           "rot": 0,
           "fill": "none",
@@ -6900,8 +6948,55 @@
           "count": 1
         },
         {
+          "shape": "hexagon",
+          "color": "#2b8a3e",
+          "rot": 0,
+          "fill": "none",
+          "scale": 0.55,
+          "count": 1
+        },
+        {
+          "shape": "hexagon",
+          "color": "#2b8a3e",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q071",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "prompt": "Which one is the odd one out?",
+    "has_puzzle": false,
+    "correctIndex": 3,
+    "meta": {
+      "kind": "odd",
+      "mode": "color",
+      "odd": 3,
+      "slots": [
+        {
           "shape": "circle",
-          "color": "#e8590c",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "circle",
+          "color": "#1f2933",
           "rot": 0,
           "fill": "none",
           "scale": 1.0,
@@ -6919,7 +7014,148 @@
     }
   },
   {
-    "ext_id": "q070",
+    "ext_id": "q072",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "prompt": "Which one is the odd one out?",
+    "has_puzzle": false,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd",
+      "mode": "color",
+      "odd": 2,
+      "slots": [
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "pentagon",
+          "color": "#2b8a3e",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "pentagon",
+          "color": "#c92a2a",
+          "rot": 20,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q073",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "prompt": "Which one is the odd one out?",
+    "has_puzzle": false,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "odd",
+      "mode": "fillstate",
+      "odd": 0,
+      "slots": [
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "#5f3dc4",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "square",
+          "color": "#5f3dc4",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q074",
+    "type": "odd-one-out",
+    "category": "spatial",
+    "prompt": "Which one is the odd one out?",
+    "has_puzzle": false,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "odd",
+      "mode": "rotation",
+      "odd": 2,
+      "slots": [
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 40,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        },
+        {
+          "shape": "arrow",
+          "color": "#1f2933",
+          "rot": 0,
+          "fill": "none",
+          "scale": 1.0,
+          "count": 1
+        }
+      ]
+    }
+  },
+  {
+    "ext_id": "q075",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
@@ -6966,7 +7202,7 @@
     }
   },
   {
-    "ext_id": "q071",
+    "ext_id": "q076",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
@@ -7013,7 +7249,7 @@
     }
   },
   {
-    "ext_id": "q072",
+    "ext_id": "q077",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
@@ -7060,7 +7296,7 @@
     }
   },
   {
-    "ext_id": "q073",
+    "ext_id": "q078",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
@@ -7107,7 +7343,7 @@
     }
   },
   {
-    "ext_id": "q074",
+    "ext_id": "q079",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
@@ -7119,7 +7355,7 @@
       "odd": 3,
       "slots": [
         {
-          "shape": "pentagon",
+          "shape": "arrow",
           "color": "#5f3dc4",
           "rot": 15,
           "fill": "none",
@@ -7127,7 +7363,7 @@
           "count": 1
         },
         {
-          "shape": "pentagon",
+          "shape": "arrow",
           "color": "#5f3dc4",
           "rot": 15,
           "fill": "none",
@@ -7135,7 +7371,7 @@
           "count": 1
         },
         {
-          "shape": "pentagon",
+          "shape": "arrow",
           "color": "#5f3dc4",
           "rot": 15,
           "fill": "none",
@@ -7143,7 +7379,7 @@
           "count": 1
         },
         {
-          "shape": "pentagon",
+          "shape": "arrow",
           "color": "#5f3dc4",
           "rot": 55,
           "fill": "none",
@@ -7154,7 +7390,7 @@
     }
   },
   {
-    "ext_id": "q075",
+    "ext_id": "q080",
     "type": "odd-one-out",
     "category": "spatial",
     "prompt": "Which one is the odd one out?",
@@ -7201,242 +7437,82 @@
     }
   },
   {
-    "ext_id": "q076",
-    "type": "odd-one-out",
-    "category": "spatial",
-    "prompt": "Which one is the odd one out?",
-    "has_puzzle": false,
-    "correctIndex": 0,
-    "meta": {
-      "kind": "odd",
-      "mode": "shape",
-      "odd": 0,
-      "slots": [
-        {
-          "shape": "hexagon",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "star",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q077",
-    "type": "odd-one-out",
-    "category": "spatial",
-    "prompt": "Which one is the odd one out?",
-    "has_puzzle": false,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "odd",
-      "mode": "fillstate",
-      "odd": 1,
-      "slots": [
-        {
-          "shape": "circle",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "#1f2933",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "circle",
-          "color": "#1f2933",
-          "rot": 0,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q078",
-    "type": "odd-one-out",
-    "category": "spatial",
-    "prompt": "Which one is the odd one out?",
-    "has_puzzle": false,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "odd",
-      "mode": "fillstate",
-      "odd": 1,
-      "slots": [
-        {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
-          "fill": "#c92a2a",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "square",
-          "color": "#c92a2a",
-          "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q079",
-    "type": "odd-one-out",
-    "category": "spatial",
-    "prompt": "Which one is the odd one out?",
-    "has_puzzle": false,
-    "correctIndex": 0,
-    "meta": {
-      "kind": "odd",
-      "mode": "size",
-      "odd": 0,
-      "slots": [
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 20,
-          "fill": "none",
-          "scale": 0.55,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#1f2933",
-          "rot": 20,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
-    "ext_id": "q080",
-    "type": "odd-one-out",
-    "category": "spatial",
-    "prompt": "Which one is the odd one out?",
-    "has_puzzle": false,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "odd",
-      "mode": "rotation",
-      "odd": 1,
-      "slots": [
-        {
-          "shape": "triangle",
-          "color": "#5f3dc4",
-          "rot": 15,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#5f3dc4",
-          "rot": 55,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#5f3dc4",
-          "rot": 15,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        },
-        {
-          "shape": "triangle",
-          "color": "#5f3dc4",
-          "rot": 15,
-          "fill": "none",
-          "scale": 1.0,
-          "count": 1
-        }
-      ]
-    }
-  },
-  {
     "ext_id": "q081",
+    "type": "shape-progression",
+    "category": "series",
+    "prompt": "Which shape completes the pattern?",
+    "has_puzzle": true,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "count",
+      "seq_vals": [
+        1,
+        2,
+        3
+      ],
+      "answer_val": 4,
+      "opt_vals": [
+        4,
+        2,
+        5,
+        3
+      ],
+      "correct": 0
+    }
+  },
+  {
+    "ext_id": "q082",
+    "type": "shape-progression",
+    "category": "series",
+    "prompt": "Which shape completes the pattern?",
+    "has_puzzle": true,
+    "correctIndex": 3,
+    "meta": {
+      "kind": "progression",
+      "mode": "rotation",
+      "seq_vals": [
+        0,
+        45,
+        90
+      ],
+      "answer_val": 135,
+      "opt_vals": [
+        180,
+        225,
+        90,
+        135
+      ],
+      "correct": 3
+    }
+  },
+  {
+    "ext_id": "q083",
+    "type": "shape-progression",
+    "category": "series",
+    "prompt": "Which shape completes the pattern?",
+    "has_puzzle": true,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "size",
+      "seq_vals": [
+        1.2,
+        1.0,
+        0.8
+      ],
+      "answer_val": 0.6,
+      "opt_vals": [
+        0.6,
+        0.8,
+        0.45,
+        1.0
+      ],
+      "correct": 0
+    }
+  },
+  {
+    "ext_id": "q084",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7446,22 +7522,72 @@
       "kind": "progression",
       "mode": "count",
       "seq_vals": [
-        3,
-        4,
-        5
+        1,
+        2,
+        3
       ],
-      "answer_val": 6,
+      "answer_val": 4,
       "opt_vals": [
         5,
-        6,
-        7,
-        4
+        4,
+        3,
+        2
       ],
       "correct": 1
     }
   },
   {
-    "ext_id": "q082",
+    "ext_id": "q085",
+    "type": "shape-progression",
+    "category": "series",
+    "prompt": "Which shape completes the pattern?",
+    "has_puzzle": true,
+    "correctIndex": 2,
+    "meta": {
+      "kind": "progression",
+      "mode": "size",
+      "seq_vals": [
+        1.2,
+        1.0,
+        0.8
+      ],
+      "answer_val": 0.6,
+      "opt_vals": [
+        0.45,
+        0.8,
+        0.6,
+        1.0
+      ],
+      "correct": 2
+    }
+  },
+  {
+    "ext_id": "q086",
+    "type": "shape-progression",
+    "category": "series",
+    "prompt": "Which shape completes the pattern?",
+    "has_puzzle": true,
+    "correctIndex": 0,
+    "meta": {
+      "kind": "progression",
+      "mode": "size",
+      "seq_vals": [
+        1.2,
+        1.0,
+        0.8
+      ],
+      "answer_val": 0.6,
+      "opt_vals": [
+        0.6,
+        0.8,
+        0.45,
+        1.0
+      ],
+      "correct": 0
+    }
+  },
+  {
+    "ext_id": "q087",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7469,49 +7595,24 @@
     "correctIndex": 1,
     "meta": {
       "kind": "progression",
-      "mode": "sides",
+      "mode": "size",
       "seq_vals": [
-        3,
-        4,
-        5
+        1.2,
+        1.0,
+        0.8
       ],
-      "answer_val": 6,
+      "answer_val": 0.6,
       "opt_vals": [
-        4,
-        6,
-        5,
-        3
+        0.45,
+        0.6,
+        0.8,
+        1.0
       ],
       "correct": 1
     }
   },
   {
-    "ext_id": "q083",
-    "type": "shape-progression",
-    "category": "series",
-    "prompt": "Which shape completes the pattern?",
-    "has_puzzle": true,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "progression",
-      "mode": "sides",
-      "seq_vals": [
-        3,
-        4,
-        5
-      ],
-      "answer_val": 6,
-      "opt_vals": [
-        5,
-        6,
-        4,
-        3
-      ],
-      "correct": 1
-    }
-  },
-  {
-    "ext_id": "q084",
+    "ext_id": "q088",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7536,7 +7637,7 @@
     }
   },
   {
-    "ext_id": "q085",
+    "ext_id": "q089",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7561,7 +7662,7 @@
     }
   },
   {
-    "ext_id": "q086",
+    "ext_id": "q090",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7586,7 +7687,7 @@
     }
   },
   {
-    "ext_id": "q087",
+    "ext_id": "q091",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7611,7 +7712,7 @@
     }
   },
   {
-    "ext_id": "q088",
+    "ext_id": "q092",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7636,7 +7737,7 @@
     }
   },
   {
-    "ext_id": "q089",
+    "ext_id": "q093",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7661,7 +7762,7 @@
     }
   },
   {
-    "ext_id": "q090",
+    "ext_id": "q094",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7686,7 +7787,7 @@
     }
   },
   {
-    "ext_id": "q091",
+    "ext_id": "q095",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7711,7 +7812,7 @@
     }
   },
   {
-    "ext_id": "q092",
+    "ext_id": "q096",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7736,7 +7837,7 @@
     }
   },
   {
-    "ext_id": "q093",
+    "ext_id": "q097",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7761,7 +7862,7 @@
     }
   },
   {
-    "ext_id": "q094",
+    "ext_id": "q098",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7786,7 +7887,7 @@
     }
   },
   {
-    "ext_id": "q095",
+    "ext_id": "q099",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7811,7 +7912,7 @@
     }
   },
   {
-    "ext_id": "q096",
+    "ext_id": "q100",
     "type": "shape-progression",
     "category": "series",
     "prompt": "Which shape completes the pattern?",
@@ -7833,106 +7934,6 @@
         90
       ],
       "correct": 0
-    }
-  },
-  {
-    "ext_id": "q097",
-    "type": "shape-progression",
-    "category": "series",
-    "prompt": "Which shape completes the pattern?",
-    "has_puzzle": true,
-    "correctIndex": 0,
-    "meta": {
-      "kind": "progression",
-      "mode": "size",
-      "seq_vals": [
-        1.2,
-        1.0,
-        0.8
-      ],
-      "answer_val": 0.6,
-      "opt_vals": [
-        0.6,
-        1.0,
-        0.8,
-        0.45
-      ],
-      "correct": 0
-    }
-  },
-  {
-    "ext_id": "q098",
-    "type": "shape-progression",
-    "category": "series",
-    "prompt": "Which shape completes the pattern?",
-    "has_puzzle": true,
-    "correctIndex": 3,
-    "meta": {
-      "kind": "progression",
-      "mode": "size",
-      "seq_vals": [
-        1.2,
-        1.0,
-        0.8
-      ],
-      "answer_val": 0.6,
-      "opt_vals": [
-        0.8,
-        1.0,
-        0.45,
-        0.6
-      ],
-      "correct": 3
-    }
-  },
-  {
-    "ext_id": "q099",
-    "type": "shape-progression",
-    "category": "series",
-    "prompt": "Which shape completes the pattern?",
-    "has_puzzle": true,
-    "correctIndex": 2,
-    "meta": {
-      "kind": "progression",
-      "mode": "size",
-      "seq_vals": [
-        1.2,
-        1.0,
-        0.8
-      ],
-      "answer_val": 0.6,
-      "opt_vals": [
-        1.0,
-        0.45,
-        0.6,
-        0.8
-      ],
-      "correct": 2
-    }
-  },
-  {
-    "ext_id": "q100",
-    "type": "shape-progression",
-    "category": "series",
-    "prompt": "Which shape completes the pattern?",
-    "has_puzzle": true,
-    "correctIndex": 1,
-    "meta": {
-      "kind": "progression",
-      "mode": "sides",
-      "seq_vals": [
-        3,
-        4,
-        5
-      ],
-      "answer_val": 6,
-      "opt_vals": [
-        5,
-        6,
-        4,
-        3
-      ],
-      "correct": 1
     }
   }
 ]

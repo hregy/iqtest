@@ -41,7 +41,10 @@ BOXLINE = "#c3cae0"
 
 PAL = ["#1f2933", "#e8590c", "#2b8a3e", "#5f3dc4", "#c92a2a", "#1c7ed6"]
 SHAPES = ["circle", "triangle", "square", "pentagon", "hexagon", "star", "diamond"]
-ROT_VIS = ["triangle", "pentagon", "star", "arrow"]  # rotation is visually obvious
+# Rotation is only UNMISTAKABLE on these (arrows point; a triangle is clearly
+# oriented). Polygons like pentagon/hexagon/star look nearly identical when
+# rotated, so they must NOT be used when rotation distinguishes the answer.
+ROT_CLEAR = ["arrow", "triangle"]
 
 OPT_W, OPT_H = 160, 120  # option tile canvas
 
@@ -134,6 +137,25 @@ def sig(s):
     return (s["shape"], s["color"], int(s.get("rot", 0)) % 360,
             s.get("fill", "none"), round(s.get("scale", 1.0), 2), int(s.get("count", 1)))
 
+# Rotational symmetry (degrees) per shape — used to detect options that LOOK
+# the same. A square rotated 90 looks identical; a circle's rotation is moot.
+SYM = {"circle": 0, "square": 90, "diamond": 90, "triangle": 120,
+       "pentagon": 72, "hexagon": 60, "star": 72, "arrow": 360}
+
+
+def viz_sig(s):
+    """Signature of how a spec actually LOOKS (rotation reduced by symmetry)."""
+    shape = s["shape"]
+    fold = SYM.get(shape, 360)
+    if shape == "circle":
+        rot = 0
+    elif fold >= 360:
+        rot = int(s.get("rot", 0)) % 360
+    else:
+        rot = int(s.get("rot", 0)) % fold
+    return (shape, s["color"], rot, s.get("fill", "none"),
+            round(s.get("scale", 1.0), 2), int(s.get("count", 1)))
+
 
 def render_spec(cx, cy, r, s):
     kind, color = s["shape"], s["color"]
@@ -198,8 +220,10 @@ def gen_matrix():
         col_attr, row_attr = row_attr, col_attr
 
     base = base_spec()
-    if "shape" not in (col_attr, row_attr):
-        base["shape"] = rng.choice(ROT_VIS if "rot" in (col_attr, row_attr) else SHAPES)
+    if "rot" in (col_attr, row_attr):
+        base["shape"] = "arrow"  # rotation must be unmistakable
+    elif "shape" not in (col_attr, row_attr):
+        base["shape"] = rng.choice(SHAPES)
     if "color" not in (col_attr, row_attr):
         base["color"] = rng.choice(PAL)
 
@@ -213,19 +237,19 @@ def gen_matrix():
             grid[r][c] = s
     answer = dict(grid[2][2])
 
-    seen, distract, pool = {sig(answer)}, [], []
+    seen, distract, pool = {viz_sig(answer)}, [], []
     for cv in col_vals[:2]:
         s = dict(answer); set_attr(s, col_attr, cv); pool.append(s)
     for rv in row_vals[:2]:
         s = dict(answer); set_attr(s, row_attr, rv); pool.append(s)
     s = dict(answer); set_attr(s, col_attr, col_vals[0]); set_attr(s, row_attr, row_vals[0]); pool.append(s)
     for s in pool:
-        if sig(s) not in seen:
-            seen.add(sig(s)); distract.append(s)
+        if viz_sig(s) not in seen:
+            seen.add(viz_sig(s)); distract.append(s)
     while len(distract) < 3:
         s = dict(answer); set_attr(s, col_attr, rng.choice(col_vals)); set_attr(s, row_attr, rng.choice(row_vals))
-        if sig(s) not in seen:
-            seen.add(sig(s)); distract.append(s)
+        if viz_sig(s) not in seen:
+            seen.add(viz_sig(s)); distract.append(s)
     rng.shuffle(distract)
     options = [answer] + distract[:3]
     ordered, correct = shuffle_options(options, 0)
@@ -275,7 +299,7 @@ def gen_analogy():
     kind = rng.choice(["rot", "fill", "color", "size"])
     if kind == "rot":
         t = {"kind": "rot", "deg": rng.choice([90, 180])}
-        sa, sc = rng.sample(ROT_VIS, 2)
+        sa, sc = rng.sample(ROT_CLEAR, 2)  # only arrow/triangle -> rotation is obvious
         A = dict(base_spec(), shape=sa, color=rng.choice(PAL))
         C = dict(base_spec(), shape=sc, color=rng.choice(PAL))
     elif kind == "fill":
@@ -298,14 +322,16 @@ def gen_analogy():
     B = apply_transform(A, t)
     answer = apply_transform(C, t)
 
-    seen, pool = {sig(answer)}, [dict(C)]
+    seen, pool = {viz_sig(answer)}, [dict(C)]
+    others = [p for p in PAL if p != C["color"]]
     if kind == "rot":
         for d in (90, 180, 270):
             pool.append(dict(C, rot=(C.get("rot", 0) + d) % 360))
     elif kind == "fill":
-        pool.append(dict(C, fill=C["color"]))
-        pool.append(dict(C, color=rng.choice([p for p in PAL if p != C["color"]])))
-        pool.append(dict(C, rot=(C.get("rot", 0) + 90) % 360))
+        # distractors differ by COLOR, not rotation, so none look alike
+        pool.append(dict(C, color=others[0]))                     # outline, other colour
+        pool.append(dict(C, fill=others[1], color=others[1]))      # filled, wrong colour
+        pool.append(dict(C, color=others[2]))                     # outline, other colour
     elif kind == "color":
         for col in PAL:
             pool.append(dict(C, color=col))
@@ -314,12 +340,12 @@ def gen_analogy():
             pool.append(dict(C, scale=round(C.get("scale", 1.0) * f, 2)))
     distract = []
     for s in pool:
-        if sig(s) not in seen:
-            seen.add(sig(s)); distract.append(s)
+        if viz_sig(s) not in seen:
+            seen.add(viz_sig(s)); distract.append(s)
     while len(distract) < 3:
-        s = dict(C, color=rng.choice(PAL), rot=(C.get("rot", 0) + rng.choice([90, 180])) % 360)
-        if sig(s) not in seen:
-            seen.add(sig(s)); distract.append(s)
+        s = dict(C, color=rng.choice(PAL))
+        if viz_sig(s) not in seen:
+            seen.add(viz_sig(s)); distract.append(s)
     rng.shuffle(distract)
     options = [answer] + distract[:3]
     ordered, correct = shuffle_options(options, 0)
@@ -350,7 +376,7 @@ def gen_odd():
     odd = rng.randint(0, 3)
     base = base_spec()
     base["color"] = rng.choice(PAL)
-    base["shape"] = rng.choice(ROT_VIS if mode == "rotation" else SHAPES)
+    base["shape"] = rng.choice(ROT_CLEAR if mode == "rotation" else SHAPES)
     base["rot"] = rng.choice([0, 20]) if mode != "rotation" else rng.choice([0, 15, 30])
 
     slots = [dict(base) for _ in range(4)]
