@@ -557,17 +557,18 @@ publicRouter.get("/scoreboard", async (req, res) => {
   const order = type === "final"
     ? "iq DESC NULLS LAST, correct DESC, duration_ms ASC NULLS LAST, created_at ASC"
     : "correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC";
-  // Best score per device: keep only each fingerprint's top row (DISTINCT ON),
-  // then rank. Rows without a fingerprint get a unique key so they're never
-  // collapsed together. Different real users have different fingerprints, so
-  // legitimate entries are untouched; only same-device repeats are de-duped.
+  // Best score per (device + name): keep each person's top row, then rank.
+  // Keying on name as well as fingerprint means two different people who happen
+  // to share a device fingerprint each still appear (and one person's own
+  // retries still collapse to their best). Rows without a fingerprint get a
+  // unique key so they're never collapsed together.
   const { rows } = await query(
     `SELECT name, correct, total, percent, duration_ms, iq, created_at FROM (
-       SELECT DISTINCT ON (COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text))
+       SELECT DISTINCT ON (COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name)
          id, name, correct, total, percent, duration_ms, iq::float8 AS iq, created_at
        FROM scores
        WHERE excluded = false AND test_type = $2
-       ORDER BY COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), ${order}
+       ORDER BY COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name, ${order}
      ) best
      ORDER BY ${order}
      LIMIT $1`,

@@ -13,6 +13,26 @@ async function sha256Hex(str: string): Promise<string> {
   }
 }
 
+// A random ID generated once per browser and persisted. Without this, two
+// different phones of the same model + OS + browser + timezone hash to an
+// IDENTICAL fingerprint (iOS gives canvas/WebGL no entropy), so different people
+// would be mistaken for the same device. This makes the fingerprint unique per
+// browser install. (Cleared if the user wipes site data — then it's a new id.)
+function persistentDeviceId(): string {
+  try {
+    const KEY = "iq_device_id";
+    let id = localStorage.getItem(KEY);
+    if (!id) {
+      id = (crypto.randomUUID && crypto.randomUUID()) ||
+        (Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2));
+      localStorage.setItem(KEY, id);
+    }
+    return id;
+  } catch {
+    return ""; // storage blocked -> falls back to the hardware-only hash
+  }
+}
+
 function canvasFp(): string {
   try {
     const c = document.createElement("canvas");
@@ -79,7 +99,7 @@ export async function collectClient(): Promise<ClientProfile> {
     webdriver: !!n.webdriver,
   };
   const fingerprint = await sha256Hex(
-    [profile.ua, profile.platform, profile.timezone, profile.languages.join(","),
+    [persistentDeviceId(), profile.ua, profile.platform, profile.timezone, profile.languages.join(","),
      `${screen.width}x${screen.height}x${screen.colorDepth}`, profile.cores, profile.memory,
      canvasFp(), webglFp()].join("##")
   );
