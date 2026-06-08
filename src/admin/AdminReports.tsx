@@ -51,9 +51,11 @@ export function AdminReports() {
                     {r.country || "—"}{r.city ? `, ${r.city}` : ""}
                     {r.is_vpn && <span className="flag" title="VPN/proxy/datacenter"> VPN</span>}
                   </td>
-                  <td className="small">{[r.browser, r.os].filter(Boolean).join(" · ") || "—"}</td>
+                  <td className="small" title={[r.browser, r.os].filter(Boolean).join(" · ")}>
+                    {[r.browser, r.os].map((s) => (s ?? "").replace(/\s*\d[\d.]*/g, "").trim()).filter(Boolean).join(" · ") || "—"}
+                  </td>
                   <td className="small"><code>{r.ip || "—"}</code></td>
-                  <td className="small">{r.finished_at ? new Date(r.finished_at).toLocaleString() : "—"}</td>
+                  <td className="small">{r.finished_at ? new Date(r.finished_at).toLocaleString(undefined, { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "—"}</td>
                   <td><button className="btn tiny" onClick={() => view(r.id)}>Report</button></td>
                 </tr>
               ))}
