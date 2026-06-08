@@ -95,6 +95,15 @@ const STR: Record<string, { en: string; fa: string }> = {
   rv_no_answer: { en: "No answer selected.", fa: "هیچ پاسخی انتخاب نشد." },
 };
 
+// Wrap embedded Latin/number runs in LRI…PDI isolates so a sequence like
+// "B, E, J, Q, Z, ?" keeps left-to-right order (and its trailing "?") inside a
+// Farsi/RTL sentence, instead of the neutral punctuation jumping to the wrong side.
+const LTR_RUN = /[A-Za-z0-9][A-Za-z0-9 .,:;?!()[\]{}+\-=×÷*/'"_<>%°…]*[A-Za-z0-9.?!)\]}%]|[A-Za-z0-9]/g;
+export function bidiIsolate(text: string | null | undefined): string {
+  if (!text) return text ?? "";
+  return text.replace(LTR_RUN, (m) => "⁦" + m + "⁩"); // LRI … PDI
+}
+
 function translate(lang: Lang, key: string, vars?: Record<string, string | number>): string {
   const entry = STR[key];
   let s = entry ? entry[lang] || entry.en : key;

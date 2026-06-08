@@ -1,5 +1,5 @@
 import type { ReviewItem } from "../types";
-import { useLang } from "../lib/i18n";
+import { useLang, bidiIsolate } from "../lib/i18n";
 
 const LABELS = ["A", "B", "C", "D"];
 
@@ -28,7 +28,7 @@ function OptionMini({
       {o.kind === "image" && o.image ? (
         <img src={o.image} alt={`Option ${LABELS[i]}`} draggable={false} />
       ) : (
-        <span className="rv-opt-text" dir="auto" lang={lang}>{text}</span>
+        <span className="rv-opt-text" dir="auto" lang={lang}>{bidiIsolate(text)}</span>
       )}
       {isCorrect && <span className="rv-badge ok">{t("rv_badge_correct")}</span>}
       {isChosen && !isCorrect && <span className="rv-badge bad">{t("rv_badge_yours")}</span>}
@@ -52,7 +52,7 @@ export function ReviewList({ review }: { review: ReviewItem[] }) {
             </span>
             <span className="rv-time iq-mono">{fmtSec(r.elapsedMs)}</span>
           </div>
-          {prompt && <div className="rv-prompt" dir="auto" lang={lang}>{prompt}</div>}
+          {prompt && <div className="rv-prompt" dir="auto" lang={lang}>{bidiIsolate(prompt)}</div>}
           {r.puzzleImage && (
             <div className="rv-figure"><img src={r.puzzleImage} alt="puzzle" draggable={false} /></div>
           )}

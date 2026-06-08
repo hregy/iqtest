@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { TestQuestion, QSignal } from "../types";
 import { useCountdown } from "../hooks/useCountdown";
-import { useLang } from "../lib/i18n";
+import { useLang, bidiIsolate } from "../lib/i18n";
 import { LoadedImage } from "./LoadedImage";
 import { Ring, Segments } from "./brand";
 
@@ -105,11 +105,11 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
         <span className="kind-chip">{CATEGORY_LABEL[question.category] || question.category.replace(/_/g, " ")}</span>
         {lang === "fa"
           ? (question.promptFa
-              ? <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>
-              : question.prompt && <h2 className="prompt">{question.prompt}</h2>)
+              ? <p className="prompt-fa" dir="rtl" lang="fa">{bidiIsolate(question.promptFa)}</p>
+              : question.prompt && <h2 className="prompt">{bidiIsolate(question.prompt)}</h2>)
           : (question.prompt
-              ? <h2 className="prompt">{question.prompt}</h2>
-              : question.promptFa && <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>)}
+              ? <h2 className="prompt">{bidiIsolate(question.prompt)}</h2>
+              : question.promptFa && <p className="prompt-fa" dir="rtl" lang="fa">{bidiIsolate(question.promptFa)}</p>)}
       </div>
 
       {/* Visual puzzle + option grid keep LTR layout regardless of UI language
@@ -137,7 +137,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
               {o.kind === "image" && o.image ? (
                 <LoadedImage className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} onSettled={oneLoaded} />
               ) : (
-                <span className="tile-text" dir="auto" lang={lang}>{lang === "fa" ? (o.textFa ?? o.text) : (o.text ?? o.textFa)}</span>
+                <span className="tile-text" dir="auto" lang={lang}>{bidiIsolate(lang === "fa" ? (o.textFa ?? o.text) : (o.text ?? o.textFa))}</span>
               )}
             </button>
           ))}
