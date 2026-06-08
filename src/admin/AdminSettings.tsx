@@ -7,6 +7,7 @@ export function AdminSettings() {
   const [finalPerLevel, setFinalPerLevel] = useState("6");
   const [finalQuestionSeconds, setFinalQuestionSeconds] = useState("30");
   const [voucherRequired, setVoucherRequired] = useState(true);
+  const [dailyLimit, setDailyLimit] = useState("3");
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export function AdminSettings() {
       if (s.final_per_level) setFinalPerLevel(s.final_per_level);
       if (s.final_question_seconds) setFinalQuestionSeconds(s.final_question_seconds);
       if (s.voucher_required !== undefined) setVoucherRequired(s.voucher_required !== "0");
+      if (s.daily_attempt_limit !== undefined) setDailyLimit(s.daily_attempt_limit);
     });
   }, []);
 
@@ -26,6 +28,7 @@ export function AdminSettings() {
       final_per_level: Number(finalPerLevel),
       final_question_seconds: Number(finalQuestionSeconds),
       voucher_required: voucherRequired ? "1" : "0",
+      daily_attempt_limit: Math.max(0, Number(dailyLimit) || 0),
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
@@ -44,6 +47,16 @@ export function AdminSettings() {
           {voucherRequired
             ? "On — users must enter a valid voucher code to start."
             : "Off — open access: anyone can take a test with just a name. The scoreboard keeps the best score per device, and the Anti-cheat tab groups repeat/same-device entries. Enabling the Turnstile bot check is recommended in this mode."}
+        </p>
+        <div className="row gap wrap" style={{ marginTop: 12 }}>
+          <label className="field sm"><span>Attempts per user / day</span>
+            <input type="number" min={0} max={50} value={dailyLimit}
+              onChange={(e) => setDailyLimit(e.target.value)} /></label>
+        </div>
+        <p className="muted small">
+          How many times one user can take <strong>each</strong> test (Quick / Final) per 24 hours.
+          Users are identified by device fingerprint (IP + device as fallback) — the same evidence
+          the Anti-cheat tab uses. <strong>0 = unlimited.</strong> Admin/practice runs are exempt.
         </p>
       </div>
 

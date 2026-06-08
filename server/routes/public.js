@@ -28,6 +28,7 @@ async function getSettings() {
     finalPerLevel: Math.max(1, Number(m.final_per_level || 6)),
     finalQuestionSeconds: Number(m.final_question_seconds || 30),
     voucherRequired: (m.voucher_required ?? "1") !== "0",
+    dailyAttemptLimit: Math.max(0, Number(m.daily_attempt_limit ?? 3)),
   };
 }
 
@@ -236,11 +237,21 @@ publicRouter.post(
     if (!name) return res.status(400).json({ error: "Please enter your name." });
 
     const settings = await getSettings();
+    // Test type: classic (20 random) or final (6 per level × 5 = stratified 30).
+    const mode = req.body?.mode === "final" ? "final" : "classic";
+    const qSeconds = mode === "final" ? settings.finalQuestionSeconds : settings.questionSeconds;
 
     // Bot challenge (no-op until Turnstile keys are configured).
     const ip = getClientIp(req);
     const ts = await verifyTurnstile(req.body?.turnstileToken, ip);
     if (!ts.ok) return res.status(400).json({ error: "Bot check failed — please retry." });
+
+    // Identity (drives the per-user daily limit + is stored on the attempt). Same
+    // evidence the anti-cheat panel uses: device fingerprint, with IP+device as fallback.
+    const clientInfo = req.body?.client && typeof req.body.client === "object" ? req.body.client : {};
+    const ua = (clientInfo.ua || req.headers["user-agent"] || "").toString().slice(0, 400);
+    const dev = parseUa(ua);
+    const fingerprint = (clientInfo.fingerprint || "").toString().slice(0, 64);
 
     // Voucher handling depends on whether the gate is on.
     //  - gate ON  : a valid voucher is required and consumed (admin code = practice).
@@ -273,9 +284,27 @@ publicRouter.post(
       }
     }
 
-    // Test type: classic (20 random) or final (6 per level × 5 = stratified 30).
-    const mode = req.body?.mode === "final" ? "final" : "classic";
-    const qSeconds = mode === "final" ? settings.finalQuestionSeconds : settings.questionSeconds;
+    // Per-user daily limit (admin-configurable; 0 = unlimited). Skips admin/practice
+    // runs. Counts this identity's non-practice attempts of THIS test in the last 24h.
+    const dailyLimit = settings.dailyAttemptLimit;
+    if (!practice && dailyLimit > 0) {
+      const recent = fingerprint
+        ? await query(
+            `SELECT count(*)::int c FROM attempts
+             WHERE practice = false AND test_type = $1 AND fingerprint = $2 AND fingerprint <> ''
+               AND created_at > now() - interval '24 hours'`,
+            [mode, fingerprint])
+        : await query(
+            `SELECT count(*)::int c FROM attempts
+             WHERE practice = false AND test_type = $1 AND ip = $2 AND device = $3
+               AND created_at > now() - interval '24 hours'`,
+            [mode, ip, dev.device]);
+      if (recent.rows[0].c >= dailyLimit) {
+        return res.status(429).json({
+          error: `Daily limit reached — you can take this test ${dailyLimit} times per day. Please try again tomorrow.`,
+        });
+      }
+    }
 
     const picked = await withTx(async (client) => {
       if (consumeVoucher) {
@@ -314,12 +343,9 @@ publicRouter.post(
     const id = crypto.randomUUID();
     const nonce = crypto.randomBytes(9).toString("hex");
 
-    // Forensics: IP geo, device, bot flags.
-    const client = req.body?.client && typeof req.body.client === "object" ? req.body.client : {};
-    const ua = (client.ua || req.headers["user-agent"] || "").toString().slice(0, 400);
+    // Forensics: IP geo + bot flags (identity/device already computed above).
     const geo = await geoLookup(ip);
-    const dev = parseUa(ua);
-    const botFlags = computeBotFlags(client, geo, ua);
+    const botFlags = computeBotFlags(clientInfo, geo, ua);
     const isVpn = !!(geo.proxy || geo.hosting);
 
     await query(
@@ -330,8 +356,8 @@ publicRouter.post(
          $7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)`,
       [id, voucherCode, name, practice, picked, nonce,
        ip, geo.country, geo.region, geo.city, geo.isp, isVpn, ua,
-       dev.browser, dev.os, dev.device, (client.fingerprint || "").toString().slice(0, 64),
-       JSON.stringify(client), JSON.stringify(botFlags), mode, qSeconds]
+       dev.browser, dev.os, dev.device, fingerprint,
+       JSON.stringify(clientInfo), JSON.stringify(botFlags), mode, qSeconds]
     );
 
     const question = await buildQuestion(picked[0]);

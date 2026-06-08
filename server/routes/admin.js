@@ -456,7 +456,7 @@ adminRouter.get("/settings", async (_req, res) => {
 });
 
 adminRouter.put("/settings", async (req, res) => {
-  for (const key of ["test_length", "question_seconds", "final_per_level", "final_question_seconds", "voucher_required"]) {
+  for (const key of ["test_length", "question_seconds", "final_per_level", "final_question_seconds", "voucher_required", "daily_attempt_limit"]) {
     if (req.body?.[key] !== undefined) {
       await query(
         "INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO UPDATE SET value=$2",

@@ -25,6 +25,8 @@ async function ensureSettings() {
     // "1" = a voucher code is required to start a test (current behaviour);
     // "0" = open access, anyone can take a test with just a name.
     voucher_required: "1",
+    // Max attempts per user (by device/identity) per test per 24h. 0 = unlimited.
+    daily_attempt_limit: "3",
   };
   for (const [k, v] of Object.entries(defaults)) {
     await query("INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO NOTHING", [k, v]);
