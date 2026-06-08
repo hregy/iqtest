@@ -2,6 +2,7 @@ export interface TestOption {
   idx: number;
   kind: "image" | "text";
   text?: string | null;
+  textFa?: string | null;
   image?: string | null;
 }
 

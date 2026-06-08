@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { TestQuestion, QSignal } from "../types";
 import { useCountdown } from "../hooks/useCountdown";
+import { useLang } from "../lib/i18n";
 import { LoadedImage } from "./LoadedImage";
 import { Ring, Segments } from "./brand";
 
@@ -20,6 +21,7 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 
 export function QuestionView({ question, index, total, questionSeconds, watermark, onReady, onAnswer }: Props) {
+  const { t, lang } = useLang();
   const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
   const [loaded, setLoaded] = useState(0);
@@ -86,10 +88,12 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
   const low = remaining <= 5;
 
   return (
-    <div className="screen">
+    // The whole question screen keeps LTR layout (puzzle/options are visual and
+    // designed LTR); Farsi prompt/option text still render RTL via their own dir.
+    <div className="screen" dir="ltr">
       <div className="qtop">
         <div className="grow">
-          <div className="iq-label" style={{ marginBottom: 7 }}>Question {index + 1} of {total}</div>
+          <div className="iq-label" style={{ marginBottom: 7 }}>{t("question_of", { n: index + 1, total })}</div>
           <Segments total={total} current={index} />
         </div>
         <Ring size={54} stroke={5} frac={frac} tone={low ? "var(--iq-warn)" : "var(--iq-accent)"}>
@@ -99,11 +103,18 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
 
       <div style={{ marginTop: 18 }}>
         <span className="kind-chip">{CATEGORY_LABEL[question.category] || question.category.replace(/_/g, " ")}</span>
-        {question.prompt && <h2 className="prompt">{question.prompt}</h2>}
-        {question.promptFa && <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>}
+        {lang === "fa"
+          ? (question.promptFa
+              ? <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>
+              : question.prompt && <h2 className="prompt">{question.prompt}</h2>)
+          : (question.prompt
+              ? <h2 className="prompt">{question.prompt}</h2>
+              : question.promptFa && <p className="prompt-fa" dir="rtl" lang="fa">{question.promptFa}</p>)}
       </div>
 
-      <div className={"qcontent" + (question.puzzleImage ? "" : " no-puzzle")}>
+      {/* Visual puzzle + option grid keep LTR layout regardless of UI language
+          (they're designed LTR); Farsi option text still renders RTL via dir="auto". */}
+      <div className={"qcontent" + (question.puzzleImage ? "" : " no-puzzle")} dir="ltr">
         {question.puzzleImage ? (
           <div className="figure">
             <LoadedImage className={"puzzle-img" + (ready ? "" : " hidden")} src={question.puzzleImage} alt="puzzle" onSettled={oneLoaded} />
@@ -112,11 +123,11 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
           // Only the classic odd-one-out items (no puzzle AND no prompt) get this
           // hint; prompt-driven text questions (final bank) speak for themselves.
           ready && !question.prompt && !question.promptFa && (
-            <p className="odd-hint">Three of these are alike — tap the one that's different.</p>
+            <p className="odd-hint">{t("odd_hint")}</p>
           )
         )}
 
-        {!ready && <div className="img-loading"><div className="spinner" /><span>Loading question…</span></div>}
+        {!ready && <div className="img-loading"><div className="spinner" /><span>{t("loading_question")}</span></div>}
 
         <div className={"options-grid" + (ready ? "" : " hidden")}>
           {question.options.map((o, i) => (
@@ -126,7 +137,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
               {o.kind === "image" && o.image ? (
                 <LoadedImage className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} onSettled={oneLoaded} />
               ) : (
-                <span className="tile-text" dir="auto" lang="fa">{o.text}</span>
+                <span className="tile-text" dir="auto" lang={lang}>{lang === "fa" ? (o.textFa ?? o.text) : (o.text ?? o.textFa)}</span>
               )}
             </button>
           ))}
@@ -139,7 +150,7 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
         )}
       </div>
 
-      <div className="qfooter">Answers are final — no going back.</div>
+      <div className="qfooter">{t("answers_final")}</div>
     </div>
   );
 }

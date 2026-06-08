@@ -115,6 +115,12 @@ ALTER TABLE questions ADD COLUMN IF NOT EXISTS bank   TEXT NOT NULL DEFAULT 'cla
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS level  INT;
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS weight REAL NOT NULL DEFAULT 1;
 
+-- Bilingual text options: text_value holds English (or a fallback), text_value_fa
+-- holds Farsi. Backfill existing rows so the Farsi we already imported is preserved.
+ALTER TABLE question_options ADD COLUMN IF NOT EXISTS text_value_fa TEXT;
+UPDATE question_options SET text_value_fa = text_value
+  WHERE text_value_fa IS NULL AND kind = 'text' AND text_value IS NOT NULL;
+
 -- Attempts remember which test they are (classic vs final) and snapshot the
 -- per-question time limit at start (immune to admin changing it mid-test).
 ALTER TABLE attempts ADD COLUMN IF NOT EXISTS test_type TEXT NOT NULL DEFAULT 'classic';

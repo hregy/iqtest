@@ -80,7 +80,7 @@ async function buildQuestion(qid) {
   if (!rows.length) return null;
   const row = rows[0];
   const opts = await query(
-    "SELECT idx, kind, text_value, image_id FROM question_options WHERE question_id=$1 ORDER BY idx",
+    "SELECT idx, kind, text_value, text_value_fa, image_id FROM question_options WHERE question_id=$1 ORDER BY idx",
     [qid]
   );
   return {
@@ -94,6 +94,7 @@ async function buildQuestion(qid) {
       idx: o.idx,
       kind: o.kind,
       text: o.text_value,
+      textFa: o.text_value_fa,
       image: imgUrl(o.image_id),
     })),
   };

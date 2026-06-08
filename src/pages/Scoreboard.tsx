@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { ScoreRow } from "../types";
 import { api } from "../api";
 import { iqFromPercent } from "../lib/scoring";
+import { useLang } from "../lib/i18n";
 import { fmtDuration } from "./Results";
 // score = server combined iq (accuracy + speed); fall back for legacy rows
 
@@ -10,6 +11,7 @@ const initials = (n: string) =>
   n.trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "?";
 
 export function Scoreboard() {
+  const { t } = useLang();
   const [rows, setRows] = useState<ScoreRow[] | null>(null);
   const [tab, setTab] = useState<"classic" | "final">("final");
   const [error, setError] = useState("");
@@ -18,17 +20,17 @@ export function Scoreboard() {
   useEffect(() => {
     setRows(null);
     setError("");
-    api.scoreboard(tab).then(setRows).catch(() => setError("Could not load scoreboard."));
-  }, [tab]);
+    api.scoreboard(tab).then(setRows).catch(() => setError(t("sb_error")));
+  }, [tab, t]);
 
   return (
     <div className="screen">
       <div className="sb-head">
         <button className="iconbtn" onClick={() => navigate("/")}>‹</button>
         <div>
-          <h1>Scoreboard</h1>
+          <h1>{t("scoreboard")}</h1>
           <div className="muted small" style={{ fontWeight: 600 }}>
-            {tab === "final" ? "Final IQ Test — level-weighted" : "Quick test"}
+            {tab === "final" ? t("sb_sub_final") : t("sb_sub_quick")}
           </div>
         </div>
         <div style={{ marginLeft: "auto", fontSize: 24 }}>🏆</div>
@@ -37,17 +39,17 @@ export function Scoreboard() {
       <div className="ttseg" role="tablist" style={{ marginTop: 14 }}>
         <button type="button" role="tab" aria-selected={tab === "final"}
           className={"ttseg-btn" + (tab === "final" ? " on" : "")} onClick={() => setTab("final")}>
-          <strong>Final IQ</strong>
+          <strong>{t("tab_final")}</strong>
         </button>
         <button type="button" role="tab" aria-selected={tab === "classic"}
           className={"ttseg-btn" + (tab === "classic" ? " on" : "")} onClick={() => setTab("classic")}>
-          <strong>Quick test</strong>
+          <strong>{t("tab_quick")}</strong>
         </button>
       </div>
 
       {error && <p className="form-error" style={{ marginTop: 18 }}>{error}</p>}
       {!rows && !error && <div className="spinner" style={{ margin: "40px auto" }} />}
-      {rows && rows.length === 0 && <p className="muted" style={{ marginTop: 24 }}>No scores yet — be the first!</p>}
+      {rows && rows.length === 0 && <p className="muted" style={{ marginTop: 24 }}>{t("sb_empty")}</p>}
 
       {rows && rows.length > 0 && (
         <div className="board">
@@ -74,7 +76,7 @@ export function Scoreboard() {
         </div>
       )}
 
-      <button className="btn block ghost" style={{ marginTop: 18 }} onClick={() => navigate("/")}>‹ Back to start</button>
+      <button className="btn block ghost" style={{ marginTop: 18 }} onClick={() => navigate("/")}>{t("back_to_start")}</button>
     </div>
   );
 }

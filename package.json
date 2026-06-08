@@ -11,6 +11,7 @@
     "preview": "vite preview --host",
     "seed": "node server/seed.js",
     "seed:final": "node server/seed-final.js",
+    "seed:final:en": "node server/seed-final-en.js",
     "recalc": "node server/recalc.js",
     "hash-admin": "node server/hash-admin.js",
     "generate": "python3 scripts/generate_questions.py",

@@ -60,6 +60,7 @@ body {
 .app {
   max-width: 480px; margin: 0 auto; min-height: 100dvh;
   background: var(--iq-page); position: relative; display: flex; flex-direction: column;
+  overflow-x: hidden; /* clip decorative overflow (e.g. rotated watermark) — prevents RTL horizontal scroll */
 }
 .screen {
   flex: 1; display: flex; flex-direction: column;
@@ -334,3 +335,10 @@ body {
 .ac-badge.strong { background: #fde8e8; color: #b42318; }
 .ac-badge.medium { background: var(--iq-accent-tint); color: var(--iq-accent-deep); }
 .ac-badge.warn { background: var(--iq-accent-soft); color: var(--iq-accent-ink); }
+
+/* Language toggle */
+.lang-toggle { display: inline-flex; border: 1.5px solid var(--iq-line-2); border-radius: var(--iq-r-full); overflow: hidden; }
+.lang-toggle button { border: none; background: transparent; color: var(--iq-ink-soft); font-family: inherit; font-weight: 800; font-size: 12px; padding: 6px 11px; cursor: pointer; min-width: 38px; }
+.lang-toggle button.on { background: var(--iq-accent); color: #fff; }
+/* RTL: keep the centered app shell, let fl/grid mirror naturally */
+html[dir="rtl"] .iq-mono, html[dir="rtl"] .hero-formulae { direction: ltr; }

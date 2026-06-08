@@ -2,6 +2,7 @@
 //   import { initDb }  -> called by the server on boot (idempotent)
 //   node server/seed.js -> CLI: applies schema and (re)loads the 100 questions
 import fs from "fs";
+import crypto from "crypto";
 import path from "path";
 import { fileURLToPath } from "url";
 import { pool, query, withTx } from "./db.js";
@@ -121,6 +122,33 @@ export async function initDb({ seedIfEmpty = false } = {}) {
       }
     } catch (e) {
       console.warn("Final bank not seeded:", e.message);
+    }
+  }
+
+  // English overlay: apply the English text onto the final bank whenever the EN
+  // file's content changes (tracked by a content signature, so it's a one-time
+  // cost per upload, not every boot).
+  if (seedIfEmpty) {
+    try {
+      const enFile = [
+        path.join(__dirname, "..", "scripts", "cognitive_test_bank_300_en.json"),
+        path.join(__dirname, "..", "cognitive_test_bank_300_en.json"),
+      ].find((p) => fs.existsSync(p));
+      if (enFile) {
+        const sig = crypto.createHash("sha1").update(fs.readFileSync(enFile)).digest("hex");
+        const cur = (await query("SELECT value FROM settings WHERE key='final_en_sig'")).rows[0]?.value;
+        if (cur !== sig) {
+          const { seedFinalBankEn } = await import("./seed-final-en.js");
+          const r = await seedFinalBankEn();
+          await query(
+            "INSERT INTO settings(key, value) VALUES('final_en_sig',$1) ON CONFLICT (key) DO UPDATE SET value=$1",
+            [sig]
+          );
+          console.log(`English overlay applied to ${r.updated} final question(s).`);
+        }
+      }
+    } catch (e) {
+      console.warn("English overlay skipped:", e.message);
     }
   }
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SubmitResult, ReviewItem } from "../types";
 import { bandForIq } from "../lib/scoring";
+import { useLang } from "../lib/i18n";
 import { BrandHeader, Gauge } from "../components/brand";
 import { EinsteinMark } from "../components/Einstein";
 import { ReviewList } from "../components/ReviewList";
@@ -30,6 +31,7 @@ const QUOTES = [
 export function Results() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useLang();
   const state = location.state as { result?: SubmitResult; review?: ReviewItem[] } | null;
   const result = state?.result;
   const review = state?.review || [];
@@ -43,11 +45,11 @@ export function Results() {
   const iq = result.iq ?? 70;
   const avgSec = result.total ? result.durationMs / 1000 / result.total : 0;
   const quote = QUOTES[result.correct % QUOTES.length];
-  const stats: [string, string][] = [
-    ["Correct", `${result.correct}/${result.total}`],
-    ["Accuracy", `${result.percent}%`],
-    ["Avg / question", `${avgSec.toFixed(1)}s`],
-    ["Total time", fmtDuration(result.durationMs)],
+  const stats: [string, string, string][] = [
+    ["stat_correct", t("stat_correct"), `${result.correct}/${result.total}`],
+    ["stat_accuracy", t("stat_accuracy"), `${result.percent}%`],
+    ["stat_avg", t("stat_avg"), `${avgSec.toFixed(1)}s`],
+    ["stat_total_time", t("stat_total_time"), fmtDuration(result.durationMs)],
   ];
 
   return (
@@ -55,22 +57,22 @@ export function Results() {
       <BrandHeader />
 
       <div style={{ textAlign: "center", marginTop: 10 }}>
-        {result.practice && <p className="practice-badge">Practice run — not recorded</p>}
-        {result.testType === "final" && <p className="band-pill" style={{ marginTop: 0 }}>Final IQ Test · level-weighted</p>}
+        {result.practice && <p className="practice-badge">{t("practice_badge")}</p>}
+        {result.testType === "final" && <p className="band-pill" style={{ marginTop: 0 }}>{t("final_weighted")}</p>}
         <div style={{ display: "grid", placeItems: "center", marginTop: 8 }}>
-          <Gauge value={iq} size={216} display={iq.toFixed(2)} />
+          <Gauge value={iq} size={216} display={iq.toFixed(2)} label={t("your_iq")} />
         </div>
-        <div className="band-pill"><span className="band-dot" />{bandForIq(iq)}</div>
+        <div className="band-pill"><span className="band-dot" />{t(bandForIq(iq))}</div>
         <p style={{ margin: "12px 0 0", fontSize: 14, color: "var(--iq-ink-soft)" }}>
-          {result.correct} of {result.total} correct.
+          {t("correct_of", { correct: result.correct, total: result.total })}
         </p>
       </div>
 
       <div className="stats">
-        {stats.map(([k, v]) => (
+        {stats.map(([k, label, v]) => (
           <div className="stat" key={k}>
             <div className="iq-mono stat-v">{v}</div>
-            <div className="iq-label stat-k">{k}</div>
+            <div className="iq-label stat-k">{label}</div>
           </div>
         ))}
       </div>
@@ -104,18 +106,18 @@ export function Results() {
       {review.length > 0 && (
         <div style={{ marginTop: 16 }}>
           <button className="btn block ghost" onClick={() => setShowReview((s) => !s)}>
-            {showReview ? "Hide answer review" : "Review your answers"}
+            {showReview ? t("review_hide") : t("review_show")}
           </button>
           {showReview && <ReviewList review={review} />}
         </div>
       )}
 
       <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 10 }}>
-        <button className="btn block primary" onClick={() => navigate("/scoreboard")}>🏆 See the scoreboard</button>
-        <button className="btn block ghost" onClick={() => navigate("/")}>Back to start</button>
+        <button className="btn block primary" onClick={() => navigate("/scoreboard")}>{t("see_scoreboard")}</button>
+        <button className="btn block ghost" onClick={() => navigate("/")}>{t("back_to_start_plain")}</button>
       </div>
 
-      <p className="fineprint">For entertainment — not a clinical IQ assessment.</p>
+      <p className="fineprint">{t("fineprint")}</p>
     </div>
   );
 }

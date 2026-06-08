@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { StartResponse, TestQuestion, QSignal } from "../types";
 import { api, ApiError } from "../api";
 import { useIntegrity } from "../hooks/useIntegrity";
+import { useLang } from "../lib/i18n";
 import { QuestionView } from "../components/QuestionView";
 import { EinsteinPortrait } from "../components/Einstein";
 import { Turnstile } from "../components/Turnstile";
@@ -24,6 +25,7 @@ interface Current {
 export function Test() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useLang();
   const creds = location.state as { name?: string; voucher?: string; mode?: "classic" | "final" } | null;
 
   const [phase, setPhase] = useState<Phase>("gate");
@@ -63,7 +65,7 @@ export function Test() {
 
   const begin = useCallback(async () => {
     if (!creds?.name) return;
-    if (siteKey && !token) { setError("Please complete the bot check."); return; }
+    if (siteKey && !token) { setError(t("err_bot_check")); return; }
     await enterFullscreen(); // user gesture -> request fullscreen before the clock starts
     setError("");
     try {
@@ -81,10 +83,10 @@ export function Test() {
       startRecording();
       setPhase("running");
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not start the test.");
+      setError(err instanceof ApiError ? err.message : t("err_could_not_start"));
       setPhase("error");
     }
-  }, [creds, enterFullscreen, siteKey, token]);
+  }, [creds, enterFullscreen, siteKey, token, t]);
 
   const handleReady = useCallback(() => {
     if (cur) api.ready(cur.token, cur.nonce);
@@ -113,21 +115,17 @@ export function Test() {
 
   if (phase === "gate") {
     const RULES = [
-      ["🖥️", "Stays in full screen — leaving is recorded."],
-      ["⏱", "Each question is timed on the server; no extra time."],
-      ["➡️", "No going back. Each answer is final."],
+      ["🖥️", t("gate_rule_fs")],
+      ["⏱", t("gate_rule_timed")],
+      ["➡️", t("gate_rule_final")],
     ];
     return (
       <div className="screen" style={{ justifyContent: "center" }}>
         <div className="hero">
           <div className="hero-inner">
             <EinsteinPortrait size={92} hair="var(--iq-chalk)" ring="var(--iq-accent)" />
-            <h1 className="hero-title" style={{ marginTop: 14 }}>Ready, <span className="accent">{creds.name}</span>?</h1>
-            <p className="hero-sub">
-              {creds.mode === "final"
-                ? "Final IQ Test — 30 questions across 5 difficulty levels, timed per question."
-                : "The test runs in full screen and is timed per question."}
-            </p>
+            <h1 className="hero-title" style={{ marginTop: 14 }}>{t("ready_name", { name: creds.name })}</h1>
+            <p className="hero-sub">{creds.mode === "final" ? t("gate_sub_final") : t("gate_sub_quick")}</p>
           </div>
         </div>
         <div className="rules">
@@ -138,7 +136,7 @@ export function Test() {
         {siteKey && <Turnstile siteKey={siteKey} onToken={setToken} />}
         {error && <p className="form-error" style={{ textAlign: "center" }}>{error}</p>}
         <button className="btn block primary" style={{ marginTop: 18 }} onClick={begin}>
-          Enter full screen &amp; start
+          {t("start_fullscreen")}
         </button>
       </div>
     );
@@ -148,13 +146,13 @@ export function Test() {
     return (
       <div className="screen center">
         <p className="form-error">{error}</p>
-        <button className="btn primary" onClick={() => navigate("/", { replace: true })}>Back</button>
+        <button className="btn primary" onClick={() => navigate("/", { replace: true })}>{t("back")}</button>
       </div>
     );
   }
 
   if (phase === "submitting" || !cur) {
-    return <div className="screen center"><div className="spinner" /><p>Scoring…</p></div>;
+    return <div className="screen center"><div className="spinner" /><p>{t("scoring")}</p></div>;
   }
 
   return (
@@ -173,9 +171,9 @@ export function Test() {
         <div className="capture-guard">
           <div className="capture-guard-card">
             <div className="capture-guard-icon">🖥️</div>
-            <h2>Return to full screen</h2>
-            <p>Exiting full screen is recorded. The timer keeps running — tap to continue.</p>
-            <button className="btn primary" onClick={enterFullscreen}>Re-enter full screen</button>
+            <h2>{t("guard_fs_title")}</h2>
+            <p>{t("guard_fs_body")}</p>
+            <button className="btn primary" onClick={enterFullscreen}>{t("guard_fs_btn")}</button>
           </div>
         </div>
       )}
@@ -184,8 +182,8 @@ export function Test() {
         <div className="capture-guard">
           <div className="capture-guard-card">
             <div className="capture-guard-icon">🔒</div>
-            <h2>Question hidden</h2>
-            <p>Switching apps, opening developer tools, or taking screenshots is recorded and hides the question.</p>
+            <h2>{t("guard_hidden_title")}</h2>
+            <p>{t("guard_hidden_body")}</p>
           </div>
         </div>
       )}

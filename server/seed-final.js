@@ -104,9 +104,12 @@ export async function seedFinalBank() {
             [qid, i, imgId]
           );
         } else {
+          // Farsi label goes in both columns; the English importer overwrites
+          // text_value later, so English mode shows Farsi until that runs.
+          const label = String(o.label ?? "");
           await client.query(
-            "INSERT INTO question_options(question_id, idx, kind, text_value) VALUES($1,$2,'text',$3)",
-            [qid, i, String(o.label ?? "")]
+            "INSERT INTO question_options(question_id, idx, kind, text_value, text_value_fa) VALUES($1,$2,'text',$3,$3)",
+            [qid, i, label]
           );
         }
       }
