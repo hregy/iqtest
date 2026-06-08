@@ -441,14 +441,18 @@ publicRouter.post(
       const { reasons } = evaluateIntegrity(integrity, answers, total, behaviorTracked);
 
       // Cluster/collusion: same physical device (fingerprint) used by a
-      // different test-taker name.
+      // different test-taker name. Require the SAME country — a shared
+      // fingerprint across different countries is a device-model collision
+      // (two different people on the same phone model), not collusion, so it
+      // must not flag/penalise them (consistent with the Anti-cheat panel).
       if (a.fingerprint) {
         try {
           const cl = await query(
             `SELECT DISTINCT name FROM attempts
              WHERE id <> $1 AND name <> $2 AND status='done' AND fingerprint = $3
+               AND country IS NOT DISTINCT FROM $4
              LIMIT 6`,
-            [a.id, a.name, a.fingerprint]
+            [a.id, a.name, a.fingerprint, a.country]
           );
           if (cl.rows.length) reasons.push(`same device as other candidate(s): ${cl.rows.map((r) => r.name).join(", ")}`);
         } catch { /* ignore */ }
