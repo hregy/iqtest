@@ -376,20 +376,31 @@ adminRouter.get("/anticheat", async (_req, res) => {
     const fpCounts = {};
     members.forEach((m) => { if (m.fp) fpCounts[m.fp] = (fpCounts[m.fp] || 0) + 1; });
     const sharedFp = Object.entries(fpCounts).find(([, c]) => c >= 2);
-    const confidence = sharedFp ? "strong" : "medium";
+    const countries = uniq(members.map((m) => m.country));
+    // A shared fingerprint from DIFFERENT countries is almost certainly a
+    // device-model fingerprint collision (two different people on the same phone
+    // model), not one person — a single browser can't be in two countries at once.
+    const likelyCollision = !!sharedFp && countries.length > 1;
+    const confidence = likelyCollision ? "collision" : sharedFp ? "strong" : "medium";
     const flaggedCount = members.filter((m) => m.flagged).length;
     const vpn = members.some((m) => m.is_vpn);
     const best = members.reduce((b, m) => (m.correct > (b?.correct ?? -1) ? m : b), null);
 
     const evidence = [];
-    if (sharedFp) evidence.push(`same device fingerprint (…${sharedFp[0].slice(-6)})`);
+    if (likelyCollision) {
+      evidence.push(`same fingerprint but ${countries.length} different countries — likely different people (device-model collision)`);
+    } else if (sharedFp) {
+      evidence.push(`same device fingerprint (…${sharedFp[0].slice(-6)})`);
+    }
     if (confidence === "medium") evidence.push("same IP + device profile");
-    if (names.length >= 2) evidence.push(`${names.length} different names`);
+    if (names.length >= 2 && !likelyCollision) evidence.push(`${names.length} different names`);
     if (vpn) evidence.push("VPN/proxy");
 
     clusters.push({
       id: `c${idxs[0]}`,
       confidence,
+      likelyCollision,
+      countries,
       evidence,
       names,
       fingerprints: fps,
@@ -412,8 +423,11 @@ adminRouter.get("/anticheat", async (_req, res) => {
       })),
     });
   }
-  // most suspicious first: many names, then many attempts, then flagged
-  clusters.sort((x, y) => y.distinctNames - x.distinctNames || y.attempts - x.attempts || y.flaggedCount - x.flaggedCount);
+  // most suspicious first: genuine same-device clusters before likely collisions,
+  // then many names, many attempts, flagged.
+  clusters.sort((x, y) =>
+    (x.likelyCollision - y.likelyCollision) ||
+    (y.distinctNames - x.distinctNames) || (y.attempts - x.attempts) || (y.flaggedCount - x.flaggedCount));
 
   // one name appearing across multiple devices (sharing / impersonation)
   const nameDevices = new Map();
@@ -430,7 +444,7 @@ adminRouter.get("/anticheat", async (_req, res) => {
       attempts: a.length,
       distinctDevices: byFp.size,
       identityClusters: clusters.length,
-      multiNameClusters: clusters.filter((c) => c.distinctNames >= 2).length,
+      multiNameClusters: clusters.filter((c) => c.distinctNames >= 2 && !c.likelyCollision).length,
       flagged: a.filter((x) => x.flagged).length,
       onVpn: a.filter((x) => x.is_vpn).length,
     },

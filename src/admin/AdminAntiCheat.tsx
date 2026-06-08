@@ -69,11 +69,13 @@ export function AdminAntiCheat() {
       {data.clusters.map((c) => {
         const isOpen = !!open[c.id];
         return (
-          <div className={"card ac-cluster" + (c.distinctNames >= 2 ? " suspect" : "")} key={c.id}>
+          <div className={"card ac-cluster" + (c.distinctNames >= 2 && !c.likelyCollision ? " suspect" : "")} key={c.id}>
             <div className="row between" style={{ alignItems: "flex-start" }}>
               <div style={{ minWidth: 0 }}>
                 <div className="row gap" style={{ alignItems: "center", flexWrap: "wrap" }}>
-                  <span className={"ac-badge " + c.confidence}>{c.confidence === "strong" ? "Strong match" : "Likely match"}</span>
+                  <span className={"ac-badge " + c.confidence}>
+                    {c.likelyCollision ? "Likely different people" : c.confidence === "strong" ? "Strong match" : "Likely match"}
+                  </span>
                   {c.distinctNames >= 2 && <span className="ac-badge warn">{c.distinctNames} names</span>}
                   {c.flaggedCount > 0 && <span className="ac-badge warn">{c.flaggedCount} flagged</span>}
                   {c.vpn && <span className="ac-badge">VPN</span>}

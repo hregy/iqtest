@@ -190,7 +190,9 @@ export interface ClusterMember {
 
 export interface IdentityCluster {
   id: string;
-  confidence: "strong" | "medium";
+  confidence: "strong" | "medium" | "collision";
+  likelyCollision: boolean;
+  countries: (string | null)[];
   evidence: string[];
   names: string[];
   fingerprints: string[];

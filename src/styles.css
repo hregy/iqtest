@@ -249,7 +249,7 @@ body {
 .capture-guard-card .btn { margin-top: 14px; }
 
 /* ================= Admin (themed via tokens) ================= */
-.admin { max-width: 960px; margin: 0 auto; padding: 18px 16px 40px; }
+.admin { max-width: 1280px; margin: 0 auto; padding: 18px 16px 40px; }
 .admin-top { display: flex; align-items: center; justify-content: space-between; }
 .admin-top h1 { font-size: 24px; margin: 0; }
 .admin-top-right { display: flex; align-items: center; gap: 12px; }
@@ -338,6 +338,7 @@ body {
 .ac-badge { font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 99px; background: var(--iq-page-2); color: var(--iq-ink-soft); }
 .ac-badge.strong { background: #fde8e8; color: #b42318; }
 .ac-badge.medium { background: var(--iq-accent-tint); color: var(--iq-accent-deep); }
+.ac-badge.collision { background: #e6f0fb; color: #1d4e89; }
 .ac-badge.warn { background: var(--iq-accent-soft); color: var(--iq-accent-ink); }
 
 /* Language toggle */
