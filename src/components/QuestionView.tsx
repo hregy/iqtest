@@ -37,6 +37,19 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
     return urls;
   }, [question]);
 
+  // Shuffle the four options for display so the correct answer isn't always in
+  // the same A/B/C/D slot. Each option keeps its original `idx`; the answer sent
+  // back uses that idx, so the server's correctness check is unchanged and the
+  // client never learns which option is correct.
+  const displayOptions = useMemo(() => {
+    const opts = [...question.options];
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    return opts;
+  }, [question.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const ready = loaded >= imageUrls.length;
 
   useEffect(() => {
@@ -130,9 +143,9 @@ export function QuestionView({ question, index, total, questionSeconds, watermar
         {!ready && <div className="img-loading"><div className="spinner" /><span>{t("loading_question")}</span></div>}
 
         <div className={"options-grid" + (ready ? "" : " hidden")}>
-          {question.options.map((o, i) => (
-            <button key={i} className={"option-tile" + (selected === i ? " selected" : "")}
-              onClick={() => commit(i)} disabled={locked || !ready}>
+          {displayOptions.map((o, i) => (
+            <button key={o.idx} data-oidx={o.idx} className={"option-tile" + (selected === o.idx ? " selected" : "")}
+              onClick={() => commit(o.idx)} disabled={locked || !ready}>
               <span className="tile-label">{LABELS[i]}</span>
               {o.kind === "image" && o.image ? (
                 <LoadedImage className="tile-img" src={o.image} alt={`Option ${LABELS[i]}`} onSettled={oneLoaded} />
