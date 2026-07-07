@@ -143,6 +143,14 @@ ALTER TABLE scores ADD COLUMN IF NOT EXISTS q_seconds      INT;
 -- Device fingerprint copied onto the score so the public board can keep only the
 -- best result per device (and so a device's scores can be excluded in one click).
 ALTER TABLE scores ADD COLUMN IF NOT EXISTS fingerprint    TEXT;
+-- Difficulty-weighted, guessing-corrected accuracy in ~[0,1], SPEED-FREE. This is
+-- the ability measure the "Estimated IQ" is normed from (IQ = 100 + 15·z vs the
+-- population). Backfill legacy rows from the weighted-accuracy we already stored.
+ALTER TABLE scores ADD COLUMN IF NOT EXISTS ability REAL;
+UPDATE scores SET ability = correct_weight / total_weight
+  WHERE ability IS NULL AND total_weight IS NOT NULL AND total_weight > 0;
+UPDATE scores SET ability = CASE WHEN total > 0 THEN correct::real / total ELSE NULL END
+  WHERE ability IS NULL AND total IS NOT NULL AND total > 0;
 -- Widen iq to 2-decimal precision if it was created as INT or numeric(5,1).
 DO $$ BEGIN
   IF (SELECT coalesce(numeric_scale, 0) FROM information_schema.columns

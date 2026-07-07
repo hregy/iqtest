@@ -59,6 +59,10 @@ export interface SubmitResult {
   flagged?: boolean;
   reasons?: string[];
   testType?: "classic" | "final";
+  performanceScore?: number; // speed-weighted game score (== iq)
+  estimatedIq?: number;      // speed-free, difficulty-weighted, population-normed
+  ability?: number;          // 0..1 difficulty-weighted, guessing-corrected
+  difficulty?: string;       // Basic | Intermediate | Advanced | Expert
 }
 
 export interface ReviewItem {
@@ -160,7 +164,9 @@ export interface ScoreRow {
   correct: number;
   total: number;
   percent: number;
-  iq: number | null;
+  iq?: number | null;          // classic board: performance score
+  estIq?: number | null;       // final board: Estimated IQ (ranked by this)
+  performance?: number | null; // final board: secondary Performance Score
   duration_ms: number | null;
   created_at: string;
 }

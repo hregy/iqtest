@@ -42,15 +42,26 @@ export function Results() {
   }, [result, navigate]);
   if (!result) return null;
 
-  const iq = result.iq ?? 70;
+  const isFinal = result.testType === "final";
+  const perf = result.performanceScore ?? result.iq ?? 70;
+  // Final test shows the honest, speed-free Estimated IQ; Quick test shows the
+  // speed-weighted Performance Score (a game number, not called IQ).
+  const mainScore = isFinal ? (result.estimatedIq ?? 100) : perf;
   const avgSec = result.total ? result.durationMs / 1000 / result.total : 0;
   const quote = QUOTES[result.correct % QUOTES.length];
-  const stats: [string, string, string][] = [
-    ["stat_correct", t("stat_correct"), `${result.correct}/${result.total}`],
-    ["stat_accuracy", t("stat_accuracy"), `${result.percent}%`],
-    ["stat_avg", t("stat_avg"), `${avgSec.toFixed(1)}s`],
-    ["stat_total_time", t("stat_total_time"), fmtDuration(result.durationMs)],
-  ];
+  const stats: [string, string, string][] = isFinal
+    ? [
+        ["stat_correct", t("stat_correct"), `${result.correct}/${result.total}`],
+        ["stat_accuracy", t("stat_accuracy"), `${result.percent}%`],
+        ["stat_difficulty", t("stat_difficulty"), t(result.difficulty || "Basic")],
+        ["stat_performance", t("stat_performance"), perf.toFixed(1)],
+      ]
+    : [
+        ["stat_correct", t("stat_correct"), `${result.correct}/${result.total}`],
+        ["stat_accuracy", t("stat_accuracy"), `${result.percent}%`],
+        ["stat_avg", t("stat_avg"), `${avgSec.toFixed(1)}s`],
+        ["stat_total_time", t("stat_total_time"), fmtDuration(result.durationMs)],
+      ];
 
   return (
     <div className="screen">
@@ -58,12 +69,15 @@ export function Results() {
 
       <div style={{ textAlign: "center", marginTop: 10 }}>
         {result.practice && <p className="practice-badge">{t("practice_badge")}</p>}
-        {result.testType === "final" && <p className="band-pill" style={{ marginTop: 0 }}>{t("final_weighted")}</p>}
+        {isFinal && <p className="band-pill" style={{ marginTop: 0 }}>{t("final_test")}</p>}
         <div style={{ display: "grid", placeItems: "center", marginTop: 8 }}>
-          <Gauge value={iq} size={216} display={iq.toFixed(2)} label={t("your_iq")} />
+          <Gauge value={mainScore} size={216}
+            display={isFinal ? mainScore.toFixed(0) : mainScore.toFixed(2)}
+            label={isFinal ? t("estimated_iq") : t("performance_score")} />
         </div>
-        <div className="band-pill"><span className="band-dot" />{t(bandForIq(iq))}</div>
-        <p style={{ margin: "12px 0 0", fontSize: 14, color: "var(--iq-ink-soft)" }}>
+        <div className="band-pill"><span className="band-dot" />{t(bandForIq(mainScore))}</div>
+        {isFinal && <p className="muted small" style={{ margin: "8px 0 0" }}>{t("iq_estimate_note")}</p>}
+        <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--iq-ink-soft)" }}>
           {t("correct_of", { correct: result.correct, total: result.total })}
         </p>
       </div>

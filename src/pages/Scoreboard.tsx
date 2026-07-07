@@ -30,7 +30,7 @@ export function Scoreboard() {
         <div>
           <h1>{t("scoreboard")}</h1>
           <div className="muted small" style={{ fontWeight: 600 }}>
-            {tab === "final" ? t("sb_sub_final") : t("sb_sub_quick")}
+            {tab === "final" ? t("sb_sub_final_iq") : t("sb_sub_quick")}
           </div>
         </div>
         <div style={{ marginLeft: "auto", fontSize: 24 }}>🏆</div>
@@ -54,7 +54,8 @@ export function Scoreboard() {
       {rows && rows.length > 0 && (
         <div className="board">
           {rows.map((r) => {
-            const iq = r.iq ?? iqFromPercent(r.percent);
+            const isFinal = tab === "final";
+            const val = isFinal ? (r.estIq ?? 100) : (r.iq ?? iqFromPercent(r.percent));
             const medal = r.rank <= 3;
             return (
               <div className="board-row" key={r.rank}>
@@ -64,12 +65,15 @@ export function Scoreboard() {
                   <div className="nm">{r.name}</div>
                   <div className="bsub">
                     {r.correct}/{r.total}
-                    {r.duration_ms != null && (
+                    {isFinal && r.performance != null && (
+                      <> · {t("sb_perf_col")} {r.performance.toFixed(1)}</>
+                    )}
+                    {!isFinal && r.duration_ms != null && (
                       <> · ⏱ {fmtDuration(r.duration_ms)} · avg {(r.duration_ms / 1000 / Math.max(1, r.total)).toFixed(1)}s</>
                     )}
                   </div>
                 </div>
-                <div className="iq-mono biq">{iq.toFixed(2)}</div>
+                <div className="iq-mono biq">{val.toFixed(isFinal ? 0 : 2)}</div>
               </div>
             );
           })}

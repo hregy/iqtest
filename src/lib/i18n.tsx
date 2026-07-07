@@ -78,6 +78,19 @@ const STR: Record<string, { en: string; fa: string }> = {
   sb_empty: { en: "No scores yet — be the first!", fa: "هنوز امتیازی نیست — اولین نفر باشید!" },
   sb_error: { en: "Could not load scoreboard.", fa: "بارگذاری جدول امتیازات ممکن نشد." },
 
+  // estimated iq vs performance score
+  estimated_iq: { en: "Estimated IQ", fa: "آی‌کیو تخمینی" },
+  iq_estimate_note: { en: "Estimate — normed against other test-takers", fa: "تخمینی — نسبت به سایر شرکت‌کنندگان سنجیده شده" },
+  performance_score: { en: "Performance Score", fa: "امتیاز عملکرد" },
+  stat_difficulty: { en: "Difficulty", fa: "سطح دشواری" },
+  stat_performance: { en: "Performance", fa: "عملکرد" },
+  sb_perf_col: { en: "Perf", fa: "عملکرد" },
+  sb_sub_final_iq: { en: "Final IQ Test — Estimated IQ (accuracy + difficulty)", fa: "آزمون نهایی — آی‌کیو تخمینی (دقت + دشواری)" },
+  "Basic": { en: "Basic", fa: "پایه" },
+  "Intermediate": { en: "Intermediate", fa: "متوسط" },
+  "Advanced": { en: "Advanced", fa: "پیشرفته" },
+  "Expert": { en: "Expert", fa: "خبره" },
+
   // iq bands
   "Very Superior": { en: "Very Superior", fa: "بسیار برتر" },
   "Superior": { en: "Superior", fa: "برتر" },

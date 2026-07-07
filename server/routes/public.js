@@ -58,10 +58,57 @@ export function iqFromStored(correct, total, correctMs, questionSeconds) {
 }
 
 // Final IQ test: accuracy is level-weighted (harder levels count more), so a
-// correct hard question lifts the score more than an easy one.
+// correct hard question lifts the score more than an easy one. This is the
+// "Performance Score" — it DOES include a small speed bonus and is what the
+// leaderboard's secondary column / Quick test show. It is NOT the IQ estimate.
 export function iqWeighted(correctWeight, totalWeight, total, correct, correctMs, questionSeconds) {
   const A = totalWeight > 0 ? correctWeight / totalWeight : 0;
   return iqCore(A, total, correct, correctMs, questionSeconds);
+}
+
+// ---- Estimated IQ (honest, speed-free) --------------------------------------
+// Ability = difficulty-weighted, guessing-corrected accuracy in ~[0,1]. Each
+// correct answer earns its question weight; each ANSWERED-wrong answer (a guess)
+// loses weight/3 (4 options -> random guessing nets ~zero); timeouts are neutral.
+// Speed is not involved at all.
+export function abilityFromAnswers(answers) {
+  let cw = 0, ww = 0, tw = 0;
+  for (const a of answers || []) {
+    const w = Number(a.weight) || 1;
+    tw += w;
+    if (a.correct) cw += w;
+    else if (a.sel !== null && a.sel !== undefined && !a.timedOut) ww += w;
+  }
+  if (tw <= 0) return 0;
+  return Math.max(-0.34, Math.min(1, (cw - ww / 3) / tw));
+}
+
+// Population norming: IQ = 100 + 15·z, where z is the ability's standard score
+// against all clean results of the same test. With too few results (or no
+// spread) there's nothing to norm against, so it stays neutral at 100.
+export function estimatedIqFrom(ability, stats) {
+  const n = Number(stats?.n) || 0;
+  if (ability == null || n < 3) return 100;
+  const sd = Math.max(Number(stats.sd) || 0, 0.08); // floor tames tiny/noisy samples
+  const z = (ability - (Number(stats.mean) || 0)) / sd;
+  return Math.round(Math.max(55, Math.min(145, 100 + 15 * z)) * 100) / 100;
+}
+
+async function abilityStats(testType) {
+  const { rows } = await query(
+    `SELECT avg(ability)::float8 mean, stddev_pop(ability)::float8 sd, count(*)::int n
+     FROM scores WHERE excluded = false AND ability IS NOT NULL AND test_type = $1`,
+    [testType]
+  );
+  return rows[0] || { mean: 0, sd: 0, n: 0 };
+}
+
+// Difficulty band the taker demonstrated (from the speed-free ability).
+export function difficultyBand(ability) {
+  if (ability >= 0.85) return "Expert";
+  if (ability >= 0.65) return "Advanced";
+  if (ability >= 0.45) return "Intermediate";
+  return "Basic";
 }
 
 // Sum of time spent on CORRECT answers (capped per-question at the limit).
@@ -467,9 +514,12 @@ publicRouter.post(
       const isFinal = a.test_type === "final";
       const totalWeight = answers.reduce((s, x) => s + (Number(x.weight) || 1), 0);
       const correctWeight = answers.filter((x) => x.correct).reduce((s, x) => s + (Number(x.weight) || 1), 0);
+      // Performance Score (speed-weighted, for the leaderboard / Quick test).
       const iq = isFinal
         ? iqWeighted(correctWeight, totalWeight, total, correct, correctMs, seconds)
         : iqFromStored(correct, total, correctMs, seconds);
+      // Ability (speed-free, difficulty-weighted, guessing-corrected) -> Estimated IQ.
+      const ability = abilityFromAnswers(answers);
 
       const integrityOut = { ...integrity, reasons, flagged, humanness };
       await query(
@@ -480,17 +530,26 @@ publicRouter.post(
       if (!a.practice) {
         await query(
           `INSERT INTO scores(name, voucher_code, correct, total, percent, duration_ms, correct_ms, iq,
-                              flagged, excluded, integrity, test_type, correct_weight, total_weight, q_seconds, fingerprint)
-           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10,$11,$12,$13,$14,$15)`,
+                              flagged, excluded, integrity, test_type, correct_weight, total_weight, q_seconds, fingerprint, ability)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$10,$11,$12,$13,$14,$15,$16)`,
           [a.name, a.voucher_code, correct, total, percent, durationMs, correctMs, iq, flagged,
            JSON.stringify(integrityOut), a.test_type || "classic", correctWeight, totalWeight, seconds,
-           a.fingerprint || null]
+           a.fingerprint || null, ability]
         );
       }
+
+      // Estimated IQ: norm this ability against the population of the same test.
+      const stats = await abilityStats(a.test_type || "classic");
+      const estimatedIq = estimatedIqFrom(ability, stats);
+
       const review = await buildReview(answers);
       return res.json({
         done: true,
-        result: { correct, total, percent, iq, byCategory, durationMs, practice: a.practice, flagged, reasons, humanness, testType: a.test_type || "classic" },
+        result: {
+          correct, total, percent, iq, byCategory, durationMs, practice: a.practice,
+          flagged, reasons, humanness, testType: a.test_type || "classic",
+          performanceScore: iq, estimatedIq, ability, difficulty: difficultyBand(ability),
+        },
         review,
       });
     }
@@ -552,24 +611,22 @@ publicRouter.post(
 );
 
 // ---- Public scoreboard (flagged/hidden attempts excluded).
+//  - Final board ranks by ABILITY -> Estimated IQ (speed-free, normed to the
+//    population); it also shows the Performance Score as a secondary number.
+//  - Classic (Quick test) stays the Performance Score game: ranks by correct
+//    count then the speed-weighted score.
 publicRouter.get("/scoreboard", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
   const type = req.query.type === "final" ? "final" : "classic";
-  // Final (level-weighted IQ) and classic (flat IQ) are separate boards — the
-  // two IQ numbers aren't comparable. Classic ranks by raw correct count first
-  // (unchanged); final ranks by its weighted IQ first.
-  const order = type === "final"
-    ? "iq DESC NULLS LAST, correct DESC, duration_ms ASC NULLS LAST, created_at ASC"
+  const isFinal = type === "final";
+  const order = isFinal
+    ? "ability DESC NULLS LAST, correct DESC, created_at ASC"
     : "correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC";
   // Best score per (device + name): keep each person's top row, then rank.
-  // Keying on name as well as fingerprint means two different people who happen
-  // to share a device fingerprint each still appear (and one person's own
-  // retries still collapse to their best). Rows without a fingerprint get a
-  // unique key so they're never collapsed together.
   const { rows } = await query(
-    `SELECT name, correct, total, percent, duration_ms, iq, created_at FROM (
+    `SELECT name, correct, total, percent, duration_ms, iq, ability, created_at FROM (
        SELECT DISTINCT ON (COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name)
-         id, name, correct, total, percent, duration_ms, iq::float8 AS iq, created_at
+         id, name, correct, total, percent, duration_ms, iq::float8 AS iq, ability::float8 AS ability, created_at
        FROM scores
        WHERE excluded = false AND test_type = $2
        ORDER BY COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name, ${order}
@@ -578,5 +635,13 @@ publicRouter.get("/scoreboard", async (req, res) => {
      LIMIT $1`,
     [limit, type]
   );
+  if (isFinal) {
+    const stats = await abilityStats("final");
+    return res.json(rows.map((r, i) => ({
+      rank: i + 1, name: r.name, correct: r.correct, total: r.total, percent: r.percent,
+      duration_ms: r.duration_ms, created_at: r.created_at,
+      estIq: estimatedIqFrom(r.ability, stats), performance: r.iq,
+    })));
+  }
   res.json(rows.map((r, i) => ({ rank: i + 1, ...r })));
 });
