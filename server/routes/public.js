@@ -58,13 +58,17 @@ export function iqFromStored(correct, total, correctMs, questionSeconds) {
 }
 
 // Quick test "Speed IQ Score": a game-style number where speed matters strongly.
-// Rewards correct answers, penalises wrong answers and slowness hard.
-//   score = 65 + correct·4.2 − wrong·6 − avgTimePerQuestion·1.5   (clamped 70–145)
+// Rewards correct answers; penalises wrong answers and slowness hard, with an
+// extra penalty once a run passes 45 seconds so slow perfect runs drop below
+// fast accurate ones. Computed from stored correct/total/duration (no stored
+// value is trusted), so the board always reflects the current formula.
+//   score = 65 + correct·4.2 − wrong·6 − avgSecPerQuestion·3 − max(0, totalSec−45)·0.25
 export function quickScore(correct, total, durationMs) {
   if (!total) return 70;
   const wrong = total - correct;
-  const avgTime = (durationMs || 0) / 1000 / total; // seconds per question
-  const s = 65 + correct * 4.2 - wrong * 6 - avgTime * 1.5;
+  const totalSeconds = (durationMs || 0) / 1000;
+  const avgTime = totalSeconds / total; // seconds per question
+  const s = 65 + correct * 4.2 - wrong * 6 - avgTime * 3 - Math.max(0, totalSeconds - 45) * 0.25;
   return Math.round(Math.max(70, Math.min(145, s)) * 100) / 100;
 }
 
@@ -631,23 +635,21 @@ publicRouter.get("/scoreboard", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
   const type = req.query.type === "final" ? "final" : "classic";
   const isFinal = type === "final";
-  const order = isFinal
-    ? "ability DESC NULLS LAST, correct DESC, created_at ASC"
-    : "correct DESC, iq DESC NULLS LAST, duration_ms ASC NULLS LAST, created_at ASC";
-  // Best score per (device + name): keep each person's top row, then rank.
-  const { rows } = await query(
-    `SELECT name, correct, total, percent, duration_ms, iq, ability, created_at FROM (
-       SELECT DISTINCT ON (COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name)
-         id, name, correct, total, percent, duration_ms, iq::float8 AS iq, ability::float8 AS ability, created_at
-       FROM scores
-       WHERE excluded = false AND test_type = $2
-       ORDER BY COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name, ${order}
-     ) best
-     ORDER BY ${order}
-     LIMIT $1`,
-    [limit, type]
-  );
+
   if (isFinal) {
+    // Final board ranks by ability -> Estimated IQ (best per device+name).
+    const { rows } = await query(
+      `SELECT name, correct, total, percent, duration_ms, iq, ability, created_at FROM (
+         SELECT DISTINCT ON (COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name)
+           id, name, correct, total, percent, duration_ms, iq::float8 AS iq, ability::float8 AS ability, created_at
+         FROM scores WHERE excluded = false AND test_type = 'final'
+         ORDER BY COALESCE(NULLIF(fingerprint, ''), 'id:' || id::text), name,
+                  ability DESC NULLS LAST, correct DESC, created_at ASC
+       ) best
+       ORDER BY ability DESC NULLS LAST, correct DESC, created_at ASC
+       LIMIT $1`,
+      [limit]
+    );
     const stats = await abilityStats("final");
     return res.json(rows.map((r, i) => ({
       rank: i + 1, name: r.name, correct: r.correct, total: r.total, percent: r.percent,
@@ -655,5 +657,26 @@ publicRouter.get("/scoreboard", async (req, res) => {
       estIq: estimatedIqFrom(r.ability, stats), performance: r.iq,
     })));
   }
-  res.json(rows.map((r, i) => ({ rank: i + 1, ...r })));
+
+  // Quick board: compute the Speed IQ Score LIVE from stored correct/total/
+  // duration (never the stale stored value), dedup to each person's best, rank.
+  const { rows } = await query(
+    "SELECT id, name, correct, total, percent, duration_ms, fingerprint, created_at FROM scores WHERE excluded = false AND test_type = 'classic'"
+  );
+  const best = new Map();
+  for (const r of rows) {
+    const score = quickScore(r.correct, r.total, r.duration_ms);
+    const key = r.fingerprint ? `fp:${r.fingerprint}|${r.name}` : `id:${r.id}`;
+    const prev = best.get(key);
+    if (!prev || score > prev.score || (score === prev.score && new Date(r.created_at) < new Date(prev.created_at))) {
+      best.set(key, { ...r, score });
+    }
+  }
+  const ranked = [...best.values()]
+    .sort((a, b) => b.score - a.score || b.correct - a.correct || new Date(a.created_at) - new Date(b.created_at))
+    .slice(0, limit);
+  res.json(ranked.map((r, i) => ({
+    rank: i + 1, name: r.name, correct: r.correct, total: r.total, percent: r.percent,
+    duration_ms: r.duration_ms, iq: r.score, created_at: r.created_at,
+  })));
 });
