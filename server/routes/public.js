@@ -57,6 +57,17 @@ export function iqFromStored(correct, total, correctMs, questionSeconds) {
   return iqCore(total ? correct / total : 0, total, correct, correctMs, questionSeconds);
 }
 
+// Quick test "Speed IQ Score": a game-style number where speed matters strongly.
+// Rewards correct answers, penalises wrong answers and slowness hard.
+//   score = 65 + correct·4.2 − wrong·6 − avgTimePerQuestion·1.5   (clamped 70–145)
+export function quickScore(correct, total, durationMs) {
+  if (!total) return 70;
+  const wrong = total - correct;
+  const avgTime = (durationMs || 0) / 1000 / total; // seconds per question
+  const s = 65 + correct * 4.2 - wrong * 6 - avgTime * 1.5;
+  return Math.round(Math.max(70, Math.min(145, s)) * 100) / 100;
+}
+
 // Final IQ test: accuracy is level-weighted (harder levels count more), so a
 // correct hard question lifts the score more than an easy one. This is the
 // "Performance Score" — it DOES include a small speed bonus and is what the
@@ -514,10 +525,11 @@ publicRouter.post(
       const isFinal = a.test_type === "final";
       const totalWeight = answers.reduce((s, x) => s + (Number(x.weight) || 1), 0);
       const correctWeight = answers.filter((x) => x.correct).reduce((s, x) => s + (Number(x.weight) || 1), 0);
-      // Performance Score (speed-weighted, for the leaderboard / Quick test).
+      // Final -> level-weighted Performance Score; Quick -> Speed IQ Score
+      // (speed matters strongly). Both reproducible from stored fields.
       const iq = isFinal
         ? iqWeighted(correctWeight, totalWeight, total, correct, correctMs, seconds)
-        : iqFromStored(correct, total, correctMs, seconds);
+        : quickScore(correct, total, durationMs);
       // Ability (speed-free, difficulty-weighted, guessing-corrected) -> Estimated IQ.
       const ability = abilityFromAnswers(answers);
 

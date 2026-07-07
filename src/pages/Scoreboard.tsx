@@ -30,7 +30,7 @@ export function Scoreboard() {
         <div>
           <h1>{t("scoreboard")}</h1>
           <div className="muted small" style={{ fontWeight: 600 }}>
-            {tab === "final" ? t("sb_sub_final_iq") : t("sb_sub_quick")}
+            {tab === "final" ? t("sb_sub_final_iq") : t("sb_sub_quick_speed")}
           </div>
         </div>
         <div style={{ marginLeft: "auto", fontSize: 24 }}>🏆</div>

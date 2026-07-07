@@ -73,10 +73,10 @@ export function Results() {
         <div style={{ display: "grid", placeItems: "center", marginTop: 8 }}>
           <Gauge value={mainScore} size={216}
             display={isFinal ? mainScore.toFixed(0) : mainScore.toFixed(2)}
-            label={isFinal ? t("estimated_iq") : t("performance_score")} />
+            label={isFinal ? t("estimated_iq") : t("speed_iq_score")} />
         </div>
         <div className="band-pill"><span className="band-dot" />{t(bandForIq(mainScore))}</div>
-        {isFinal && <p className="muted small" style={{ margin: "8px 0 0" }}>{t("iq_estimate_note")}</p>}
+        <p className="muted small" style={{ margin: "8px 0 0" }}>{isFinal ? t("iq_estimate_note") : t("speed_iq_note")}</p>
         <p style={{ margin: "10px 0 0", fontSize: 14, color: "var(--iq-ink-soft)" }}>
           {t("correct_of", { correct: result.correct, total: result.total })}
         </p>

@@ -7,7 +7,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { pool, query } from "./db.js";
-import { iqFromStored, iqWeighted } from "./routes/public.js";
+import { iqWeighted, quickScore } from "./routes/public.js";
 
 export async function recalcScores() {
   const s = await query("SELECT value FROM settings WHERE key='question_seconds'");
@@ -28,7 +28,7 @@ export async function recalcScores() {
     correctMs = Math.max(0, Math.min(correctMs, r.correct * L));
     const iq = (r.test_type === "final" && r.total_weight)
       ? iqWeighted(r.correct_weight, r.total_weight, r.total, r.correct, correctMs, qs)
-      : iqFromStored(r.correct, r.total, correctMs, qs);
+      : quickScore(r.correct, r.total, r.duration_ms);
     await query("UPDATE scores SET correct_ms=$1, iq=$2 WHERE id=$3", [correctMs, iq, r.id]);
   }
   return rows.length;
