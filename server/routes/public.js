@@ -257,6 +257,8 @@ function humannessScore(reasons, attempt) {
   let s = 100;
   const has = (k) => reasons.some((r) => r.includes(k));
   if (attempt?.bot_flags?.suspectedBot) s -= 55;
+  if (has("bot signal: datacenter")) s -= 30;
+  if (has("bot signal: headless") || has("bot signal: automation")) s -= 40;
   if (has("no mouse/touch") || has("without interacting") || has("no pointer")) s -= 45;
   if (has("developer tools")) s -= 40;
   if (has("another tab")) s -= 25;
@@ -316,6 +318,18 @@ publicRouter.post(
     const dev = parseUa(ua);
     const fingerprint = (clientInfo.fingerprint || "").toString().slice(0, 64);
 
+    // Automation hard-stops: the real test page always sends a full client
+    // profile (incl. fingerprint) and a real browser UA. Direct-API scripts,
+    // curl/python clients and headless browsers are rejected before any voucher
+    // is consumed or attempt row created.
+    const serverUa = (req.headers["user-agent"] || "").toString();
+    const automationUa = /headless|phantom|puppeteer|playwright|selenium|python|curl\/|wget|httpclient|okhttp|java\//i;
+    if (!fingerprint || ua.length < 20 || automationUa.test(ua) || automationUa.test(serverUa)) {
+      return res.status(400).json({
+        error: "Could not verify your browser — please open the test page normally, refresh, and try again.",
+      });
+    }
+
     // Voucher handling depends on whether the gate is on.
     //  - gate ON  : a valid voucher is required and consumed (admin code = practice).
     //  - gate OFF : open access; no voucher needed. An admin code still enables a
@@ -365,6 +379,20 @@ publicRouter.post(
       if (recent.rows[0].c >= dailyLimit) {
         return res.status(429).json({
           error: `Daily limit reached — you can take this test ${dailyLimit} times per day. Please try again tomorrow.`,
+        });
+      }
+      // Independent per-IP ceiling (2× the per-device limit): clearing browser
+      // storage mints a fresh fingerprint, but one IP still can't farm attempts.
+      // Generous enough for a family/office sharing one connection.
+      const ipCount = await query(
+        `SELECT count(*)::int c FROM attempts
+         WHERE practice = false AND test_type = $1 AND ip = $2
+           AND created_at > now() - interval '24 hours'`,
+        [mode, ip]
+      );
+      if (ipCount.rows[0].c >= dailyLimit * 2) {
+        return res.status(429).json({
+          error: `Daily limit reached for this network. Please try again tomorrow.`,
         });
       }
     }
@@ -519,6 +547,16 @@ publicRouter.post(
           if (cl.rows.length) reasons.push(`same device as other candidate(s): ${cl.rows.map((r) => r.name).join(", ")}`);
         } catch { /* ignore */ }
       }
+
+      // Automation/bot signals recorded at start auto-flag the attempt (flagged
+      // scores are auto-excluded from the public board). "proxy / VPN" alone is
+      // deliberately NOT flagged — VPN use is normal for many legitimate users —
+      // but datacenter/hosting IPs and automation signals are not.
+      for (const r of (a.bot_flags && a.bot_flags.reasons) || []) {
+        if (r === "proxy / VPN") continue;
+        reasons.push(`bot signal: ${r}`);
+      }
+
       const humanness = humannessScore(reasons, a);
       const flagged = reasons.length > 0;
       const durationMs = answers.reduce((s, x) => s + x.elapsedMs, 0);
