@@ -28,6 +28,10 @@ async function ensureSettings() {
     voucher_required: "1",
     // Max attempts per user (by device/identity) per test per 24h. 0 = unlimited.
     daily_attempt_limit: "3",
+    // Block datacenter/hosting IPs from taking the test. OFF by default — many
+    // legitimate users reach the site via a VPS, so this has a high false-positive
+    // rate; it's an emergency lever for bot attacks.
+    block_datacenter: "0",
   };
   for (const [k, v] of Object.entries(defaults)) {
     await query("INSERT INTO settings(key, value) VALUES($1,$2) ON CONFLICT (key) DO NOTHING", [k, v]);

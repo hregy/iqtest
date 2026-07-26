@@ -8,6 +8,7 @@ export function AdminSettings() {
   const [finalQuestionSeconds, setFinalQuestionSeconds] = useState("30");
   const [voucherRequired, setVoucherRequired] = useState(true);
   const [dailyLimit, setDailyLimit] = useState("3");
+  const [blockDatacenter, setBlockDatacenter] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ export function AdminSettings() {
       if (s.final_question_seconds) setFinalQuestionSeconds(s.final_question_seconds);
       if (s.voucher_required !== undefined) setVoucherRequired(s.voucher_required !== "0");
       if (s.daily_attempt_limit !== undefined) setDailyLimit(s.daily_attempt_limit);
+      if (s.block_datacenter !== undefined) setBlockDatacenter(s.block_datacenter === "1");
     });
   }, []);
 
@@ -29,6 +31,7 @@ export function AdminSettings() {
       final_question_seconds: Number(finalQuestionSeconds),
       voucher_required: voucherRequired ? "1" : "0",
       daily_attempt_limit: Math.max(0, Number(dailyLimit) || 0),
+      block_datacenter: blockDatacenter ? "1" : "0",
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
@@ -57,6 +60,18 @@ export function AdminSettings() {
           How many times one user can take <strong>each</strong> test (Quick / Final) per 24 hours.
           Users are identified by device fingerprint (IP + device as fallback) — the same evidence
           the Anti-cheat tab uses. <strong>0 = unlimited.</strong> Admin/practice runs are exempt.
+        </p>
+
+        <label className="row gap" style={{ alignItems: "center", cursor: "pointer", marginTop: 14 }}>
+          <input type="checkbox" checked={blockDatacenter}
+            onChange={(e) => setBlockDatacenter(e.target.checked)} />
+          <span><strong>Block datacenter / server IPs</strong></span>
+        </label>
+        <p className="muted small" style={{ marginTop: 6 }}>
+          Refuses tests from hosting/datacenter IPs (where bots run) — an emergency lever during a
+          bot attack. <strong>⚠️ Keep this OFF normally:</strong> ~29% of real users reach the site
+          through a VPS/datacenter IP, so turning it on will block many legitimate people. Plain
+          VPN/proxy users are never blocked; admin/practice runs are exempt.
         </p>
       </div>
 

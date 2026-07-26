@@ -29,6 +29,10 @@ async function getSettings() {
     finalQuestionSeconds: Number(m.final_question_seconds || 30),
     voucherRequired: (m.voucher_required ?? "1") !== "0",
     dailyAttemptLimit: Math.max(0, Number(m.daily_attempt_limit ?? 3)),
+    // OFF by default: ~29% of real users reach the site through a VPS/datacenter
+    // IP, so blocking these has a high false-positive rate. Admin can enable it
+    // during an active bot attack.
+    blockDatacenter: (m.block_datacenter ?? "0") === "1",
   };
 }
 
@@ -330,6 +334,9 @@ publicRouter.post(
       });
     }
 
+    // Geo lookup (also reused for forensics below). Optional datacenter block.
+    const geo = await geoLookup(ip);
+
     // Voucher handling depends on whether the gate is on.
     //  - gate ON  : a valid voucher is required and consumed (admin code = practice).
     //  - gate OFF : open access; no voucher needed. An admin code still enables a
@@ -359,6 +366,17 @@ publicRouter.post(
         practice = true;
         voucherCode = code;
       }
+    }
+
+    // Optional datacenter/hosting-IP block (admin toggle, OFF by default). Only
+    // blocks true hosting/server IPs — NOT plain VPN/proxy, which many legitimate
+    // users need. Skips admin/practice runs. Meant as an emergency lever during a
+    // bot attack; note ~29% of real users reach the site via a VPS, so leaving it
+    // on will turn away real people.
+    if (settings.blockDatacenter && !practice && geo.hosting) {
+      return res.status(403).json({
+        error: "This test can’t be taken from a server/hosting connection. Please use a normal home or mobile connection.",
+      });
     }
 
     // Per-user daily limit (admin-configurable; 0 = unlimited). Skips admin/practice
@@ -434,8 +452,7 @@ publicRouter.post(
     const id = crypto.randomUUID();
     const nonce = crypto.randomBytes(9).toString("hex");
 
-    // Forensics: IP geo + bot flags (identity/device already computed above).
-    const geo = await geoLookup(ip);
+    // Forensics: bot flags (geo + identity/device already computed above).
     const botFlags = computeBotFlags(clientInfo, geo, ua);
     const isVpn = !!(geo.proxy || geo.hosting);
 
